@@ -1,7 +1,3 @@
-/**
- * ModUrKeebs - Minimalistic React Native Homepage with Dark Mode Toggle using Sun and Moon icons
- */
-
 import React, {useState} from 'react';
 import {
   SafeAreaView,
