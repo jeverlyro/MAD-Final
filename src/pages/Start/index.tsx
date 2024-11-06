@@ -33,7 +33,7 @@ export default Start;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#000000',
+    backgroundColor: '#0C0C0C',
     justifyContent: 'center',
   },
   header: {

@@ -3,8 +3,11 @@ import {Input} from '../../molecules';
 import {Gap} from '../../atoms';
 import {Button} from '../../atoms';
 import React from 'react';
+import {useNavigation} from '@react-navigation/native';
 
 const SignUp = () => {
+  const navigation = useNavigation();
+
   return (
     <View style={styles.container}>
       <Text style={styles.header}>Sign Up</Text>
@@ -16,7 +19,7 @@ const SignUp = () => {
         <Gap height={22} />
         <Input
           label="Password"
-          placeholder="Must contains more than 8 characters"
+          placeholder="Must contain more than 8 characters"
           secureTextEntry={true}
         />
         <Gap height={22} />
@@ -31,7 +34,7 @@ const SignUp = () => {
       <Gap height={26} />
       <View style={styles.footer}>
         <Text style={styles.loginText}>Already have an account?</Text>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={() => navigation.navigate('SignIn')}>
           <Text style={styles.touchableLogin}> Log in</Text>
         </TouchableOpacity>
       </View>
@@ -45,7 +48,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
-    backgroundColor: '#000000',
+    backgroundColor: '#0C0C0C',
   },
   header: {
     fontSize: 36,

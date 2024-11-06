@@ -1,5 +1,5 @@
-import React, {useEffect} from 'react';
-import {StyleSheet, Text, View, Image} from 'react-native';
+import React, {useEffect, useRef} from 'react';
+import {StyleSheet, Text, View, Animated} from 'react-native';
 import {StackNavigationProp} from '@react-navigation/stack';
 import {Logo} from '../../assets';
 
@@ -18,17 +18,28 @@ interface SplashProps {
 }
 
 const Splash: React.FC<SplashProps> = ({navigation}) => {
+  const scaleAnim = useRef(new Animated.Value(0)).current;
+
   useEffect(() => {
+    Animated.timing(scaleAnim, {
+      toValue: 1,
+      duration: 200,
+      useNativeDriver: true,
+    }).start();
+
     const timer = setTimeout(() => {
       navigation.replace('Start');
     }, 1000);
 
     return () => clearTimeout(timer);
-  }, [navigation]);
+  }, [navigation, scaleAnim]);
 
   return (
     <View style={styles.container}>
-      <Image source={Logo} style={styles.logo} />
+      <Animated.Image
+        source={Logo}
+        style={[styles.logo, {transform: [{scale: scaleAnim}]}]}
+      />
       <Text style={styles.text}>Enhance your modding experience.</Text>
     </View>
   );
@@ -41,11 +52,12 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#000000',
+    backgroundColor: '#0C0C0C',
   },
   logo: {
-    width: 670 / 2,
-    height: 130 / 2,
+    width: 335,
+    height: 65,
+    marginBottom: 30,
   },
   text: {
     color: '#FFFFFF',
