@@ -8,18 +8,23 @@ const SignUp = () => {
   return (
     <View style={styles.container}>
       <Text style={styles.header}>Sign Up</Text>
-      <Gap height={27} />
+      <Gap height={40} />
       <View style={styles.wrapper}>
-        <Input label="Email" placeholder="Your email" />
+        <Input label="Email" placeholder="Enter your email" />
         <Gap height={22} />
-        <Input label="Name" placeholder="Your name" />
+        <Input label="Name" placeholder="Enter your name" />
         <Gap height={22} />
         <Input
           label="Password"
           placeholder="Must contains more than 8 characters"
+          secureTextEntry={true}
         />
         <Gap height={22} />
-        <Input label="Confirm password" placeholder="Confirm your password" />
+        <Input
+          label="Confirm password"
+          placeholder="Confirm your password"
+          secureTextEntry={true}
+        />
       </View>
       <Gap height={26} />
       <Button color="#5046E5" text="Create account" textColor="white" />
