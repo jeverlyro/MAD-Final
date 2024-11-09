@@ -1,14 +1,14 @@
 import React, {useEffect, useRef} from 'react';
-import {StyleSheet, Text, View, Animated} from 'react-native';
-import {StackNavigationProp} from '@react-navigation/stack';
+import {StyleSheet, View, Animated} from 'react-native';
+import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {Logo} from '../../assets';
 
 type RootStackParamList = {
   Splash: undefined;
-  Start: undefined;
+  Onboarding: undefined;
 };
 
-type SplashScreenNavigationProp = StackNavigationProp<
+type SplashScreenNavigationProp = NativeStackNavigationProp<
   RootStackParamList,
   'Splash'
 >;
@@ -22,14 +22,14 @@ const Splash: React.FC<SplashProps> = ({navigation}) => {
 
   useEffect(() => {
     Animated.timing(scaleAnim, {
-      toValue: 1,
-      duration: 200,
+      toValue: 0.3,
+      duration: 400,
       useNativeDriver: true,
     }).start();
 
     const timer = setTimeout(() => {
-      navigation.replace('Start');
-    }, 1000);
+      navigation.replace('Onboarding');
+    }, 600);
 
     return () => clearTimeout(timer);
   }, [navigation, scaleAnim]);
@@ -38,9 +38,8 @@ const Splash: React.FC<SplashProps> = ({navigation}) => {
     <View style={styles.container}>
       <Animated.Image
         source={Logo}
-        style={[styles.logo, {transform: [{scale: scaleAnim}]}]}
+        style={[{transform: [{scale: scaleAnim}]}]}
       />
-      <Text style={styles.text}>Enhance your modding experience.</Text>
     </View>
   );
 };
@@ -52,17 +51,6 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#0C0C0C',
-  },
-  logo: {
-    width: 335,
-    height: 65,
-    marginBottom: 30,
-  },
-  text: {
-    color: '#FFFFFF',
-    fontSize: 13,
-    textAlign: 'center',
-    fontFamily: 'Inter-Regular',
+    backgroundColor: '#121927',
   },
 });

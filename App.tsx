@@ -1,10 +1,14 @@
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {NavigationContainer} from '@react-navigation/native';
 import Splash from './src/pages/Splashscreen';
-import Start from './src/pages/Start';
+import Onboarding from './components/Onboarding';
 import SignUp from './src/pages/SignUp';
 import React from 'react';
 import SignIn from './src/pages/SignIn';
+import Home from './src/pages/BottomTab/Home';
+import LearnScreen from './src/pages/BottomTab/Learn';
+import SimScreen from './src/pages/BottomTab/Simulation';
+import ProfileScreen from './src/pages/BottomTab/Profile';
 
 const stack = createNativeStackNavigator();
 
@@ -18,8 +22,8 @@ const App = () => {
           options={{headerShown: false}}
         />
         <stack.Screen
-          name="Start"
-          component={Start}
+          name="Onboarding"
+          component={Onboarding}
           options={{headerShown: false}}
         />
         <stack.Screen
@@ -31,6 +35,26 @@ const App = () => {
           name="SignIn"
           component={SignIn}
           options={{headerShown: false}}
+        />
+        <stack.Screen
+          name="Home"
+          component={Home}
+          options={{headerShown: false, animation: 'none'}}
+        />
+        <stack.Screen
+          name="Learn"
+          component={LearnScreen}
+          options={{headerShown: false, animation: 'none'}}
+        />
+        <stack.Screen
+          name="Simulation"
+          component={SimScreen}
+          options={{headerShown: false, animation: 'none'}}
+        />
+        <stack.Screen
+          name="Profile"
+          component={ProfileScreen}
+          options={{headerShown: false, animation: 'none'}}
         />
       </stack.Navigator>
     </NavigationContainer>

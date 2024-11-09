@@ -11,6 +11,9 @@ const SignUp = () => {
   return (
     <View style={styles.container}>
       <Text style={styles.header}>Sign Up</Text>
+      <Text style={styles.subHeader}>
+        Get started in a few clicks and you are ready to go !
+      </Text>
       <Gap height={40} />
       <View style={styles.wrapper}>
         <Input label="Email" placeholder="Enter your email" />
@@ -19,7 +22,7 @@ const SignUp = () => {
         <Gap height={22} />
         <Input
           label="Password"
-          placeholder="Must contain more than 8 characters"
+          placeholder="Must contain more than 6 characters"
           secureTextEntry={true}
         />
         <Gap height={22} />
@@ -29,8 +32,13 @@ const SignUp = () => {
           secureTextEntry={true}
         />
       </View>
-      <Gap height={26} />
-      <Button color="#5046E5" text="Create account" textColor="white" />
+      <Gap height={32} />
+      <Button
+        color="#5046E5"
+        text="Create account"
+        textColor="white"
+        onPress={() => navigation.replace('Home')}
+      />
       <Gap height={26} />
       <View style={styles.footer}>
         <Text style={styles.loginText}>Already have an account?</Text>
@@ -48,13 +56,21 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
-    backgroundColor: '#0C0C0C',
+    backgroundColor: '#121927',
   },
   header: {
     fontSize: 36,
     color: 'white',
     fontFamily: 'Inter-SemiBold',
     marginLeft: 23,
+  },
+  subHeader: {
+    fontSize: 16,
+    color: 'white',
+    marginLeft: 23,
+    fontFamily: 'Inter-Regular',
+    marginTop: 5,
+    width: 350,
   },
   wrapper: {
     marginHorizontal: 22,

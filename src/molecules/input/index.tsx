@@ -20,6 +20,7 @@ const TextInput: React.FC<InputProps> = ({
   secureTextEntry = false,
 }) => {
   const [isPasswordVisible, setPasswordVisible] = useState(secureTextEntry);
+  const [isFocused, setIsFocused] = useState(false);
 
   const togglePasswordVisibility = () => {
     setPasswordVisible(!isPasswordVisible);
@@ -28,21 +29,27 @@ const TextInput: React.FC<InputProps> = ({
   return (
     <View>
       <Text style={styles.label}>{label}</Text>
-      <View style={styles.inputContainer}>
+      <View
+        style={[
+          styles.inputContainer,
+          isFocused && styles.inputContainerFocused,
+        ]}>
         <Input
           style={styles.input}
           placeholder={placeholder}
           placeholderTextColor="gray"
           secureTextEntry={isPasswordVisible && secureTextEntry}
+          onFocus={() => setIsFocused(true)}
+          onBlur={() => setIsFocused(false)}
         />
         {secureTextEntry && (
           <TouchableOpacity
             onPress={togglePasswordVisibility}
             style={styles.iconContainer}>
             <Ionicons
-              name={isPasswordVisible ? 'eye-off' : 'eye'}
+              name={isPasswordVisible ? 'eye-off-outline' : 'eye-outline'}
               size={20}
-              color="gray"
+              color="white"
             />
           </TouchableOpacity>
         )}
@@ -56,17 +63,20 @@ export default TextInput;
 const styles = StyleSheet.create({
   label: {
     fontFamily: 'Inter-Regular',
-    fontSize: 16,
+    fontSize: 14,
     color: 'white',
     paddingBottom: 5,
   },
   inputContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    borderWidth: 1,
+    backgroundColor: '#3A4052',
     borderRadius: 10,
-    borderColor: '#2C277F',
-    padding: 5,
+    padding: 1,
+  },
+  inputContainerFocused: {
+    borderColor: 'white',
+    borderWidth: 1,
   },
   input: {
     flex: 1,
