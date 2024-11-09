@@ -8,7 +8,7 @@ import React from 'react';
 
 const {width} = Dimensions.get('window');
 
-const Start = () => {
+const Start = ({navigation}) => {
   return (
     <View style={styles.container}>
       <LottieView
@@ -22,9 +22,19 @@ const Start = () => {
         Now you can learn about modding a mechanical keyboard by your own hands!
       </Text>
       <Gap height={76} />
-      <Button text="Sign In" color="#5046E5" textColor="#fff" />
+      <Button
+        text="Sign In"
+        color="#5046E5"
+        textColor="#fff"
+        onPress={() => navigation.navigate('SignIn')}
+      />
       <Gap height={20} />
-      <Button text="Create account" color="#fff" textColor="#000" />
+      <Button
+        text="Create account"
+        color="#fff"
+        textColor="#000"
+        onPress={() => navigation.navigate('SignUp')}
+      />
       <Gap height={240} />
     </View>
   );
