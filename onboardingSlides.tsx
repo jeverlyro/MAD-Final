@@ -52,18 +52,4 @@ export default [
       />
     ),
   },
-  {
-    id: 4,
-    title: 'Explore the app',
-    description:
-      'Now you can learn about modding a mechanical keyboard by your own hands!',
-    image: (
-      <LottieView
-        source={require('./src/assets/lottie/Keyboard.json')}
-        style={styles.image}
-        autoPlay
-        loop
-      />
-    ),
-  },
 ];
