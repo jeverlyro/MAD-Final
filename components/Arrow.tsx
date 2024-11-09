@@ -3,7 +3,7 @@ import React, {useEffect, useRef} from 'react';
 import Svg, {G, Circle} from 'react-native-svg';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
-export default function Arrow({percentage, isOnboardingComplete}) {
+export default function Arrow({percentage, isOnboardingComplete, onPress}) {
   const size = 128;
   const strokeWidth = 2;
   const center = size / 2;
@@ -11,10 +11,11 @@ export default function Arrow({percentage, isOnboardingComplete}) {
   const circumference = 2 * Math.PI * radius;
 
   const progressAnimation = useRef(new Animated.Value(0)).current;
+  const opacity = useRef(new Animated.Value(0)).current;
   const progressRef = useRef(null);
 
-  const animation = toValue => {
-    return Animated.timing(progressAnimation, {
+  const animateProgress = toValue => {
+    Animated.timing(progressAnimation, {
       toValue,
       duration: 250,
       useNativeDriver: true,
@@ -22,7 +23,7 @@ export default function Arrow({percentage, isOnboardingComplete}) {
   };
 
   useEffect(() => {
-    animation(percentage);
+    animateProgress(percentage);
   }, [percentage]);
 
   useEffect(() => {
@@ -36,7 +37,15 @@ export default function Arrow({percentage, isOnboardingComplete}) {
         });
       }
     });
-  });
+  }, [circumference]);
+
+  useEffect(() => {
+    Animated.timing(opacity, {
+      toValue: isOnboardingComplete ? 1 : 0,
+      duration: 300,
+      useNativeDriver: true,
+    }).start();
+  }, [isOnboardingComplete]);
 
   return (
     <View style={styles.container}>
@@ -61,13 +70,14 @@ export default function Arrow({percentage, isOnboardingComplete}) {
           />
         </G>
       </Svg>
-
-      <TouchableOpacity
-        style={[styles.button, !isOnboardingComplete && styles.buttonDisabled]}
-        activeOpacity={0.6}
-        disabled={!isOnboardingComplete}>
-        <Ionicons name="chevron-forward-outline" color="#fff" size={32} />
-      </TouchableOpacity>
+      <Animated.View style={[styles.button, {opacity}]}>
+        <TouchableOpacity
+          activeOpacity={0.6}
+          disabled={!isOnboardingComplete}
+          onPress={onPress}>
+          <Ionicons name="chevron-forward-outline" color="#fff" size={32} />
+        </TouchableOpacity>
+      </Animated.View>
     </View>
   );
 }
@@ -84,8 +94,5 @@ const styles = StyleSheet.create({
     backgroundColor: '#5046E5',
     borderRadius: 100,
     padding: 20,
-  },
-  buttonDisabled: {
-    backgroundColor: '#808080',
   },
 });

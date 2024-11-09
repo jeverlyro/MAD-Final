@@ -1,15 +1,18 @@
 import {StyleSheet, View, FlatList, Animated} from 'react-native';
 import React, {useState, useRef} from 'react';
+import {useNavigation} from '@react-navigation/native';
 
 import slides from '../onboardingSlides';
 import OnboardingItem from './OnboardingItem';
 import Paginator from './Paginator';
 import Arrow from './Arrow';
+import {Gap} from '../src/atoms';
 
 const Onboarding = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const scrollX = useRef(new Animated.Value(0)).current;
   const slideRef = useRef(null);
+  const navigation = useNavigation();
 
   const viewableItemsChanged = useRef(({viewableItems}) => {
     setCurrentIndex(viewableItems[0].index);
@@ -17,6 +20,12 @@ const Onboarding = () => {
 
   const viewConfig = useRef({viewAreaCoveragePercentThreshold: 50}).current;
   const isOnboardingComplete = currentIndex === slides.length - 1;
+
+  const handlePress = () => {
+    if (isOnboardingComplete) {
+      navigation.navigate('Start');
+    }
+  };
 
   return (
     <View style={styles.container}>
@@ -43,7 +52,9 @@ const Onboarding = () => {
       <Arrow
         percentage={(currentIndex + 1) * (100 / slides.length)}
         isOnboardingComplete={isOnboardingComplete}
+        onPress={handlePress}
       />
+      <Gap height={40} />
     </View>
   );
 };
