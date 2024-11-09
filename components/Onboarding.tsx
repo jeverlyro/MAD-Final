@@ -54,7 +54,7 @@ const Onboarding = () => {
         isOnboardingComplete={isOnboardingComplete}
         onPress={handlePress}
       />
-      <Gap height={40} />
+      <Gap height={64} />
     </View>
   );
 };

@@ -33,7 +33,7 @@ const styles = StyleSheet.create({
     fontSize: 28,
     marginBottom: 10,
     textAlign: 'center',
-    color: '#fff',
+    color: '#5046E5',
     fontFamily: 'Lexend-SemiBold',
   },
   description: {
