@@ -8,14 +8,15 @@ import Arrow from './Arrow';
 
 const Onboarding = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
-
   const scrollX = useRef(new Animated.Value(0)).current;
   const slideRef = useRef(null);
 
   const viewableItemsChanged = useRef(({viewableItems}) => {
     setCurrentIndex(viewableItems[0].index);
   }).current;
+
   const viewConfig = useRef({viewAreaCoveragePercentThreshold: 50}).current;
+  const isOnboardingComplete = currentIndex === slides.length - 1;
 
   return (
     <View style={styles.container}>
@@ -39,7 +40,10 @@ const Onboarding = () => {
       </View>
 
       <Paginator data={slides} scrollX={scrollX} />
-      <Arrow percentage={(currentIndex + 1) * (100 / slides.length)} />
+      <Arrow
+        percentage={(currentIndex + 1) * (100 / slides.length)}
+        isOnboardingComplete={isOnboardingComplete}
+      />
     </View>
   );
 };

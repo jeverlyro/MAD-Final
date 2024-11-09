@@ -3,7 +3,7 @@ import React, {useEffect, useRef} from 'react';
 import Svg, {G, Circle} from 'react-native-svg';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
-export default function Arrow({percentage}) {
+export default function Arrow({percentage, isOnboardingComplete}) {
   const size = 128;
   const strokeWidth = 2;
   const center = size / 2;
@@ -62,7 +62,10 @@ export default function Arrow({percentage}) {
         </G>
       </Svg>
 
-      <TouchableOpacity style={styles.button} activeOpacity={0.6}>
+      <TouchableOpacity
+        style={[styles.button, !isOnboardingComplete && styles.buttonDisabled]}
+        activeOpacity={0.6}
+        disabled={!isOnboardingComplete}>
         <Ionicons name="chevron-forward-outline" color="#fff" size={32} />
       </TouchableOpacity>
     </View>
@@ -81,5 +84,8 @@ const styles = StyleSheet.create({
     backgroundColor: '#5046E5',
     borderRadius: 100,
     padding: 20,
+  },
+  buttonDisabled: {
+    backgroundColor: '#808080',
   },
 });
