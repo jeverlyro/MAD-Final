@@ -8,10 +8,10 @@ import {
 } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {useNavigation} from '@react-navigation/native';
-import {akkoswc, geteswc, hmxswc} from '../../../../assets/images';
+import {akkokey, akkomakey, gmkkey} from '../../../../assets/images';
 import CardB from '../../../../molecules/CardB';
 
-const BareboneSelection = () => {
+const SelectionKey = () => {
   const navigation = useNavigation();
 
   return (
@@ -22,16 +22,24 @@ const BareboneSelection = () => {
       <ScrollView contentContainerStyle={styles.scrollContainer}>
         <TouchableOpacity>
           <CardB
-            title="Akko Creamy Yellow
-V3 Pro"
-            imageSource={akkoswc}
+            title="Akko Warm Gray
+Keycaps Set"
+            imageSource={akkokey}
           />
         </TouchableOpacity>
         <TouchableOpacity>
-          <CardB title="Gateron Oil King" imageSource={geteswc} />
+          <CardB
+            title="GMK Red Samurai
+Keycaps set"
+            imageSource={gmkkey}
+          />
         </TouchableOpacity>
         <TouchableOpacity>
-          <CardB title="HMX Xinhai" imageSource={hmxswc} />
+          <CardB
+            title="Akko Matcha Bear
+Keycaps Set"
+            imageSource={akkomakey}
+          />
         </TouchableOpacity>
       </ScrollView>
 
@@ -106,4 +114,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default BareboneSelection;
+export default SelectionKey;
