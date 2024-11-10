@@ -71,12 +71,12 @@ const styles = StyleSheet.create({
   header: {
     fontSize: 32,
     color: '#FFFFFF',
-    fontFamily: 'Lexand-SemiBold',
+    fontFamily: 'Lexend-SemiBold',
   },
   subHeader: {
     fontSize: 16,
     color: '#FFFFFF',
-    fontFamily: 'Lexand-Reguler',
+    fontFamily: 'Lexend-Reguler',
     marginTop: 8,
   },
   wrapper: {
@@ -84,11 +84,11 @@ const styles = StyleSheet.create({
   },
   loginText: {
     color: '#FFFFFF',
-    fontFamily: 'Inter-Medium',
+    fontFamily: 'Lexend-Medium',
   },
   touchableLogin: {
     color: '#5046E5',
-    fontFamily: 'Inter-Medium',
+    fontFamily: 'Lexend-Medium',
   },
   footer: {
     flexDirection: 'row',
