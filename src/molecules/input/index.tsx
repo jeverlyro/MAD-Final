@@ -28,12 +28,12 @@ const TextInput: React.FC<InputProps> = ({
 
   return (
     <View>
-      <Text style={styles.label}>{label}</Text>
       <View
         style={[
           styles.inputContainer,
           isFocused && styles.inputContainerFocused,
         ]}>
+        <Text style={styles.label}>{label}</Text>
         <Input
           style={styles.input}
           placeholder={placeholder}

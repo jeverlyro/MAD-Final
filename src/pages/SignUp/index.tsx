@@ -14,30 +14,30 @@ const SignUp = () => {
       <Text style={styles.subHeader}>
         Get started in a few clicks and you are ready to go !
       </Text>
-      <Gap height={40} />
+      <Gap height={20} />
       <View style={styles.wrapper}>
         <Input label="Email" placeholder="Enter your email" />
-        <Gap height={22} />
+        <Gap height={20} />
         <Input label="Name" placeholder="Enter your name" />
-        <Gap height={22} />
+        <Gap height={20} />
         <Input
           label="Password"
           placeholder="Must contain more than 6 characters"
           secureTextEntry={true}
         />
-        <Gap height={22} />
+        <Gap height={20} />
         <Input
           label="Confirm password"
           placeholder="Confirm your password"
           secureTextEntry={true}
         />
       </View>
-      <Gap height={32} />
+      <Gap height={40} />
       <Button
         color="#5046E5"
         text="Create account"
-        textColor="white"
-        onPress={() => navigation.replace('Home')}
+        textColor="#FFFFFF"
+        onPress={() => navigation.replace('SignIn')}
       />
       <Gap height={26} />
       <View style={styles.footer}>

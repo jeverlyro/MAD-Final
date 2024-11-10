@@ -15,23 +15,23 @@ const SignIn = () => {
         <Text style={styles.subHeader}>
           Welcome back, glad to see you again!
         </Text>
-        <Gap height={80} />
+        <Gap height={65} />
         <Input label="Your email" placeholder="Enter your email here" />
-        <Gap height={16} />
+        <Gap height={19} />
         <Input
           label="Your password"
           placeholder="Enter your password here"
           secureTextEntry={true}
         />
       </View>
-      <Gap height={30} />
+      <Gap height={62} />
       <Button
         color="#5046E5"
         text="Sign In"
         textColor="white"
         onPress={() => navigation.replace('Home')}
       />
-      <Gap height={30} />
+      <Gap height={27} />
       <View style={styles.dividerContainer}>
         <View style={styles.line} />
         <Text style={styles.dividerText}>Or continue with</Text>
@@ -49,7 +49,7 @@ const SignIn = () => {
           <Ionicons name="logo-twitter" size={24} color="#282A37" />
         </TouchableOpacity>
       </View>
-      <Gap height={45} />
+      <Gap height={40} />
       <View style={styles.footer}>
         <Text style={styles.loginText}>Don't have an account?</Text>
         <TouchableOpacity onPress={() => navigation.navigate('SignUp')}>
@@ -70,20 +70,20 @@ const styles = StyleSheet.create({
   },
   header: {
     fontSize: 32,
-    color: 'white',
-    fontFamily: 'Inter-SemiBold',
+    color: '#FFFFFF',
+    fontFamily: 'Lexand-SemiBold',
   },
   subHeader: {
     fontSize: 16,
-    color: 'white',
-    fontFamily: 'Inter-Regular',
+    color: '#FFFFFF',
+    fontFamily: 'Lexand-Reguler',
     marginTop: 8,
   },
   wrapper: {
     margin: 23,
   },
   loginText: {
-    color: 'white',
+    color: '#FFFFFF',
     fontFamily: 'Inter-Medium',
   },
   touchableLogin: {
@@ -104,10 +104,10 @@ const styles = StyleSheet.create({
   line: {
     flex: 1,
     height: 1,
-    backgroundColor: 'white',
+    backgroundColor: '#FFFFFF',
   },
   dividerText: {
-    color: 'white',
+    color: '#FFFFFF',
     fontFamily: 'Inter-Regular',
     marginHorizontal: 8,
     fontSize: 11,

@@ -10,7 +10,6 @@ import LearnScreen from './src/pages/BottomTab/Learn';
 import SimScreen from './src/pages/BottomTab/Simulation';
 import ProfileScreen from './src/pages/BottomTab/Profile';
 import Start from './src/pages/Start';
-
 const stack = createNativeStackNavigator();
 
 const App = () => {
