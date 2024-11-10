@@ -1,136 +1,172 @@
 import React from 'react';
-import {View, Text, StyleSheet, ScrollView} from 'react-native';
-import Ionicons from 'react-native-vector-icons/Ionicons';
-import {useNavigation} from '@react-navigation/native';
+import {StyleSheet, Text, View, Image, ScrollView} from 'react-native';
+import Swiper from 'react-native-swiper';
+import {Header, NavButton} from '../../../molecules';
 
-const HomeScreen: React.FC = () => {
-  const navigation = useNavigation();
-
+const Home = () => {
   return (
-    <View style={styles.container}>
-      <ScrollView style={styles.insideContent}>
-        <Text style={styles.greetingText}>
-          <Text style={styles.miniText}>Hello,</Text>
-        </Text>
-        <Text style={styles.usernameText}>I Kadek Tresna Jeverly !</Text>
+    <ScrollView style={styles.container} bounces={false}>
+      <Header />
 
-        <View style={styles.sectionContainer}>
-          <Text style={styles.sectionTitle}>Reviews</Text>
-          <Text style={styles.sectionContent}>
-            Check out the latest reviews on the best tech products.
-          </Text>
-        </View>
-
-        <View style={styles.sectionContainer}>
-          <Text style={styles.sectionTitle}>Best Keyboards</Text>
-          <Text style={styles.sectionContent}>
-            Discover top-rated keyboards for coding, gaming, and more.
-          </Text>
-        </View>
-
-        <View style={styles.sectionContainer}>
-          <Text style={styles.sectionTitle}>Getting Started</Text>
-          <Text style={styles.sectionContent}>
-            Learn how to get started with your new setup and tools.
-          </Text>
-        </View>
-      </ScrollView>
-
-      <View style={styles.tabBar}>
-        <View style={styles.tabItem}>
-          <Ionicons name="home-sharp" size={28} color="#5046E5" />
-          <Text style={styles.tabText}>Home</Text>
-        </View>
-        <View style={styles.tabItem}>
-          <Ionicons
-            name="book-outline"
-            size={28}
-            color="white"
-            onPress={() => navigation.replace('Learn')}
+      <View style={styles.sliderContainer}>
+        <Swiper
+          style={styles.swiper}
+          showsButtons={false}
+          dotColor="#fff"
+          activeDotColor="#5046E5"
+          autoplay={true}
+          autoplayTimeout={5}>
+          <Image
+            style={styles.sliderImage}
+            source={{uri: 'https://via.placeholder.com/300x150'}} // Slide image 1
           />
-          <Text style={styles.tabText}>Learn</Text>
-        </View>
-        <View style={styles.tabItem}>
-          <Ionicons
-            name="settings-outline"
-            size={28}
-            color="white"
-            onPress={() => navigation.replace('Simulation')}
+          <Image
+            style={styles.sliderImage}
+            source={{uri: 'https://via.placeholder.com/300x150'}} // Slide image 2
           />
-          <Text style={styles.tabText}>Simulation</Text>
-        </View>
-        <View style={styles.tabItem}>
-          <Ionicons
-            name="person-outline"
-            size={28}
-            color="white"
-            onPress={() => navigation.replace('Profile')}
+          <Image
+            style={styles.sliderImage}
+            source={{uri: 'https://via.placeholder.com/300x150'}} // Slide image 3
           />
-          <Text style={styles.tabText}>Profile</Text>
+        </Swiper>
+      </View>
+
+      <NavButton />
+      {/* Popular Section */}
+      <Text style={styles.sectionTitle}>Popular</Text>
+      <View style={styles.popularContainer}>
+        {[1, 2, 3].map((_, index) => (
+          <View key={index} style={styles.popularCard}>
+            <Image
+              style={styles.popularImage}
+              source={{uri: 'https://via.placeholder.com/100x100'}} // Popular item image
+            />
+            <Text style={styles.popularText}>Popular Item {index + 1}</Text>
+          </View>
+        ))}
+      </View>
+      {/* Recommended News Section */}
+      <Text style={styles.sectionTitle}>Recommended news</Text>
+      <View style={styles.recommendedContainer}>
+        <Image
+          style={styles.recommendedImage}
+          source={{uri: 'https://via.placeholder.com/150x80'}} // Recommended news image
+        />
+        <View style={styles.recommendedTextContainer}>
+          <Text style={styles.recommendedTitle}>
+            Best-selling keyboard switches of October, 2024
+          </Text>
+          <Text style={styles.recommendedDescription}>
+            Discover the latest trending keyboard switches and find the best
+            options for your setup.
+          </Text>
         </View>
       </View>
-    </View>
+    </ScrollView>
   );
 };
 
-export default HomeScreen;
+export default Home;
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#000000',
+    backgroundColor: '#121927',
   },
-  insideContent: {
-    margin: 25,
-  },
-  greetingText: {
-    fontSize: 16,
-    fontFamily: 'Inter-Regular',
-    color: 'white',
-  },
-  miniText: {
-    color: '#5046E5',
-  },
-  usernameText: {
-    color: 'white',
-    fontSize: 20,
-    fontFamily: 'Inter-SemiBold',
+  sliderContainer: {
+    height: 200,
     marginBottom: 20,
   },
-  sectionContainer: {
-    backgroundColor: '#1c1c1e',
-    borderRadius: 10,
-    padding: 20,
+  swiper: {
+    borderRadius: 0,
+  },
+  sliderImage: {
+    width: '100%',
+    height: '100%',
+  },
+  navButtonsContainer: {
+    flexDirection: 'row',
+    justifyContent: 'center',
     marginBottom: 20,
+  },
+  navButton: {
+    borderColor: '#5046E5',
+    borderWidth: 1,
+    paddingVertical: 3,
+    paddingHorizontal: 20,
+    marginHorizontal: 10,
+    borderRadius: 20,
+    width: 80,
+    height: 35,
+    justifyContent: 'center',
+  },
+  navButtonText: {
+    color: '#FFFFFF',
+    fontSize: 9.4,
+    textAlign: 'center',
+    fontFamily: 'Lexend-Regular',
   },
   sectionTitle: {
-    fontSize: 18,
-    fontFamily: 'Inter-Bold',
-    color: 'white',
-    marginBottom: 5,
+    color: '#FFFFFF',
+    fontFamily: 'Lexend-Medium',
+    marginLeft: 24,
+    marginVertical: 10,
+    fontSize: 24,
   },
-  sectionContent: {
-    fontSize: 14,
-    fontFamily: 'Inter-Regular',
-    color: '#A9A9A9',
-  },
-  tabBar: {
-    position: 'absolute',
-    bottom: 0,
-    height: 80,
-    width: '100%',
-    backgroundColor: '#121212',
+  popularContainer: {
     flexDirection: 'row',
-    justifyContent: 'space-around',
+    justifyContent: 'space-between',
+    marginBottom: 20,
+    padding: 16,
+  },
+  popularCard: {
+    width: '30%',
+    borderWidth: 0.3,
+    borderColor: '#1B2539',
+    borderRadius: 4,
+    paddingTop: 6,
+    paddingBottom: 30,
     alignItems: 'center',
   },
-  tabItem: {
+  popularImage: {
+    width: 100,
+    height: 100,
+    borderRadius: 4,
+  },
+  popularText: {
+    color: '#FFFFFF',
+    fontFamily: 'Lexend-Regular',
+    textAlign: 'center',
+    fontSize: 13,
+    marginTop: 5,
+  },
+  recommendedContainer: {
+    flexDirection: 'row',
+    borderColor: '#222C41',
+    borderWidth: 0.3,
+    borderRadius: 5,
+    padding: 10,
+    margin: 15,
     alignItems: 'center',
   },
-  tabText: {
-    fontFamily: 'Inter-Regular',
-    color: 'white',
+  recommendedImage: {
+    width: 150,
+    height: 100,
+    borderRadius: 5,
+    marginRight: 10,
+  },
+  recommendedTextContainer: {
+    flex: 1,
+  },
+  recommendedTitle: {
+    color: '#FFFFFF',
+    fontFamily: 'Lexend-Medium',
+    marginBottom: 25,
+  },
+  recommendedDescription: {
+    color: '#CCCCCC',
     fontSize: 10,
-    marginTop: 4,
+    fontFamily: 'Lexend-Regular',
+    marginBottom: 5,
   },
 });

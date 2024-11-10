@@ -38,6 +38,11 @@ const App = () => {
           options={{headerShown: false}}
         />
         <stack.Screen
+          name="SignUp"
+          component={SignUp}
+          options={{headerShown: false}}
+        />
+        <stack.Screen
           name="Home"
           component={Home}
           options={{headerShown: false, animation: 'none'}}
