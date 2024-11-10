@@ -8,7 +8,7 @@ import {
 } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {useNavigation} from '@react-navigation/native';
-import {akko, kaychron, gamakay} from '../../../../assets/images';
+import {akkoswc, geteswc, hmxswc} from '../../../../assets/images';
 import CardB from '../../../../molecules/CardB';
 
 const BareboneSelection = () => {
@@ -16,18 +16,22 @@ const BareboneSelection = () => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.headerTitle}>Select Your Barebone</Text>
+      <Text style={styles.headerTitle}>Select Your Switches</Text>
       <View style={styles.divider} />
 
       <ScrollView contentContainerStyle={styles.scrollContainer}>
         <TouchableOpacity>
-          <CardB title="Akko ACR75 Barebone Kit" imageSource={akko} />
+          <CardB
+            title="Akko Creamy Yellow
+V3 Pro"
+            imageSource={akkoswc}
+          />
         </TouchableOpacity>
         <TouchableOpacity>
-          <CardB title="Keychron V4 QMK Barebone Kit" imageSource={kaychron} />
+          <CardB title="Gateron Oil King" imageSource={geteswc} />
         </TouchableOpacity>
         <TouchableOpacity>
-          <CardB title="GamaKay CK68 Barebone Kit" imageSource={gamakay} />
+          <CardB title="HMX Xinhai" imageSource={hmxswc} />
         </TouchableOpacity>
       </ScrollView>
 
