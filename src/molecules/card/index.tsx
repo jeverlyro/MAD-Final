@@ -1,11 +1,20 @@
 import React from 'react';
 import {View, Text, StyleSheet, TouchableOpacity, Image} from 'react-native';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
 const Card = ({title, imageSource}) => {
   return (
     <View style={styles.card}>
       <View style={styles.imageContainer}>
-        <Image source={imageSource} style={styles.image} resizeMode="contain" />
+        {imageSource ? (
+          <Image
+            source={imageSource}
+            style={styles.image}
+            resizeMode="contain"
+          />
+        ) : (
+          <Ionicons name="add" size={40} color="#8F92A1" />
+        )}
       </View>
       <View style={styles.cardDetails}>
         <Text style={styles.cardText}>{title}</Text>

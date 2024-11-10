@@ -8,7 +8,7 @@ import {
 } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {useNavigation} from '@react-navigation/native';
-import {akkokey, akkomakey, gmkkey} from '../../../../assets/images';
+import {foam, krytox, tape} from '../../../../assets/images';
 import CardB from '../../../../molecules/CardB';
 
 const SelectionAdditional = () => {
@@ -21,24 +21,16 @@ const SelectionAdditional = () => {
 
       <ScrollView contentContainerStyle={styles.scrollContainer}>
         <TouchableOpacity>
-          <CardB
-            title="Akko Warm Gray
-Keycaps Set"
-            imageSource={akkokey}
-          />
+          <CardB title="Masking tape" imageSource={tape} />
+        </TouchableOpacity>
+        <TouchableOpacity>
+          <CardB title="Krytox GPL 205g0" imageSource={krytox} />
         </TouchableOpacity>
         <TouchableOpacity>
           <CardB
-            title="GMK Red Samurai
-Keycaps set"
-            imageSource={gmkkey}
-          />
-        </TouchableOpacity>
-        <TouchableOpacity>
-          <CardB
-            title="Akko Matcha Bear
-Keycaps Set"
-            imageSource={akkomakey}
+            title="YIMAGUJRX Keyboard Eva
+Foam"
+            imageSource={foam}
           />
         </TouchableOpacity>
       </ScrollView>
