@@ -1,2 +1,5 @@
 import Input from './input';
-export {Input};
+import Header from './homeHeader';
+import NavButton from './navButton';
+
+export {Input, Header, NavButton};
