@@ -11,7 +11,7 @@ import {useNavigation} from '@react-navigation/native';
 import {akkoswc, geteswc, hmxswc} from '../../../../assets/images';
 import CardB from '../../../../molecules/CardB';
 
-const SelectionSwicth = () => {
+const SelectionKey = () => {
   const navigation = useNavigation();
 
   return (
@@ -106,4 +106,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default SelectionSwicth;
+export default SelectionKey;
