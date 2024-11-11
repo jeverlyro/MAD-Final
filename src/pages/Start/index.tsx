@@ -3,12 +3,13 @@ import {Button} from '../../atoms';
 import {useNavigation} from '@react-navigation/native';
 import {Gap} from '../../atoms';
 import LottieView from 'lottie-react-native';
-
 import React from 'react';
 
 const {width} = Dimensions.get('window');
 
-const Start = ({navigation}) => {
+const Start = () => {
+  const navigation = useNavigation();
+
   return (
     <View style={styles.container}>
       <LottieView
@@ -26,10 +27,15 @@ const Start = ({navigation}) => {
         text="Sign In"
         color="#5046E5"
         textColor="#fff"
-        onPress={() => navigation.navigate('Profile')}
+        onPress={() => navigation.navigate('SignIn')}
       />
       <Gap height={20} />
-      <Button text="Create account" color="#fff" textColor="#000" />
+      <Button
+        text="Create account"
+        color="#fff"
+        textColor="#000"
+        onPress={() => navigation.navigate('SignUp')}
+      />
       <Gap height={240} />
     </View>
   );

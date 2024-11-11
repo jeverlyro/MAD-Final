@@ -58,7 +58,6 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     paddingTop: 10,
     paddingLeft: 5,
-    marginVertical: 11,
     position: 'relative',
   },
   label: {
@@ -76,7 +75,8 @@ const styles = StyleSheet.create({
   input: {
     flex: 1,
     color: 'white',
-    paddingVertical: 12,
+    paddingTop: 10,
+    paddingBottom: 5,
   },
   iconContainer: {
     marginRight: 15,
