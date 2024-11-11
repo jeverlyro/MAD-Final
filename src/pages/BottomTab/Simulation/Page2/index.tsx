@@ -9,6 +9,7 @@ import {
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {useNavigation} from '@react-navigation/native';
 import Card from '../../../../molecules/card';
+import {Tabbar} from '../../../../molecules';
 
 const Plans: React.FC = () => {
   const navigation = useNavigation();
@@ -23,39 +24,19 @@ const Plans: React.FC = () => {
 
       <ScrollView contentContainerStyle={styles.scrollContainer}>
         {[
-          'Choose your barebone kit',
-          'Choose your switches',
-          'Choose your keycaps',
-          'Additional',
+          {title: 'Choose your barebone kit', targetPage: 'Page3'},
+          {title: 'Choose your switches', targetPage: 'Page4'},
+          {title: 'Choose your keycaps', targetPage: 'Page5'},
+          {title: 'Additional', targetPage: 'Page6'},
         ].map((item, index) => (
-          <Card key={index} title={item} />
+          <Card key={index} title={item.title} targetPage={item.targetPage} />
         ))}
 
         <TouchableOpacity style={styles.saveButton}>
           <Text style={styles.saveButtonText}>Save plan</Text>
         </TouchableOpacity>
       </ScrollView>
-
-      <View style={styles.tabBar}>
-        <TouchableOpacity
-          style={styles.tabItem}
-          onPress={() => navigation.replace('Home')}>
-          <Ionicons name="home-outline" size={28} color="white" />
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.tabItem}
-          onPress={() => navigation.replace('Learn')}>
-          <Ionicons name="book-outline" size={28} color="white" />
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.tabItem}>
-          <Ionicons name="settings" size={28} color="#5046E5" />
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.tabItem}
-          onPress={() => navigation.replace('Profile')}>
-          <Ionicons name="person-outline" size={28} color="white" />
-        </TouchableOpacity>
-      </View>
+      <Tabbar />
     </View>
   );
 };

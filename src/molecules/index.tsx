@@ -1,4 +1,6 @@
 import Card from './card';
 import TextInput from './input';
-import CardB from './Barebone';
-export {Card, CardB, TextInput};
+import CardB from './CardB';
+import Tabbar from './Tabbar';
+
+export {Card, CardB, TextInput, Tabbar};

@@ -1,10 +1,12 @@
 import React from 'react';
 import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import Tabbar from '../../../../molecules/Tabbar';
 import {useNavigation} from '@react-navigation/native';
 
 const SimScreen: React.FC = () => {
   const navigation = useNavigation();
+
   return (
     <View style={styles.container}>
       <View style={styles.header}>
@@ -15,35 +17,16 @@ const SimScreen: React.FC = () => {
 
       <Text style={styles.noPlansText}>You did not have any plans yet.</Text>
 
-      <TouchableOpacity style={styles.addButton}>
+      <TouchableOpacity
+        style={styles.addButton}
+        onPress={() => navigation.navigate('Page2')}>
         <Ionicons name="add" size={28} color="white" />
       </TouchableOpacity>
 
-      <View style={styles.tabBar}>
-        <TouchableOpacity
-          style={styles.tabItem}
-          onPress={() => navigation.replace('Home')}>
-          <Ionicons name="home-outline" size={28} color="white" />
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.tabItem}
-          onPress={() => navigation.replace('Learn')}>
-          <Ionicons name="book-outline" size={28} color="white" />
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.tabItem}>
-          <Ionicons name="settings" size={28} color="#5046E5" />
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.tabItem}
-          onPress={() => navigation.replace('Profile')}>
-          <Ionicons name="person-outline" size={28} color="white" />
-        </TouchableOpacity>
-      </View>
+      <Tabbar />
     </View>
   );
 };
-
-export default SimScreen;
 
 const styles = StyleSheet.create({
   container: {
@@ -91,20 +74,6 @@ const styles = StyleSheet.create({
     shadowColor: '#5046E5',
     shadowRadius: 15,
     elevation: 15,
-  },
-  tabBar: {
-    position: 'absolute',
-    bottom: 0,
-    height: 80,
-    width: '110%',
-    backgroundColor: 'transparent',
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    alignItems: 'center',
-  },
-  tabItem: {
-    alignItems: 'center',
-    flex: 1,
   },
 });
 

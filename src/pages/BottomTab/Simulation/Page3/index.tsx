@@ -9,11 +9,11 @@ import {
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {useNavigation} from '@react-navigation/native';
 import {akko, kaychron, gamakay} from '../../../../assets/images';
-import CardB from '../../../../molecules/Barebone';
+import CardB from '../../../../molecules/CardB';
+import {Tabbar} from '../../../../molecules';
 
 const BareboneSelection = () => {
   const navigation = useNavigation();
-
   return (
     <View style={styles.container}>
       <Text style={styles.headerTitle}>Select Your Barebone</Text>
@@ -30,47 +30,7 @@ const BareboneSelection = () => {
           <CardB title="GamaKay CK68 Barebone Kit" imageSource={gamakay} />
         </TouchableOpacity>
       </ScrollView>
-
-      <View style={styles.tabBar}>
-        <View style={styles.tabItem}>
-          <Ionicons
-            name="home-sharp"
-            color="white"
-            size={28}
-            onPress={() => navigation.replace('Home')}
-          />
-          <Text style={styles.tabText}>Home</Text>
-        </View>
-        <View style={styles.tabItem}>
-          <Ionicons
-            name="book-outline"
-            size={28}
-            color="white"
-            onPress={() => navigation.replace('Learn')}
-          />
-          <Text style={styles.tabText}>Learn</Text>
-        </View>
-        <View style={styles.tabItem}>
-          <Ionicons
-            name="settings-outline"
-            size={28}
-            color="white"
-            size={28}
-            color="#5046E5"
-            onPress={() => navigation.replace('Simulation')}
-          />
-          <Text style={styles.tabText}>Simulation</Text>
-        </View>
-        <View style={styles.tabItem}>
-          <Ionicons
-            name="person-outline"
-            size={28}
-            color="white"
-            onPress={() => navigation.replace('Profile')}
-          />
-          <Text style={styles.tabText}>Profile</Text>
-        </View>
-      </View>
+      <Tabbar />
     </View>
   );
 };
@@ -99,25 +59,6 @@ const styles = StyleSheet.create({
   },
   scrollContainer: {
     paddingHorizontal: 20,
-  },
-  tabBar: {
-    position: 'absolute',
-    bottom: 0,
-    height: 80,
-    width: 420,
-    backgroundColor: '#121212',
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    alignItems: 'center',
-  },
-  tabItem: {
-    alignItems: 'center',
-  },
-  tabText: {
-    fontFamily: 'Inter-Regular',
-    color: 'white',
-    fontSize: 10,
-    marginTop: 4,
   },
 });
 

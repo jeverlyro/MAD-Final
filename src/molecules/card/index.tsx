@@ -1,8 +1,11 @@
 import React from 'react';
 import {View, Text, StyleSheet, TouchableOpacity, Image} from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import {useNavigation} from '@react-navigation/native';
 
-const Card = ({title, imageSource}) => {
+const Card = ({title, imageSource, targetPage}) => {
+  const navigation = useNavigation();
+
   return (
     <View style={styles.card}>
       <View style={styles.imageContainer}>
@@ -18,7 +21,9 @@ const Card = ({title, imageSource}) => {
       </View>
       <View style={styles.cardDetails}>
         <Text style={styles.cardText}>{title}</Text>
-        <TouchableOpacity style={styles.changeButton}>
+        <TouchableOpacity
+          style={styles.changeButton}
+          onPress={() => navigation.navigate(targetPage)}>
           <Text style={styles.changeButtonText}>Change</Text>
         </TouchableOpacity>
       </View>

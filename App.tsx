@@ -10,7 +10,11 @@ import LearnScreen from './src/pages/BottomTab/Learn';
 import SimScreen from './src/pages/BottomTab/Simulation/Page1';
 import ProfileScreen from './src/pages/BottomTab/Profile';
 import Start from './src/pages/Start';
-
+import Plans from './src/pages/BottomTab/Simulation/Page2';
+import BareboneSelection from './src/pages/BottomTab/Simulation/Page3';
+import SelectionSwicth from './src/pages/BottomTab/Simulation/page4';
+import SelectionKey from './src/pages/BottomTab/Simulation/page5';
+import SelectionAdditional from './src/pages/BottomTab/Simulation/page6';
 const stack = createNativeStackNavigator();
 
 const App = () => {
@@ -56,6 +60,31 @@ const App = () => {
           name="Profile"
           component={ProfileScreen}
           options={{headerShown: false, animation: 'none'}}
+        />
+        <stack.Screen
+          name="Page2"
+          component={Plans}
+          options={{headerShown: false}}
+        />
+        <stack.Screen
+          name="Page3"
+          component={BareboneSelection}
+          options={{headerShown: false}}
+        />
+        <stack.Screen
+          name="Page4"
+          component={SelectionSwicth}
+          options={{headerShown: false}}
+        />
+        <stack.Screen
+          name="Page5"
+          component={SelectionKey}
+          options={{headerShown: false}}
+        />
+        <stack.Screen
+          name="Page6"
+          component={SelectionAdditional}
+          options={{headerShown: false}}
         />
       </stack.Navigator>
     </NavigationContainer>
