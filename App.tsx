@@ -10,6 +10,8 @@ import LearnScreen from './src/pages/BottomTab/Learn';
 import SimScreen from './src/pages/BottomTab/Simulation';
 import ProfileScreen from './src/pages/BottomTab/Profile';
 import Start from './src/pages/Start';
+import './src/config/Firebase';
+import FlashMessage from 'react-native-flash-message';
 const stack = createNativeStackNavigator();
 
 const App = () => {
@@ -62,6 +64,7 @@ const App = () => {
           options={{headerShown: false, animation: 'none'}}
         />
       </stack.Navigator>
+      <FlashMessage position="top" />
     </NavigationContainer>
   );
 };
