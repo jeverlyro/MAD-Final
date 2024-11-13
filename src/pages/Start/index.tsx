@@ -27,14 +27,14 @@ const Start = () => {
         text="Sign In"
         color="#5046E5"
         textColor="#fff"
-        onPress={() => navigation.navigate('SignIn')}
+        onPress={() => navigation.replace('SignIn')}
       />
       <Gap height={20} />
       <Button
         text="Create account"
         color="#fff"
         textColor="#000"
-        onPress={() => navigation.navigate('SignUp')}
+        onPress={() => navigation.replace('SignUp')}
       />
       <Gap height={240} />
     </View>
