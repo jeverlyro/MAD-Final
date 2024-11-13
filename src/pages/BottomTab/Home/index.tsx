@@ -4,6 +4,8 @@ import Swiper from 'react-native-swiper';
 import {NavButton} from '../../../molecules';
 import {auth, db} from '../../../config/firebase';
 import {doc, getDoc} from 'firebase/firestore';
+import {BottomNavbar} from '../../../molecules';
+import {Gap} from '../../../atoms';
 
 const Home = () => {
   const [name, setName] = useState('');
@@ -26,72 +28,77 @@ const Home = () => {
     fetchUserName();
   }, []);
   return (
-    <ScrollView style={styles.container} bounces={false}>
-      <View style={styles.welcomeSection}>
-        <View style={styles.textContainer}>
-          <Text style={styles.greetingText}>Hello,</Text>
-          <Text style={styles.userName}>{name}</Text>
-        </View>
-        <Image
-          style={styles.profileImage}
-          source={{uri: 'https://via.placeholder.com/50'}}
-        />
-      </View>
-      <View style={styles.sliderContainer}>
-        <Swiper
-          style={styles.swiper}
-          showsButtons={false}
-          dotColor="#fff"
-          activeDotColor="#5046E5"
-          autoplay={true}
-          autoplayTimeout={5}>
-          <Image
-            style={styles.sliderImage}
-            source={{uri: 'https://via.placeholder.com/300x150'}} // Slide image 1
-          />
-          <Image
-            style={styles.sliderImage}
-            source={{uri: 'https://via.placeholder.com/300x150'}} // Slide image 2
-          />
-          <Image
-            style={styles.sliderImage}
-            source={{uri: 'https://via.placeholder.com/300x150'}} // Slide image 3
-          />
-        </Swiper>
-      </View>
-
-      <NavButton />
-      {/* Popular Section */}
-      <Text style={styles.sectionTitle}>Popular</Text>
-      <View style={styles.popularContainer}>
-        {[1, 2, 3].map((_, index) => (
-          <View key={index} style={styles.popularCard}>
-            <Image
-              style={styles.popularImage}
-              source={{uri: 'https://via.placeholder.com/100x100'}} // Popular item image
-            />
-            <Text style={styles.popularText}>Popular Item {index + 1}</Text>
+    <>
+      <ScrollView style={styles.container} bounces={false}>
+        <View style={styles.welcomeSection}>
+          <View style={styles.textContainer}>
+            <Text style={styles.greetingText}>Hello,</Text>
+            <Text style={styles.userName}>{name}</Text>
           </View>
-        ))}
-      </View>
-      {/* Recommended News Section */}
-      <Text style={styles.sectionTitle}>Recommended news</Text>
-      <View style={styles.recommendedContainer}>
-        <Image
-          style={styles.recommendedImage}
-          source={{uri: 'https://via.placeholder.com/150x80'}} // Recommended news image
-        />
-        <View style={styles.recommendedTextContainer}>
-          <Text style={styles.recommendedTitle}>
-            Best-selling keyboard switches of October, 2024
-          </Text>
-          <Text style={styles.recommendedDescription}>
-            Discover the latest trending keyboard switches and find the best
-            options for your setup.
-          </Text>
+          <Image
+            style={styles.profileImage}
+            source={{uri: 'https://via.placeholder.com/50'}}
+          />
         </View>
-      </View>
-    </ScrollView>
+        <View style={styles.sliderContainer}>
+          <Swiper
+            style={styles.swiper}
+            showsButtons={false}
+            dotColor="#fff"
+            activeDotColor="#5046E5"
+            autoplay={true}
+            autoplayTimeout={5}>
+            <Image
+              style={styles.sliderImage}
+              source={{uri: 'https://via.placeholder.com/300x150'}} // Slide image 1
+            />
+            <Image
+              style={styles.sliderImage}
+              source={{uri: 'https://via.placeholder.com/300x150'}} // Slide image 2
+            />
+            <Image
+              style={styles.sliderImage}
+              source={{uri: 'https://via.placeholder.com/300x150'}} // Slide image 3
+            />
+          </Swiper>
+        </View>
+        <Gap height={15} />
+        <NavButton />
+        <Gap height={30} />
+        {/* Popular Section */}
+        <Text style={styles.sectionTitle}>Popular</Text>
+        <View style={styles.popularContainer}>
+          {[1, 2, 3].map((_, index) => (
+            <View key={index} style={styles.popularCard}>
+              <Image
+                style={styles.popularImage}
+                source={{uri: 'https://via.placeholder.com/100x100'}} // Popular item image
+              />
+              <Text style={styles.popularText}>Popular Item {index + 1}</Text>
+            </View>
+          ))}
+        </View>
+        <Gap height={25} />
+        {/* Recommended News Section */}
+        <Text style={styles.sectionTitle}>Recommended news</Text>
+        <View style={styles.recommendedContainer}>
+          <Image
+            style={styles.recommendedImage}
+            source={{uri: 'https://via.placeholder.com/150x80'}} // Recommended news image
+          />
+          <View style={styles.recommendedTextContainer}>
+            <Text style={styles.recommendedTitle}>
+              Best-selling keyboard switches of October, 2024
+            </Text>
+            <Text style={styles.recommendedDescription}>
+              Discover the latest trending keyboard switches and find the best
+              options for your setup.
+            </Text>
+          </View>
+        </View>
+      </ScrollView>
+      <BottomNavbar />
+    </>
   );
 };
 
@@ -169,7 +176,7 @@ const styles = StyleSheet.create({
     fontFamily: 'Lexend-Medium',
     marginLeft: 24,
     marginVertical: 10,
-    fontSize: 24,
+    fontSize: 20,
   },
   popularContainer: {
     flexDirection: 'row',
@@ -195,7 +202,7 @@ const styles = StyleSheet.create({
     color: '#FFFFFF',
     fontFamily: 'Lexend-Regular',
     textAlign: 'center',
-    fontSize: 13,
+    fontSize: 10,
     marginTop: 5,
   },
   recommendedContainer: {
@@ -220,10 +227,11 @@ const styles = StyleSheet.create({
     color: '#FFFFFF',
     fontFamily: 'Lexend-Medium',
     marginBottom: 25,
+    fontSize: 12,
   },
   recommendedDescription: {
     color: '#CCCCCC',
-    fontSize: 10,
+    fontSize: 9,
     fontFamily: 'Lexend-Regular',
     marginBottom: 5,
   },

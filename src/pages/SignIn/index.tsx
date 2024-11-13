@@ -33,7 +33,7 @@ const SignIn = () => {
       .then(userCredential => {
         const user = userCredential.user;
         setLoading(false);
-        navigation.replace('Home');
+        navigation.navigate('Home');
         showMessage({
           message: 'Login Succesfully',
           type: 'success',
