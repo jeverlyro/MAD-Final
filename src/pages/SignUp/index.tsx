@@ -6,7 +6,8 @@ import {Button} from '../../atoms';
 import {useNavigation} from '@react-navigation/native';
 import {showMessage} from 'react-native-flash-message';
 import {createUserWithEmailAndPassword} from 'firebase/auth';
-import {auth} from '../../config/firebase';
+import {auth, db} from '../../config/firebase';
+import {doc, setDoc} from 'firebase/firestore';
 
 const SignUp = () => {
   const navigation = useNavigation();
@@ -17,17 +18,31 @@ const SignUp = () => {
   const [confirm, confirmPassword] = useState('');
   const fbAuth = auth;
 
-  const createUser = () => {
+  const createUser = async () => {
     try {
-      createUserWithEmailAndPassword(fbAuth, email, password);
+      const userCredential = await createUserWithEmailAndPassword(
+        fbAuth,
+        email,
+        password,
+      );
+      const user = userCredential.user;
+
+      // Add user data to Firestore
+      await setDoc(doc(db, 'users', user.uid), {
+        email: email,
+        name: name,
+        password: password,
+      });
+
       showMessage({
         message: 'Create account succesfully, now you can Log In',
         type: 'success',
       });
       navigation.replace('SignIn');
     } catch (error) {
+      const errorMessage = error.message;
       showMessage({
-        message: 'Error, could not create your account',
+        message: errorMessage,
         type: 'danger',
       });
     }

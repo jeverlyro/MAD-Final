@@ -1,13 +1,34 @@
 import {StyleSheet, Text, View, Image} from 'react-native';
-import React from 'react';
+import React, {useState, useEffect} from 'react';
+import {auth, db} from '../../config/firebase';
+import {doc, getDoc} from 'firebase/firestore';
 
 const Header = () => {
+  const [name, setName] = useState('');
+
+  useEffect(() => {
+    const fetchUserName = async () => {
+      try {
+        const user = auth.currentUser;
+        if (user) {
+          const userDoc = await getDoc(doc(db, 'users', user.uid));
+          if (userDoc.exists()) {
+            setName(userDoc.data().name);
+          }
+        }
+      } catch (error) {
+        console.error('Error fetching user data: ', error);
+      }
+    };
+
+    fetchUserName();
+  }, []);
   return (
     <View>
       <View style={styles.welcomeSection}>
         <View style={styles.textContainer}>
           <Text style={styles.greetingText}>Hello,</Text>
-          <Text style={styles.userName}>I Kadek Tresna Jeverly!</Text>
+          <Text style={styles.userName}>{name}</Text>
         </View>
         <Image
           style={styles.profileImage}
