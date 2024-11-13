@@ -1,7 +1,7 @@
 import React, {useEffect, useRef} from 'react';
 import {StyleSheet, View, Animated} from 'react-native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
-import {Logo} from '../../assets';
+import {Logo} from '../../assets/icons';
 
 type RootStackParamList = {
   Splash: undefined;

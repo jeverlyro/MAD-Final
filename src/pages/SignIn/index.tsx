@@ -33,7 +33,7 @@ const SignIn = () => {
       .then(userCredential => {
         const user = userCredential.user;
         setLoading(false);
-        navigation.replace('Home');
+        navigation.navigate('Home');
         showMessage({
           message: 'Login Succesfully',
           type: 'success',
@@ -160,20 +160,20 @@ const styles = StyleSheet.create({
   },
   header: {
     fontSize: 32,
-    color: '#FFFFFF',
+    color: 'white',
     fontFamily: 'Lexend-SemiBold',
   },
   subHeader: {
     fontSize: 16,
-    color: '#FFFFFF',
-    fontFamily: 'Lexend-Reguler',
+    color: 'white',
+    fontFamily: 'Lexend-Regular',
     marginTop: 8,
   },
   wrapper: {
     margin: 23,
   },
   loginText: {
-    color: '#FFFFFF',
+    color: 'white',
     fontFamily: 'Lexend-Medium',
   },
   touchableLogin: {
