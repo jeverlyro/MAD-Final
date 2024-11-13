@@ -1,12 +1,37 @@
+import React, {useState} from 'react';
 import {StyleSheet, Text, View, TouchableOpacity} from 'react-native';
 import {Input} from '../../molecules';
 import {Gap} from '../../atoms';
 import {Button} from '../../atoms';
-import React from 'react';
 import {useNavigation} from '@react-navigation/native';
+import {showMessage} from 'react-native-flash-message';
+import {createUserWithEmailAndPassword} from 'firebase/auth';
+import {auth} from '../../config/firebase';
 
 const SignUp = () => {
   const navigation = useNavigation();
+
+  const [email, setEmail] = useState('');
+  const [name, setName] = useState('');
+  const [password, setPassword] = useState('');
+  const [confirm, confirmPassword] = useState('');
+  const fbAuth = auth;
+
+  const createUser = () => {
+    try {
+      createUserWithEmailAndPassword(fbAuth, email, password);
+      showMessage({
+        message: 'Create account succesfully, now you can Log In',
+        type: 'success',
+      });
+      navigation.replace('SignIn');
+    } catch (error) {
+      showMessage({
+        message: 'Error, could not create your account',
+        type: 'danger',
+      });
+    }
+  };
 
   return (
     <View style={styles.container}>
@@ -16,28 +41,42 @@ const SignUp = () => {
       </Text>
       <Gap height={40} />
       <View style={styles.wrapper}>
-        <Input label="Email" placeholder="Enter your email" />
+        <Input
+          label="Email"
+          placeholder="Enter your email"
+          value={email}
+          onChangeText={text => setEmail(text)}
+        />
         <Gap height={22} />
-        <Input label="Name" placeholder="Enter your name" />
+        <Input
+          label="Name"
+          placeholder="Enter your name"
+          value={name}
+          onChangeText={text => setName(text)}
+        />
         <Gap height={22} />
         <Input
           label="Password"
           placeholder="Must contain more than 6 characters"
           secureTextEntry={true}
+          value={password}
+          onChangeText={text => setPassword(text)}
         />
         <Gap height={22} />
         <Input
           label="Confirm password"
           placeholder="Confirm your password"
           secureTextEntry={true}
+          value={confirm}
+          onChangeText={text => confirmPassword(text)}
         />
       </View>
       <Gap height={32} />
       <Button
         color="#5046E5"
-        text="Create account"
         textColor="white"
-        onPress={() => navigation.replace('Home')}
+        onPress={createUser}
+        text="Create Account"
       />
       <Gap height={26} />
       <View style={styles.footer}>
@@ -86,5 +125,11 @@ const styles = StyleSheet.create({
   footer: {
     flexDirection: 'row',
     alignSelf: 'center',
+  },
+  errorText: {
+    color: 'red',
+    fontSize: 14,
+    marginTop: 10,
+    textAlign: 'center',
   },
 });
