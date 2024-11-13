@@ -41,7 +41,7 @@ export default function Arrow({percentage, isOnboardingComplete, onPress}) {
 
   useEffect(() => {
     Animated.timing(opacity, {
-      toValue: isOnboardingComplete ? 1 : 0,
+      toValue: isOnboardingComplete ? 1 : 0.5, // Set opacity to 0.5 when not complete
       duration: 300,
       useNativeDriver: true,
     }).start();
@@ -70,7 +70,8 @@ export default function Arrow({percentage, isOnboardingComplete, onPress}) {
           />
         </G>
       </Svg>
-      <Animated.View style={[styles.button, {opacity}]}>
+      <Animated.View
+        style={[styles.button, {opacity: isOnboardingComplete ? 1 : 0.2}]}>
         <TouchableOpacity
           activeOpacity={0.6}
           disabled={!isOnboardingComplete}

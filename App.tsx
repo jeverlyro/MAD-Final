@@ -9,9 +9,10 @@ import Home from './src/pages/BottomTab/Home';
 import LearnScreen from './src/pages/BottomTab/Learn';
 import SimScreen from './src/pages/BottomTab/Simulation';
 import ProfileScreen from './src/pages/BottomTab/Profile';
-import Start from './src/pages/Start';
-import './src/config/Firebase';
 import FlashMessage from 'react-native-flash-message';
+import Start from './src/pages/Start';
+import './src/config/firebase';
+
 const stack = createNativeStackNavigator();
 
 const App = () => {

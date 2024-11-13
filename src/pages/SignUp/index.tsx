@@ -1,35 +1,51 @@
+import React, {useState} from 'react';
 import {StyleSheet, Text, View, TouchableOpacity} from 'react-native';
 import {Input} from '../../molecules';
 import {Gap} from '../../atoms';
 import {Button} from '../../atoms';
-import React, {useState} from 'react';
 import {useNavigation} from '@react-navigation/native';
 import {showMessage} from 'react-native-flash-message';
-import {getAuth, createUserWithEmailAndPassword} from 'firebase/auth';
-import app from '../../config/Firebase';
+import {createUserWithEmailAndPassword} from 'firebase/auth';
+import {auth, db} from '../../config/firebase';
+import {doc, setDoc} from 'firebase/firestore';
 
 const SignUp = () => {
   const navigation = useNavigation();
+
   const [email, setEmail] = useState('');
+  const [name, setName] = useState('');
   const [password, setPassword] = useState('');
+  const [confirm, confirmPassword] = useState('');
+  const fbAuth = auth;
 
-  const createUser = () => {
-    const auth = getAuth(app);
+  const createUser = async () => {
+    try {
+      const userCredential = await createUserWithEmailAndPassword(
+        fbAuth,
+        email,
+        password,
+      );
+      const user = userCredential.user;
 
-    createUserWithEmailAndPassword(auth, email, password)
-      .then(userCredential => {
-        // Signed up
-        const user = userCredential.user;
-        console.log(user);
-        navigation.navigate('SignIn');
-      })
-      .catch(error => {
-        showMessage({
-          message: error.message,
-          type: 'danger',
-        });
-        // ..
+      // Add user data to Firestore
+      await setDoc(doc(db, 'users', user.uid), {
+        email: email,
+        name: name,
+        password: password,
       });
+
+      showMessage({
+        message: 'Create account succesfully, now you can Log In',
+        type: 'success',
+      });
+      navigation.replace('SignIn');
+    } catch (error) {
+      const errorMessage = error.message;
+      showMessage({
+        message: errorMessage,
+        type: 'danger',
+      });
+    }
   };
 
   return (
@@ -43,30 +59,39 @@ const SignUp = () => {
         <Input
           label="Email"
           placeholder="Enter your email"
-          onChangeText={value => setEmail(value)}
+          value={email}
+          onChangeText={text => setEmail(text)}
         />
-        <Gap height={20} />
-        <Input label="Name" placeholder="Enter your name" />
-        <Gap height={20} />
+        <Gap height={22} />
+        <Input
+          label="Name"
+          placeholder="Enter your name"
+          value={name}
+          onChangeText={text => setName(text)}
+        />
+        <Gap height={22} />
         <Input
           label="Password"
           placeholder="Must contain more than 6 characters"
           secureTextEntry={true}
-          onChangeText={value => setPassword(value)}
+          value={password}
+          onChangeText={text => setPassword(text)}
         />
         <Gap height={20} />
         <Input
           label="Confirm password"
           placeholder="Confirm your password"
           secureTextEntry={true}
+          value={confirm}
+          onChangeText={text => confirmPassword(text)}
         />
       </View>
       <Gap height={40} />
       <Button
         color="#5046E5"
-        text="Create account"
-        textColor="#FFFFFF"
+        textColor="white"
         onPress={createUser}
+        text="Create Account"
       />
       <Gap height={26} />
       <View style={styles.footer}>
@@ -115,5 +140,11 @@ const styles = StyleSheet.create({
   footer: {
     flexDirection: 'row',
     alignSelf: 'center',
+  },
+  errorText: {
+    color: 'red',
+    fontSize: 14,
+    marginTop: 10,
+    textAlign: 'center',
   },
 });
