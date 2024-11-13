@@ -2,12 +2,16 @@ import {StyleSheet, Text, View, TouchableOpacity} from 'react-native';
 import {Input} from '../../molecules';
 import {Gap} from '../../atoms';
 import {Button} from '../../atoms';
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {useNavigation} from '@react-navigation/native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {showMessage} from 'react-native-flash-message';
 import {signInWithEmailAndPassword} from 'firebase/auth';
 import {auth} from '../../config/firebase';
+import {
+  GoogleSignin,
+  statusCodes,
+} from '@react-native-google-signin/google-signin';
 
 const SignIn = () => {
   const navigation = useNavigation();
@@ -15,6 +19,13 @@ const SignIn = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    GoogleSignin.configure({
+      webClientId:
+        '532261638908-rknn6j7rjllol1tlc9cgj3ethf2ojdgh.apps.googleusercontent.com', // Replace with your web client ID
+    });
+  }, []);
 
   const handleLogin = () => {
     setLoading(true);
@@ -36,6 +47,43 @@ const SignIn = () => {
           type: 'danger',
         });
       });
+  };
+
+  const handleGoogleLogin = async () => {
+    try {
+      await GoogleSignin.hasPlayServices();
+      const userInfo = await GoogleSignin.signIn();
+      const googleCredential = GoogleAuthProvider.credential(userInfo.idToken);
+      const userCredential = await signInWithCredential(auth, googleCredential);
+      const user = userCredential.user;
+      navigation.replace('Home');
+      showMessage({
+        message: 'Login Successfully',
+        type: 'success',
+      });
+    } catch (error) {
+      if (error.code === statusCodes.SIGN_IN_CANCELLED) {
+        showMessage({
+          message: 'User cancelled the login flow',
+          type: 'danger',
+        });
+      } else if (error.code === statusCodes.IN_PROGRESS) {
+        showMessage({
+          message: 'Sign in is in progress',
+          type: 'danger',
+        });
+      } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
+        showMessage({
+          message: 'Play services not available or outdated',
+          type: 'danger',
+        });
+      } else {
+        showMessage({
+          message: 'Something went wrong',
+          type: 'danger',
+        });
+      }
+    }
   };
 
   return (
@@ -79,7 +127,12 @@ const SignIn = () => {
             <Ionicons name="logo-facebook" size={24} color="#282A37" />
           </TouchableOpacity>
           <TouchableOpacity style={styles.icon}>
-            <Ionicons name="logo-google" size={24} color="#282A37" />
+            <Ionicons
+              name="logo-google"
+              size={24}
+              color="#282A37"
+              onPress={handleGoogleLogin}
+            />
           </TouchableOpacity>
           <TouchableOpacity style={styles.icon}>
             <Ionicons name="logo-twitter" size={24} color="#282A37" />
