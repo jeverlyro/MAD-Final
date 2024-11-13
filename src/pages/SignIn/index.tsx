@@ -161,12 +161,12 @@ const styles = StyleSheet.create({
   header: {
     fontSize: 32,
     color: 'white',
-    fontFamily: 'Inter-SemiBold',
+    fontFamily: 'Lexend-SemiBold',
   },
   subHeader: {
     fontSize: 16,
     color: 'white',
-    fontFamily: 'Inter-Regular',
+    fontFamily: 'Lexend-Regular',
     marginTop: 8,
   },
   wrapper: {
@@ -174,11 +174,11 @@ const styles = StyleSheet.create({
   },
   loginText: {
     color: 'white',
-    fontFamily: 'Inter-Medium',
+    fontFamily: 'Lexend-Medium',
   },
   touchableLogin: {
     color: '#5046E5',
-    fontFamily: 'Inter-Medium',
+    fontFamily: 'Lexend-Medium',
   },
   footer: {
     flexDirection: 'row',

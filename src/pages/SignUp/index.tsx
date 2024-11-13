@@ -86,7 +86,7 @@ const SignUp = () => {
           onChangeText={text => confirmPassword(text)}
         />
       </View>
-      <Gap height={32} />
+      <Gap height={62} />
       <Button
         color="#5046E5"
         textColor="white"
@@ -115,27 +115,28 @@ const styles = StyleSheet.create({
   header: {
     fontSize: 36,
     color: 'white',
-    fontFamily: 'Inter-SemiBold',
+    fontFamily: 'Lexend-SemiBold',
     marginLeft: 23,
   },
   subHeader: {
     fontSize: 16,
     color: 'white',
     marginLeft: 23,
-    fontFamily: 'Inter-Regular',
+    fontFamily: 'Lexend-Regular',
     marginTop: 5,
     width: 350,
+    marginBottom: 30,
   },
   wrapper: {
     marginHorizontal: 22,
   },
   loginText: {
     color: 'white',
-    fontFamily: 'Inter-Medium',
+    fontFamily: 'Lexend-Medium',
   },
   touchableLogin: {
     color: '#5046E5',
-    fontFamily: 'Inter-Medium',
+    fontFamily: 'Lexend-Medium',
   },
   footer: {
     flexDirection: 'row',
