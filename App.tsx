@@ -9,12 +9,9 @@ import Home from './src/pages/BottomTab/Home';
 import LearnScreen from './src/pages/BottomTab/Learn';
 import SimScreen from './src/pages/BottomTab/Simulation/Page1';
 import ProfileScreen from './src/pages/BottomTab/Profile';
+import FlashMessage from 'react-native-flash-message';
 import Start from './src/pages/Start';
-import Plans from './src/pages/BottomTab/Simulation/Page2';
-import BareboneSelection from './src/pages/BottomTab/Simulation/Page3';
-import SelectionSwicth from './src/pages/BottomTab/Simulation/page4';
-import SelectionKey from './src/pages/BottomTab/Simulation/page5';
-import SelectionAdditional from './src/pages/BottomTab/Simulation/page6';
+
 const stack = createNativeStackNavigator();
 
 const App = () => {
@@ -42,9 +39,14 @@ const App = () => {
           options={{headerShown: false}}
         />
         <stack.Screen
+          name="SignUp"
+          component={SignUp}
+          options={{headerShown: false}}
+        />
+        <stack.Screen
           name="Home"
           component={Home}
-          options={{headerShown: false, animation: 'none'}}
+          options={{headerShown: false, animation: 'simple_push'}}
         />
         <stack.Screen
           name="Learn"
@@ -87,6 +89,7 @@ const App = () => {
           options={{headerShown: false}}
         />
       </stack.Navigator>
+      <FlashMessage position="top" />
     </NavigationContainer>
   );
 };

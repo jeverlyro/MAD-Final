@@ -1,6 +1,5 @@
-import Card from './card';
-import TextInput from './input';
-import CardB from './CardB';
-import Tabbar from './Tabbar';
+import Input from './input';
+import NavButton from './navButton';
+import BottomNavbar from './bottomNavbar';
 
-export {Card, CardB, TextInput, Tabbar};
+export {Input, NavButton, BottomNavbar};
