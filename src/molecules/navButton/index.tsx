@@ -2,7 +2,7 @@ import {StyleSheet, Text, View, TouchableOpacity} from 'react-native';
 import React, {useState} from 'react';
 
 const NavButton = () => {
-  const [selectedButton, setSelectedButton] = useState(null);
+  const [selectedButton, setSelectedButton] = useState('Home');
 
   return (
     <View style={styles.navButtonsContainer}>

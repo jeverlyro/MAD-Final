@@ -47,7 +47,7 @@ const App = () => {
         <stack.Screen
           name="Home"
           component={Home}
-          options={{headerShown: false, animation: 'simple_push'}}
+          options={{headerShown: false, animation: 'none'}}
         />
         <stack.Screen
           name="Learn"

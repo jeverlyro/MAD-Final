@@ -12,7 +12,7 @@ import {
 } from '../../assets/icons';
 
 const BottomNavbar = () => {
-  const [selected, setSelected] = useState<string | null>(null);
+  const [selected, setSelected] = useState<string | null>('home');
 
   const handlePress = (iconName: string) => {
     setSelected(iconName);
