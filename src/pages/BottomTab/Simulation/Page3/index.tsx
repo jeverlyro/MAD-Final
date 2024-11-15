@@ -10,7 +10,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import {useNavigation} from '@react-navigation/native';
 import {akko, kaychron, gamakay} from '../../../../assets/images';
 import CardB from '../../../../molecules/CardB';
-import {Tabbar} from '../../../../molecules';
+import {BottomNavbar} from '../../../../molecules';
 
 const BareboneSelection = () => {
   const navigation = useNavigation();
@@ -30,7 +30,7 @@ const BareboneSelection = () => {
           <CardB title="GamaKay CK68 Barebone Kit" imageSource={gamakay} />
         </TouchableOpacity>
       </ScrollView>
-      <Tabbar />
+      <BottomNavbar />
     </View>
   );
 };

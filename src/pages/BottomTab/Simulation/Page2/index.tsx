@@ -6,10 +6,9 @@ import {
   TouchableOpacity,
   ScrollView,
 } from 'react-native';
-import Ionicons from 'react-native-vector-icons/Ionicons';
 import {useNavigation} from '@react-navigation/native';
 import Card from '../../../../molecules/card';
-import {Tabbar} from '../../../../molecules';
+import {BottomNavbar} from '../../../../molecules';
 
 const Plans: React.FC = () => {
   const navigation = useNavigation();
@@ -36,7 +35,7 @@ const Plans: React.FC = () => {
           <Text style={styles.saveButtonText}>Save plan</Text>
         </TouchableOpacity>
       </ScrollView>
-      <Tabbar />
+      <BottomNavbar />
     </View>
   );
 };

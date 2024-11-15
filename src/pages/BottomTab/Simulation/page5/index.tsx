@@ -10,6 +10,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import {useNavigation} from '@react-navigation/native';
 import {akkokey, akkomakey, gmkkey} from '../../../../assets/images';
 import CardB from '../../../../molecules/CardB';
+import {BottomNavbar} from '../../../../molecules';
 
 const SelectionKey = () => {
   const navigation = useNavigation();
@@ -44,24 +45,7 @@ Keycaps Set"
       </ScrollView>
 
       <View style={styles.tabBar}>
-        <TouchableOpacity
-          style={styles.tabItem}
-          onPress={() => navigation.replace('Home')}>
-          <Ionicons name="home-outline" size={28} color="white" />
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.tabItem}
-          onPress={() => navigation.replace('Learn')}>
-          <Ionicons name="book-outline" size={28} color="white" />
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.tabItem}>
-          <Ionicons name="settings" size={28} color="#5046E5" />
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.tabItem}
-          onPress={() => navigation.replace('Profile')}>
-          <Ionicons name="person-outline" size={28} color="white" />
-        </TouchableOpacity>
+        <BottomNavbar />
       </View>
     </View>
   );

@@ -6,26 +6,21 @@ import {
   ScrollView,
   TouchableOpacity,
 } from 'react-native';
-import Ionicons from 'react-native-vector-icons/Ionicons';
 import {useNavigation} from '@react-navigation/native';
 import {akkoswc, geteswc, hmxswc} from '../../../../assets/images';
 import CardB from '../../../../molecules/CardB';
+import {BottomNavbar} from '../../../../molecules';
 
-const SelectionSwicth = () => {
+const SelectionSwitch = () => {
   const navigation = useNavigation();
 
   return (
     <View style={styles.container}>
       <Text style={styles.headerTitle}>Select Your Switches</Text>
       <View style={styles.divider} />
-
       <ScrollView contentContainerStyle={styles.scrollContainer}>
         <TouchableOpacity>
-          <CardB
-            title="Akko Creamy Yellow
-V3 Pro"
-            imageSource={akkoswc}
-          />
+          <CardB title="Akko Creamy Yellow V3 Pro" imageSource={akkoswc} />
         </TouchableOpacity>
         <TouchableOpacity>
           <CardB title="Gateron Oil King" imageSource={geteswc} />
@@ -34,26 +29,8 @@ V3 Pro"
           <CardB title="HMX Xinhai" imageSource={hmxswc} />
         </TouchableOpacity>
       </ScrollView>
-
       <View style={styles.tabBar}>
-        <TouchableOpacity
-          style={styles.tabItem}
-          onPress={() => navigation.replace('Home')}>
-          <Ionicons name="home-outline" size={28} color="white" />
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.tabItem}
-          onPress={() => navigation.replace('Learn')}>
-          <Ionicons name="book-outline" size={28} color="white" />
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.tabItem}>
-          <Ionicons name="settings" size={28} color="#5046E5" />
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.tabItem}
-          onPress={() => navigation.replace('Profile')}>
-          <Ionicons name="person-outline" size={28} color="white" />
-        </TouchableOpacity>
+        <BottomNavbar />
       </View>
     </View>
   );
@@ -63,7 +40,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#121927',
-    paddingTop: 20,
   },
   headerTitle: {
     fontSize: 26,
@@ -71,18 +47,19 @@ const styles = StyleSheet.create({
     color: 'white',
     fontWeight: 'bold',
     textAlign: 'center',
-    marginBottom: 10,
+    marginTop: 20,
   },
   divider: {
     width: '90%',
     height: 1,
     backgroundColor: '#5046E5',
     opacity: 0.5,
-    marginBottom: 10,
+    marginVertical: 10,
     alignSelf: 'center',
   },
   scrollContainer: {
     paddingHorizontal: 20,
+    paddingBottom: 80,
   },
   tabBar: {
     position: 'absolute',
@@ -94,16 +71,6 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around',
     alignItems: 'center',
   },
-  tabItem: {
-    alignItems: 'center',
-    flex: 1,
-  },
-  tabText: {
-    fontFamily: 'Inter-Regular',
-    color: 'white',
-    fontSize: 10,
-    marginTop: 4,
-  },
 });
 
-export default SelectionSwicth;
+export default SelectionSwitch;
