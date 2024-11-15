@@ -33,17 +33,6 @@ const TextInput: React.FC<InputProps> = ({
         onFocus={() => setIsFocused(true)}
         onBlur={() => setIsFocused(false)}
       />
-      {secureTextEntry && (
-        <TouchableOpacity
-          onPress={togglePasswordVisibility}
-          style={styles.iconContainer}>
-          <Ionicons
-            name={isPasswordVisible ? 'eye-off-outline' : 'eye-outline'}
-            size={20}
-            color="white"
-          />
-        </TouchableOpacity>
-      )}
     </View>
   );
 };
