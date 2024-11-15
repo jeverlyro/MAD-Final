@@ -42,7 +42,7 @@ const ProfileScreen: React.FC = () => {
         <Image source={{uri: profileImage}} style={styles.profileImage} />
       </TouchableOpacity>
 
-      <Text style={styles.usernameText}>Vixxxzy</Text>
+      <Text style={styles.usernameText}>Vichers</Text>
 
       <TouchableOpacity
         style={styles.button}
