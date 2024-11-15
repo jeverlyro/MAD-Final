@@ -1,5 +1,5 @@
 import Input from './input';
-import Header from './homeHeader';
 import NavButton from './navButton';
+import BottomNavbar from './bottomNavbar';
 
-export {Input, Header, NavButton};
+export {Input, NavButton, BottomNavbar};

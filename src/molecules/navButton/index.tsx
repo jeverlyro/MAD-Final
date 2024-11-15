@@ -1,11 +1,19 @@
 import {StyleSheet, Text, View, TouchableOpacity} from 'react-native';
-import React from 'react';
+import React, {useState} from 'react';
 
 const NavButton = () => {
+  const [selectedButton, setSelectedButton] = useState('Home');
+
   return (
     <View style={styles.navButtonsContainer}>
       {['Home', 'News', 'Reviews', 'Recommended'].map(label => (
-        <TouchableOpacity key={label} style={styles.navButton}>
+        <TouchableOpacity
+          key={label}
+          style={[
+            styles.navButton,
+            selectedButton === label && styles.navButtonSelected,
+          ]}
+          onPress={() => setSelectedButton(label)}>
           <Text style={styles.navButtonText}>{label}</Text>
         </TouchableOpacity>
       ))}
@@ -31,6 +39,9 @@ const styles = StyleSheet.create({
     width: 80,
     height: 35,
     justifyContent: 'center',
+  },
+  navButtonSelected: {
+    backgroundColor: 'rgba(80, 70, 229, 0.3)',
   },
   navButtonText: {
     color: '#FFFFFF',

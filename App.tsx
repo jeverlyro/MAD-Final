@@ -9,11 +9,13 @@ import Home from './src/pages/BottomTab/Home';
 import LearnScreen from './src/pages/BottomTab/Learn';
 import SimScreen from './src/pages/BottomTab/Simulation';
 import ProfileScreen from './src/pages/BottomTab/Profile';
+import FlashMessage from 'react-native-flash-message';
 import Start from './src/pages/Start';
 import EditInfoScreen from './src/pages/Edit';
 import ChangePasswordScreen from './src/pages/ChangePassword';
 import AboutScreen from './src/pages/About';
 import AppareanceScreen from './src/pages/Appearance';
+import './src/config/firebase';
 
 const stack = createNativeStackNavigator();
 
@@ -87,6 +89,7 @@ const App = () => {
           options={{headerShown: false, animation: 'none'}}
         />
       </stack.Navigator>
+      <FlashMessage position="top" />
     </NavigationContainer>
   );
 };
