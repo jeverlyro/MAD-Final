@@ -1,26 +1,14 @@
 import React, {useState, useEffect} from 'react';
 import {StyleSheet, Text, View, Image, ScrollView} from 'react-native';
 import Swiper from 'react-native-swiper';
-import {NavButton} from '../../../molecules';
-import {auth, db} from '../../../config/firebase';
+import {NavButton} from '../../../../molecules';
+import {auth, db} from '../../../../config/firebase';
 import {doc, getDoc} from 'firebase/firestore';
-import {BottomNavbar} from '../../../molecules';
-import {Gap} from '../../../atoms';
-import {
-  Air75,
-  Banner,
-  BestSelling,
-  HallEffect,
-  RazerSnap,
-} from '../../../assets/images/Home/home';
+import {BottomNavbar} from '../../../../molecules';
+import {Gap} from '../../../../atoms';
 
-const Home = () => {
+const News = () => {
   const [name, setName] = useState('');
-  const popularImages = [
-    {image: RazerSnap, title: 'Razer Snap'},
-    {image: HallEffect, title: 'Hall Effect Switches'},
-    {image: Air75, title: 'NuPhy Air75'},
-  ];
 
   useEffect(() => {
     const fetchUserName = async () => {
@@ -44,7 +32,7 @@ const Home = () => {
       <ScrollView style={styles.container} bounces={false}>
         <View style={styles.welcomeSection}>
           <View style={styles.textContainer}>
-            <Text style={styles.greetingText}>Hello,</Text>
+            <Text style={styles.greetingText}>News,</Text>
             <Text style={styles.userName}>{name}</Text>
           </View>
           <Image
@@ -62,15 +50,15 @@ const Home = () => {
             autoplayTimeout={5}>
             <Image
               style={styles.sliderImage}
-              source={Banner} // Slide image 1
+              source={{uri: 'https://via.placeholder.com/300x150'}} // Slide image 1
             />
             <Image
               style={styles.sliderImage}
-              source={Banner} // Slide image 2
+              source={{uri: 'https://via.placeholder.com/300x150'}} // Slide image 2
             />
             <Image
               style={styles.sliderImage}
-              source={Banner} // Slide image 3
+              source={{uri: 'https://via.placeholder.com/300x150'}} // Slide image 3
             />
           </Swiper>
         </View>
@@ -80,11 +68,11 @@ const Home = () => {
         {/* Popular Section */}
         <Text style={styles.sectionTitle}>Popular</Text>
         <View style={styles.popularContainer}>
-          {popularImages.map((item, index) => (
+          {[1, 2, 3].map((_, index) => (
             <View key={index} style={styles.popularCard}>
               <Image
                 style={styles.popularImage}
-                source={item.image} // Popular item image
+                source={{uri: 'https://via.placeholder.com/100x100'}} // Popular item image
               />
               <Text style={styles.popularText}>Popular Item {index + 1}</Text>
             </View>
@@ -96,7 +84,7 @@ const Home = () => {
         <View style={styles.recommendedContainer}>
           <Image
             style={styles.recommendedImage}
-            source={BestSelling} // Recommended news image
+            source={{uri: 'https://via.placeholder.com/150x80'}} // Recommended news image
           />
           <View style={styles.recommendedTextContainer}>
             <Text style={styles.recommendedTitle}>
@@ -114,7 +102,7 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default News;
 
 const styles = StyleSheet.create({
   container: {
