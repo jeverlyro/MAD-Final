@@ -11,6 +11,16 @@ import SimScreen from './src/pages/BottomTab/Simulation/Page1';
 import ProfileScreen from './src/pages/BottomTab/Profile';
 import FlashMessage from 'react-native-flash-message';
 import Start from './src/pages/Start';
+import EditInfoScreen from './src/pages/Edit';
+import ChangePasswordScreen from './src/pages/ChangePassword';
+import AboutScreen from './src/pages/About';
+import News from './src/pages/BottomTab/Home/News';
+import Reviews from './src/pages/BottomTab/Home/Reviews';
+import Recommended from './src/pages/BottomTab/Home/Recommended';
+import AppareanceScreen from './src/pages/Appearance';
+import Plans from './src/pages/BottomTab/Simulation/Page2';
+import './src/config/firebase';
+
 const stack = createNativeStackNavigator();
 
 const App = () => {
@@ -48,6 +58,21 @@ const App = () => {
           options={{headerShown: false, animation: 'none'}}
         />
         <stack.Screen
+          name="News"
+          component={News}
+          options={{headerShown: false, animation: 'none'}}
+        />
+        <stack.Screen
+          name="Reviews"
+          component={Reviews}
+          options={{headerShown: false, animation: 'none'}}
+        />
+        <stack.Screen
+          name="Recommended"
+          component={Recommended}
+          options={{headerShown: false, animation: 'none'}}
+        />
+        <stack.Screen
           name="Learn"
           component={LearnScreen}
           options={{headerShown: false, animation: 'none'}}
@@ -60,6 +85,31 @@ const App = () => {
         <stack.Screen
           name="Profile"
           component={ProfileScreen}
+          options={{headerShown: false, animation: 'none'}}
+        />
+        <stack.Screen
+          name="Edit"
+          component={EditInfoScreen}
+          options={{headerShown: false, animation: 'none'}}
+        />
+        <stack.Screen
+          name="ChangePassword"
+          component={ChangePasswordScreen}
+          options={{headerShown: false, animation: 'none'}}
+        />
+        <stack.Screen
+          name="About"
+          component={AboutScreen}
+          options={{headerShown: false, animation: 'none'}}
+        />
+        <stack.Screen
+          name="Appareance"
+          component={AppareanceScreen}
+          options={{headerShown: false, animation: 'none'}}
+        />
+        <stack.Screen
+          name="Plans"
+          component={Plans}
           options={{headerShown: false, animation: 'none'}}
         />
       </stack.Navigator>

@@ -13,20 +13,16 @@ const SimScreen: React.FC = () => {
         <View style={styles.header}>
           <Text style={styles.headerTitle}>Mod Plan</Text>
         </View>
-
         <View style={styles.divider} />
-
         <Text style={styles.noPlansText}>You do not have any plans yet.</Text>
-
         <TouchableOpacity
           style={styles.addButton}
-          onPress={() => navigation.navigate('Page2')}
+          onPress={() => navigation.navigate('Plans')}
           accessibilityLabel="Add new plan">
           <Ionicons name="add" size={28} color="white" />
         </TouchableOpacity>
       </View>
-
-      <BottomNavbar style={styles.bottomNavbar} />
+      <BottomNavbar />
     </View>
   );
 };
@@ -39,7 +35,6 @@ const styles = StyleSheet.create({
   content: {
     flex: 1,
     paddingHorizontal: 20,
-    paddingTop: 20,
   },
   header: {
     flexDirection: 'row',
@@ -50,46 +45,32 @@ const styles = StyleSheet.create({
   },
   headerTitle: {
     fontSize: 26,
-    fontFamily: 'DM-Sans, sans-serif',
+    fontFamily: 'Lexend-Bold',
     color: 'white',
-    fontWeight: 'bold',
   },
   divider: {
     width: '100%',
     height: 1,
-    backgroundColor: '#5046E5',
+    backgroundColor: '#222C41',
     opacity: 0.5,
     marginVertical: 5,
   },
   noPlansText: {
     color: 'white',
-    fontSize: 14,
-    fontFamily: 'DM-Sans, sans-serif',
+    fontSize: 12,
+    fontFamily: 'Lexend-Regular',
     marginTop: 15,
   },
   addButton: {
     position: 'absolute',
-    bottom: 100,
-    right: 20,
+    bottom: 50,
+    right: 40,
     backgroundColor: '#5046E5',
     width: 60,
     height: 60,
     borderRadius: 30,
     justifyContent: 'center',
     alignItems: 'center',
-    shadowColor: '#5046E5',
-    shadowRadius: 15,
-    elevation: 15,
-  },
-  bottomNavbar: {
-    position: 'absolute',
-    bottom: 0,
-    left: 0,
-    right: 0,
-    height: 60,
-    backgroundColor: '#121927',
-    borderTopWidth: 1,
-    borderTopColor: '#5046E5',
   },
 });
 

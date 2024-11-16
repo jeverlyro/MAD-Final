@@ -1,26 +1,22 @@
 import React, {useState, useEffect} from 'react';
 import {StyleSheet, Text, View, Image, ScrollView} from 'react-native';
 import Swiper from 'react-native-swiper';
-import {NavButton} from '../../../molecules';
-import {auth, db} from '../../../config/firebase';
+import {NavButton} from '../../../../molecules';
+import {auth, db} from '../../../../config/firebase';
 import {doc, getDoc} from 'firebase/firestore';
-import {BottomNavbar} from '../../../molecules';
-import {Gap} from '../../../atoms';
+import {BottomNavbar} from '../../../../molecules';
+import {Gap} from '../../../../atoms';
 import {
-  Air75,
   Banner,
   BestSelling,
-  HallEffect,
-  RazerSnap,
-} from '../../../assets/images/Home';
+  MostBrands,
+  RetroKeyboard,
+  TheLuminkey,
+  TypingStorm,
+} from '../../../../assets/images/Home';
 
-const Home = () => {
+const News = () => {
   const [name, setName] = useState('');
-  const popularImages = [
-    {image: RazerSnap, title: 'RAZER SNAP TAP: What is it?'},
-    {image: HallEffect, title: 'Hall Effect Switches: What are they?'},
-    {image: Air75, title: 'NuPhy Air75: The best 75% keyboard?'},
-  ];
 
   useEffect(() => {
     const fetchUserName = async () => {
@@ -67,18 +63,21 @@ const Home = () => {
         </View>
         <Gap height={15} />
         <NavButton />
-        <Gap height={30} />
-        {/* Popular Section */}
-        <Text style={styles.sectionTitle}>Popular</Text>
-        <View style={styles.popularContainer}>
-          {popularImages.map((item, index) => (
-            <View key={index} style={styles.popularCard}>
-              <Image style={styles.popularImage} source={item.image} />
-              <Text style={styles.popularText}>{item.title}</Text>
-            </View>
-          ))}
+
+        {/* Recommended News Section */}
+        <View style={styles.recommendedContainer}>
+          <Image style={styles.recommendedImage} source={RetroKeyboard} />
+          <View style={styles.recommendedTextContainer}>
+            <Text style={styles.recommendedTitleLong}>
+              8BitDo now sells its retro mechanical keyboards with integrated
+              number pads
+            </Text>
+            <Text style={styles.recommendedDescriptionLong}>
+              8BitDo has introduced a new version of the Retro Mechanical
+              Keyboard it debuted last July with its original tenkey ...
+            </Text>
+          </View>
         </View>
-        <Text style={styles.sectionTitle}>Recommended news</Text>
         <View style={styles.recommendedContainer}>
           <Image style={styles.recommendedImage} source={BestSelling} />
           <View style={styles.recommendedTextContainer}>
@@ -86,8 +85,45 @@ const Home = () => {
               Best-selling keyboard switches of October, 2024
             </Text>
             <Text style={styles.recommendedDescription}>
-              Discover the latest trending keyboard switches and find the best
-              options for your setup.
+              In the 11 top lists from 11 vendors, 94 different switch models
+              are mentioned, with 34 of them being listed for the first time.
+            </Text>
+          </View>
+        </View>
+        <View style={styles.recommendedContainer}>
+          <Image style={styles.recommendedImage} source={MostBrands} />
+          <View style={styles.recommendedTextContainer}>
+            <Text style={styles.recommendedTitle}>
+              5 OF THE MOST RELIABLE MECHANICAL KEYBOARD BRANDS
+            </Text>
+            <Text style={styles.recommendedDescriptionLong}>
+              The best mechanical keyboard brands deliver enthusiast features
+              paired with quality builds and affordable prices.
+            </Text>
+          </View>
+        </View>
+        <View style={styles.recommendedContainer}>
+          <Image style={styles.recommendedImage} source={TypingStorm} />
+          <View style={styles.recommendedTextContainer}>
+            <Text style={styles.recommendedTitleLong}>
+              Typing up a storm: Malaysians are clicking ...
+            </Text>
+            <Text style={styles.recommendedDescriptionLong}>
+              For the hardcore enthusiasts who gathered during the 2024 edition
+              of the Malaysia Mechanical Keyboard (MYMK) ...
+            </Text>
+          </View>
+        </View>
+        <View style={styles.recommendedContainer}>
+          <Image style={styles.recommendedImage} source={TheLuminkey} />
+          <View style={styles.recommendedTextContainer}>
+            <Text style={styles.recommendedTitle}>
+              The Luminkey Magger 68 HE is a Fantastic Keyboard Made by
+              Enthusiasts
+            </Text>
+            <Text style={styles.recommendedDescriptionLong}>
+              Gaming keyboards in 2024 will be remembered as the year Hall
+              Effect switches exploded into the mainstream.
             </Text>
           </View>
         </View>
@@ -97,7 +133,7 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default News;
 
 const styles = StyleSheet.create({
   container: {
@@ -171,12 +207,11 @@ const styles = StyleSheet.create({
     fontFamily: 'Lexend-Medium',
     marginLeft: 24,
     marginVertical: 10,
-    fontSize: 20,
   },
   popularContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginBottom: 15,
+    marginBottom: 20,
     padding: 16,
   },
   popularCard: {
@@ -226,7 +261,22 @@ const styles = StyleSheet.create({
   },
   recommendedDescription: {
     color: '#CCCCCC',
+    fontSize: 10,
+    width: 210,
+    fontFamily: 'Lexend-Regular',
+    marginBottom: 5,
+  },
+  recommendedTitleLong: {
+    color: '#FFFFFF',
+    fontFamily: 'Lexend-Medium',
+    width: 220,
+    marginBottom: 25,
+    fontSize: 11,
+  },
+  recommendedDescriptionLong: {
+    color: '#CCCCCC',
     fontSize: 9,
+    width: 210,
     fontFamily: 'Lexend-Regular',
     marginBottom: 5,
   },

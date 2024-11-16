@@ -1,26 +1,14 @@
 import React, {useState, useEffect} from 'react';
 import {StyleSheet, Text, View, Image, ScrollView} from 'react-native';
 import Swiper from 'react-native-swiper';
-import {NavButton} from '../../../molecules';
-import {auth, db} from '../../../config/firebase';
+import {NavButton} from '../../../../molecules';
+import {auth, db} from '../../../../config/firebase';
 import {doc, getDoc} from 'firebase/firestore';
-import {BottomNavbar} from '../../../molecules';
-import {Gap} from '../../../atoms';
-import {
-  Air75,
-  Banner,
-  BestSelling,
-  HallEffect,
-  RazerSnap,
-} from '../../../assets/images/Home';
+import {BottomNavbar} from '../../../../molecules';
+import {Gap} from '../../../../atoms';
 
-const Home = () => {
+const Reviews = () => {
   const [name, setName] = useState('');
-  const popularImages = [
-    {image: RazerSnap, title: 'RAZER SNAP TAP: What is it?'},
-    {image: HallEffect, title: 'Hall Effect Switches: What are they?'},
-    {image: Air75, title: 'NuPhy Air75: The best 75% keyboard?'},
-  ];
 
   useEffect(() => {
     const fetchUserName = async () => {
@@ -44,7 +32,7 @@ const Home = () => {
       <ScrollView style={styles.container} bounces={false}>
         <View style={styles.welcomeSection}>
           <View style={styles.textContainer}>
-            <Text style={styles.greetingText}>Hello,</Text>
+            <Text style={styles.greetingText}>Reviews,</Text>
             <Text style={styles.userName}>{name}</Text>
           </View>
           <Image
@@ -60,9 +48,18 @@ const Home = () => {
             activeDotColor="#5046E5"
             autoplay={true}
             autoplayTimeout={5}>
-            <Image style={styles.sliderImage} source={Banner} />
-            <Image style={styles.sliderImage} source={Banner} />
-            <Image style={styles.sliderImage} source={Banner} />
+            <Image
+              style={styles.sliderImage}
+              source={{uri: 'https://via.placeholder.com/300x150'}} // Slide image 1
+            />
+            <Image
+              style={styles.sliderImage}
+              source={{uri: 'https://via.placeholder.com/300x150'}} // Slide image 2
+            />
+            <Image
+              style={styles.sliderImage}
+              source={{uri: 'https://via.placeholder.com/300x150'}} // Slide image 3
+            />
           </Swiper>
         </View>
         <Gap height={15} />
@@ -71,16 +68,24 @@ const Home = () => {
         {/* Popular Section */}
         <Text style={styles.sectionTitle}>Popular</Text>
         <View style={styles.popularContainer}>
-          {popularImages.map((item, index) => (
+          {[1, 2, 3].map((_, index) => (
             <View key={index} style={styles.popularCard}>
-              <Image style={styles.popularImage} source={item.image} />
-              <Text style={styles.popularText}>{item.title}</Text>
+              <Image
+                style={styles.popularImage}
+                source={{uri: 'https://via.placeholder.com/100x100'}} // Popular item image
+              />
+              <Text style={styles.popularText}>Popular Item {index + 1}</Text>
             </View>
           ))}
         </View>
+        <Gap height={25} />
+        {/* Recommended News Section */}
         <Text style={styles.sectionTitle}>Recommended news</Text>
         <View style={styles.recommendedContainer}>
-          <Image style={styles.recommendedImage} source={BestSelling} />
+          <Image
+            style={styles.recommendedImage}
+            source={{uri: 'https://via.placeholder.com/150x80'}} // Recommended news image
+          />
           <View style={styles.recommendedTextContainer}>
             <Text style={styles.recommendedTitle}>
               Best-selling keyboard switches of October, 2024
@@ -97,7 +102,7 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default Reviews;
 
 const styles = StyleSheet.create({
   container: {
@@ -176,7 +181,7 @@ const styles = StyleSheet.create({
   popularContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginBottom: 15,
+    marginBottom: 20,
     padding: 16,
   },
   popularCard: {

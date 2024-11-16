@@ -27,12 +27,6 @@ const Start = () => {
         textColor="#fff"
         onPress={() => navigation.navigate('SignIn')}
       />
-      <Button
-        text="Sign In"
-        color="#5046E5"
-        textColor="#fff"
-        onPress={() => navigation.navigate('Simulation')}
-      />
       <Gap height={20} />
       <Button
         text="Create account"

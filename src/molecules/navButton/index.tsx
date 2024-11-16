@@ -1,8 +1,14 @@
 import {StyleSheet, Text, View, TouchableOpacity} from 'react-native';
-import React, {useState} from 'react';
+import React from 'react';
+import {useNavigation, useRoute} from '@react-navigation/native';
 
 const NavButton = () => {
-  const [selectedButton, setSelectedButton] = useState('Home');
+  const navigation = useNavigation();
+  const route = useRoute(); // Mendapatkan informasi tentang route saat ini
+
+  const handlePress = (label: string) => {
+    navigation.navigate(label);
+  };
 
   return (
     <View style={styles.navButtonsContainer}>
@@ -11,9 +17,9 @@ const NavButton = () => {
           key={label}
           style={[
             styles.navButton,
-            selectedButton === label && styles.navButtonSelected,
+            route.name === label && styles.navButtonSelected, // Tandai tombol aktif
           ]}
-          onPress={() => setSelectedButton(label)}>
+          onPress={() => handlePress(label)}>
           <Text style={styles.navButtonText}>{label}</Text>
         </TouchableOpacity>
       ))}
@@ -39,9 +45,10 @@ const styles = StyleSheet.create({
     width: 80,
     height: 35,
     justifyContent: 'center',
+    alignItems: 'center',
   },
   navButtonSelected: {
-    backgroundColor: 'rgba(80, 70, 229, 0.3)',
+    backgroundColor: 'rgba(80, 70, 229, 0.3)', // Indikator tombol aktif
   },
   navButtonText: {
     color: '#FFFFFF',
