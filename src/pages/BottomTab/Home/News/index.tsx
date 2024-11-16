@@ -56,30 +56,17 @@ const News = () => {
             activeDotColor="#5046E5"
             autoplay={true}
             autoplayTimeout={5}>
-            <Image
-              style={styles.sliderImage}
-              source={Banner} // Slide image 1
-            />
-            <Image
-              style={styles.sliderImage}
-              source={Banner} // Slide image 2
-            />
-            <Image
-              style={styles.sliderImage}
-              source={Banner} // Slide image 3
-            />
+            <Image style={styles.sliderImage} source={Banner} />
+            <Image style={styles.sliderImage} source={Banner} />
+            <Image style={styles.sliderImage} source={Banner} />
           </Swiper>
         </View>
         <Gap height={15} />
         <NavButton />
-        <Gap height={30} />
 
         {/* Recommended News Section */}
         <View style={styles.recommendedContainer}>
-          <Image
-            style={styles.recommendedImage}
-            source={RetroKeyboard} // Recommended news image
-          />
+          <Image style={styles.recommendedImage} source={RetroKeyboard} />
           <View style={styles.recommendedTextContainer}>
             <Text style={styles.recommendedTitleLong}>
               8BitDo now sells its retro mechanical keyboards with integrated
@@ -87,79 +74,48 @@ const News = () => {
             </Text>
             <Text style={styles.recommendedDescriptionLong}>
               8BitDo has introduced a new version of the Retro Mechanical
-              Keyboard it debuted last July with its original tenkeyless layout
-              now expanded to include an integrated number pad. The new 8BitDo
-              Retro 108 Mechanical Keyboard is available for preorder now
-              through Amazon for $119.99 — $20 more expensive than the original
-              — with the same NES or Famicom theming. Availability is expected
-              to start on December 12th, 2024.
+              Keyboard it debuted last July with its original tenkey ...
             </Text>
           </View>
         </View>
         <View style={styles.recommendedContainer}>
-          <Image
-            style={styles.recommendedImage}
-            source={BestSelling} // Recommended news image
-          />
+          <Image style={styles.recommendedImage} source={BestSelling} />
           <View style={styles.recommendedTextContainer}>
             <Text style={styles.recommendedTitle}>
               Best-selling keyboard switches of October, 2024
             </Text>
             <Text style={styles.recommendedDescription}>
               In the 11 top lists from 11 vendors, 94 different switch models
-              are mentioned, with 34 of them being listed for the first time
-              (added to the database as new entries). Sales data, coming from
-              about half of the shops, is about approximately half a million
-              switches sold.
+              are mentioned, with 34 of them being listed for the first time.
             </Text>
           </View>
         </View>
         <View style={styles.recommendedContainer}>
-          <Image
-            style={styles.recommendedImage}
-            source={MostBrands} // Recommended news image
-          />
+          <Image style={styles.recommendedImage} source={MostBrands} />
           <View style={styles.recommendedTextContainer}>
             <Text style={styles.recommendedTitle}>
               5 OF THE MOST RELIABLE MECHANICAL KEYBOARD BRANDS
             </Text>
             <Text style={styles.recommendedDescriptionLong}>
               The best mechanical keyboard brands deliver enthusiast features
-              paired with quality builds and affordable prices. We're talking
-              stuff like metal construction, gasket-mounted PCB plates, acoustic
-              case foam, and bespoke, pre-lubricated switches. Those features
-              used to extract a high premium for the privilege, but as the
-              mechanical keyboard market has continued to grow, competition has
-              forced those prices down.
+              paired with quality builds and affordable prices.
             </Text>
           </View>
         </View>
         <View style={styles.recommendedContainer}>
-          <Image
-            style={styles.recommendedImage}
-            source={TypingStorm} // Recommended news image
-          />
+          <Image style={styles.recommendedImage} source={TypingStorm} />
           <View style={styles.recommendedTextContainer}>
             <Text style={styles.recommendedTitleLong}>
-              Typing up a storm: Malaysians are clicking on to custom mechanical
-              keyboards
+              Typing up a storm: Malaysians are clicking ...
             </Text>
             <Text style={styles.recommendedDescriptionLong}>
               For the hardcore enthusiasts who gathered during the 2024 edition
-              of the Malaysia Mechanical Keyboard (MYMK) meetup on Oct 28 in
-              Kuala Lumpur, this could range from the low hundreds to the tens
-              of thousands. Community member and co-organiser of the meetup,
-              Joshua Zen (also known as ZenTheGeek online), shared that he has
-              collected a total of 12 keyboards, each averaging between RM1,000
-              to RM1,500 depending on the configuration.
+              of the Malaysia Mechanical Keyboard (MYMK) ...
             </Text>
           </View>
         </View>
         <View style={styles.recommendedContainer}>
-          <Image
-            style={styles.recommendedImage}
-            source={TheLuminkey} // Recommended news image
-          />
+          <Image style={styles.recommendedImage} source={TheLuminkey} />
           <View style={styles.recommendedTextContainer}>
             <Text style={styles.recommendedTitle}>
               The Luminkey Magger 68 HE is a Fantastic Keyboard Made by
@@ -167,11 +123,7 @@ const News = () => {
             </Text>
             <Text style={styles.recommendedDescriptionLong}>
               Gaming keyboards in 2024 will be remembered as the year Hall
-              Effect switches exploded into the mainstream. What began with
-              Wooting has now spread far and wide, into both the budget and
-              enthusiast spaces. The Luminkey Magger 68 HE sits in both
-              categories, coming in at $149 for the "Professional" model and
-              $119 for the standard "Performance" version.
+              Effect switches exploded into the mainstream.
             </Text>
           </View>
         </View>
@@ -255,7 +207,6 @@ const styles = StyleSheet.create({
     fontFamily: 'Lexend-Medium',
     marginLeft: 24,
     marginVertical: 10,
-    fontSize: 20,
   },
   popularContainer: {
     flexDirection: 'row',
@@ -306,11 +257,11 @@ const styles = StyleSheet.create({
     color: '#FFFFFF',
     fontFamily: 'Lexend-Medium',
     marginBottom: 25,
-    fontSize: 10,
+    fontSize: 12,
   },
   recommendedDescription: {
     color: '#CCCCCC',
-    fontSize: 7,
+    fontSize: 10,
     width: 210,
     fontFamily: 'Lexend-Regular',
     marginBottom: 5,
@@ -320,12 +271,12 @@ const styles = StyleSheet.create({
     fontFamily: 'Lexend-Medium',
     width: 220,
     marginBottom: 25,
-    fontSize: 10,
+    fontSize: 11,
   },
   recommendedDescriptionLong: {
     color: '#CCCCCC',
-    fontSize: 6,
-    width: 220,
+    fontSize: 9,
+    width: 210,
     fontFamily: 'Lexend-Regular',
     marginBottom: 5,
   },

@@ -17,9 +17,9 @@ import {
 const Home = () => {
   const [name, setName] = useState('');
   const popularImages = [
-    {image: RazerSnap, title: 'Razer Snap'},
-    {image: HallEffect, title: 'Hall Effect Switches'},
-    {image: Air75, title: 'NuPhy Air75'},
+    {image: RazerSnap, title: 'RAZER SNAP TAP: What is it?'},
+    {image: HallEffect, title: 'Hall Effect Switches: What are they?'},
+    {image: Air75, title: 'NuPhy Air75: The best 75% keyboard?'},
   ];
 
   useEffect(() => {
@@ -60,18 +60,9 @@ const Home = () => {
             activeDotColor="#5046E5"
             autoplay={true}
             autoplayTimeout={5}>
-            <Image
-              style={styles.sliderImage}
-              source={Banner} // Slide image 1
-            />
-            <Image
-              style={styles.sliderImage}
-              source={Banner} // Slide image 2
-            />
-            <Image
-              style={styles.sliderImage}
-              source={Banner} // Slide image 3
-            />
+            <Image style={styles.sliderImage} source={Banner} />
+            <Image style={styles.sliderImage} source={Banner} />
+            <Image style={styles.sliderImage} source={Banner} />
           </Swiper>
         </View>
         <Gap height={15} />
@@ -82,22 +73,14 @@ const Home = () => {
         <View style={styles.popularContainer}>
           {popularImages.map((item, index) => (
             <View key={index} style={styles.popularCard}>
-              <Image
-                style={styles.popularImage}
-                source={item.image} // Popular item image
-              />
-              <Text style={styles.popularText}>Popular Item {index + 1}</Text>
+              <Image style={styles.popularImage} source={item.image} />
+              <Text style={styles.popularText}>{item.title}</Text>
             </View>
           ))}
         </View>
-        <Gap height={25} />
-        {/* Recommended News Section */}
         <Text style={styles.sectionTitle}>Recommended news</Text>
         <View style={styles.recommendedContainer}>
-          <Image
-            style={styles.recommendedImage}
-            source={BestSelling} // Recommended news image
-          />
+          <Image style={styles.recommendedImage} source={BestSelling} />
           <View style={styles.recommendedTextContainer}>
             <Text style={styles.recommendedTitle}>
               Best-selling keyboard switches of October, 2024
@@ -193,7 +176,7 @@ const styles = StyleSheet.create({
   popularContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginBottom: 20,
+    marginBottom: 15,
     padding: 16,
   },
   popularCard: {
