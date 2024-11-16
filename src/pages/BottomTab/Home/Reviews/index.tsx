@@ -13,9 +13,42 @@ import {
   AulaF75,
   RazerHMV3,
 } from '../../../../assets/images/Home';
+import ReviewContainer from '../../../../molecules/review'; // Import komponen baru
 
 const Reviews = () => {
   const [name, setName] = useState('');
+
+  const reviewData = [
+    {
+      image: Air75,
+      title: 'NuPhy Air75',
+      description:
+        'Tampilan tidak cocok, warna terasa kosong, body-nya premium, tambahan plate chrome yang rata di belakang.',
+      by: 'GTID',
+      rating: 5,
+    },
+    {
+      image: MXMechanicalMini,
+      title: 'MX Mechanical Mini',
+      description: 'Great features, but lacking in typing experience.',
+      by: 'Created Tech',
+      rating: 4,
+    },
+    {
+      image: AulaF75,
+      title: 'AULA F75',
+      description: 'Feels pretty decent, but lacks a lot of common feel.',
+      by: 'Hypo Tech',
+      rating: 4,
+    },
+    {
+      image: RazerHMV3,
+      title: 'Razer Huntsman Mini V3',
+      description: 'Lower input lag, great for gaming.',
+      by: 'Optimum',
+      rating: 5,
+    },
+  ];
 
   useEffect(() => {
     const fetchUserName = async () => {
@@ -73,63 +106,11 @@ const Reviews = () => {
         <Gap height={15} />
         <NavButton />
         <Gap height={15} />
-
         {/* Reviewed Popular Keyboards Section */}
         <Text style={styles.sectionTitle}>Reviewed Popular Keyboards</Text>
         <Gap height={25} />
-        <View style={styles.reviewContainer}>
-          <View style={styles.reviewCard}>
-            <Image source={Air75} style={styles.reviewImage} />
-            <View style={styles.reviewTextContainer}>
-              <Text style={styles.reviewTitle}>NuPhy Air75</Text>
-              <Text style={styles.reviewDescription}>
-                "Tampilan tidak cocok, warna terasa kosong, body-nya premium,
-                tambahan plate chrome yang rata di belakang."
-              </Text>
-              <Text style={styles.reviewBy}>by GTID</Text>
-              <Text style={styles.reviewRating}>★★★★★</Text>
-            </View>
-          </View>
-          <Gap height={5} />
-
-          <View style={styles.reviewCard}>
-            <Image source={MXMechanicalMini} style={styles.reviewImage} />
-            <View style={styles.reviewTextContainer}>
-              <Text style={styles.reviewTitle}>MX Mechanical Mini</Text>
-              <Text style={styles.reviewDescription}>
-                "Great features, but lacking in typing experience."
-              </Text>
-              <Text style={styles.reviewBy}>by Created Tech</Text>
-              <Text style={styles.reviewRating}>★★★★☆</Text>
-            </View>
-          </View>
-          <Gap height={5} />
-
-          <View style={styles.reviewCard}>
-            <Image source={AulaF75} style={styles.reviewImage} />
-            <View style={styles.reviewTextContainer}>
-              <Text style={styles.reviewTitle}>AULA F75</Text>
-              <Text style={styles.reviewDescription}>
-                "Feels pretty decent, but lacks a lot of common feel."
-              </Text>
-              <Text style={styles.reviewBy}>by Hypo Tech</Text>
-              <Text style={styles.reviewRating}>★★★★☆</Text>
-            </View>
-          </View>
-          <Gap height={5} />
-
-          <View style={styles.reviewCard}>
-            <Image source={RazerHMV3} style={styles.reviewImage} />
-            <View style={styles.reviewTextContainer}>
-              <Text style={styles.reviewTitle}>Razer Huntsman Mini V3</Text>
-              <Text style={styles.reviewDescription}>
-                "Lower input lag, great for gaming."
-              </Text>
-              <Text style={styles.reviewBy}>by Optimum</Text>
-              <Text style={styles.reviewRating}>★★★★★</Text>
-            </View>
-          </View>
-        </View>
+        <ReviewContainer reviews={reviewData} />
+        {/* Panggil komponen dengan data */}
       </ScrollView>
       <BottomNavbar />
     </>
@@ -182,60 +163,5 @@ const styles = StyleSheet.create({
   sliderImage: {
     width: '100%',
     height: '100%',
-  },
-  sectionTitle: {
-    color: '#FFFFFF',
-    fontFamily: 'Lexend-Medium',
-    marginLeft: 24,
-    marginVertical: 10,
-    fontSize: 20,
-    textAlign: 'center',
-  },
-  reviewContainer: {
-    paddingHorizontal: 13,
-  },
-  reviewCard: {
-    flexDirection: 'row',
-    backgroundColor: '#121927',
-    borderWidth: 0.3,
-    borderColor: '#222C41',
-    borderRadius: 8,
-    padding: 8,
-    marginBottom: 15,
-    alignItems: 'center',
-  },
-  reviewImage: {
-    width: 120,
-    height: 85,
-    borderRadius: 8,
-    marginRight: 15,
-  },
-  reviewTextContainer: {
-    flex: 1,
-    paddingLeft: 10,
-  },
-  reviewTitle: {
-    color: '#6563FF',
-    fontSize: 18,
-    fontFamily: 'Lexend-SemiBold',
-    marginBottom: 5,
-  },
-  reviewDescription: {
-    color: '#CCCCCC',
-    fontSize: 10.5,
-    lineHeight: 16,
-    fontFamily: 'Lexend-Regular',
-  },
-  reviewBy: {
-    color: '#CCCCCC',
-    fontSize: 11,
-    marginTop: 8,
-    fontFamily: 'Lexend-Regular',
-  },
-  reviewRating: {
-    color: '#6563FF',
-    fontSize: 14,
-    marginTop: 5,
-    fontFamily: 'Lexend-Bold',
   },
 });
