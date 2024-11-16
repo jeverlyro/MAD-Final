@@ -6,6 +6,13 @@ import {auth, db} from '../../../../config/firebase';
 import {doc, getDoc} from 'firebase/firestore';
 import {BottomNavbar} from '../../../../molecules';
 import {Gap} from '../../../../atoms';
+import {
+  Banner,
+  Air75,
+  MXMechanicalMini,
+  AulaF75,
+  RazerHMV3,
+} from '../../../../assets/images/Home';
 
 const Reviews = () => {
   const [name, setName] = useState('');
@@ -27,12 +34,13 @@ const Reviews = () => {
 
     fetchUserName();
   }, []);
+
   return (
     <>
       <ScrollView style={styles.container} bounces={false}>
         <View style={styles.welcomeSection}>
           <View style={styles.textContainer}>
-            <Text style={styles.greetingText}>Reviews,</Text>
+            <Text style={styles.greetingText}>Hello,</Text>
             <Text style={styles.userName}>{name}</Text>
           </View>
           <Image
@@ -50,50 +58,76 @@ const Reviews = () => {
             autoplayTimeout={5}>
             <Image
               style={styles.sliderImage}
-              source={{uri: 'https://via.placeholder.com/300x150'}} // Slide image 1
+              source={Banner} // Slide image 1
             />
             <Image
               style={styles.sliderImage}
-              source={{uri: 'https://via.placeholder.com/300x150'}} // Slide image 2
+              source={Banner} // Slide image 2
             />
             <Image
               style={styles.sliderImage}
-              source={{uri: 'https://via.placeholder.com/300x150'}} // Slide image 3
+              source={Banner} // Slide image 3
             />
           </Swiper>
         </View>
         <Gap height={15} />
         <NavButton />
-        <Gap height={30} />
-        {/* Popular Section */}
-        <Text style={styles.sectionTitle}>Popular</Text>
-        <View style={styles.popularContainer}>
-          {[1, 2, 3].map((_, index) => (
-            <View key={index} style={styles.popularCard}>
-              <Image
-                style={styles.popularImage}
-                source={{uri: 'https://via.placeholder.com/100x100'}} // Popular item image
-              />
-              <Text style={styles.popularText}>Popular Item {index + 1}</Text>
-            </View>
-          ))}
-        </View>
+        <Gap height={15} />
+
+        {/* Reviewed Popular Keyboards Section */}
+        <Text style={styles.sectionTitle}>Reviewed Popular Keyboards</Text>
         <Gap height={25} />
-        {/* Recommended News Section */}
-        <Text style={styles.sectionTitle}>Recommended news</Text>
-        <View style={styles.recommendedContainer}>
-          <Image
-            style={styles.recommendedImage}
-            source={{uri: 'https://via.placeholder.com/150x80'}} // Recommended news image
-          />
-          <View style={styles.recommendedTextContainer}>
-            <Text style={styles.recommendedTitle}>
-              Best-selling keyboard switches of October, 2024
-            </Text>
-            <Text style={styles.recommendedDescription}>
-              Discover the latest trending keyboard switches and find the best
-              options for your setup.
-            </Text>
+        <View style={styles.reviewContainer}>
+          <View style={styles.reviewCard}>
+            <Image source={Air75} style={styles.reviewImage} />
+            <View style={styles.reviewTextContainer}>
+              <Text style={styles.reviewTitle}>NuPhy Air75</Text>
+              <Text style={styles.reviewDescription}>
+                "Tampilan tidak cocok, warna terasa kosong, body-nya premium,
+                tambahan plate chrome yang rata di belakang."
+              </Text>
+              <Text style={styles.reviewBy}>by GTID</Text>
+              <Text style={styles.reviewRating}>★★★★★</Text>
+            </View>
+          </View>
+          <Gap height={5} />
+
+          <View style={styles.reviewCard}>
+            <Image source={MXMechanicalMini} style={styles.reviewImage} />
+            <View style={styles.reviewTextContainer}>
+              <Text style={styles.reviewTitle}>MX Mechanical Mini</Text>
+              <Text style={styles.reviewDescription}>
+                "Great features, but lacking in typing experience."
+              </Text>
+              <Text style={styles.reviewBy}>by Created Tech</Text>
+              <Text style={styles.reviewRating}>★★★★☆</Text>
+            </View>
+          </View>
+          <Gap height={5} />
+
+          <View style={styles.reviewCard}>
+            <Image source={AulaF75} style={styles.reviewImage} />
+            <View style={styles.reviewTextContainer}>
+              <Text style={styles.reviewTitle}>AULA F75</Text>
+              <Text style={styles.reviewDescription}>
+                "Feels pretty decent, but lacks a lot of common feel."
+              </Text>
+              <Text style={styles.reviewBy}>by Hypo Tech</Text>
+              <Text style={styles.reviewRating}>★★★★☆</Text>
+            </View>
+          </View>
+          <Gap height={5} />
+
+          <View style={styles.reviewCard}>
+            <Image source={RazerHMV3} style={styles.reviewImage} />
+            <View style={styles.reviewTextContainer}>
+              <Text style={styles.reviewTitle}>Razer Huntsman Mini V3</Text>
+              <Text style={styles.reviewDescription}>
+                "Lower input lag, great for gaming."
+              </Text>
+              <Text style={styles.reviewBy}>by Optimum</Text>
+              <Text style={styles.reviewRating}>★★★★★</Text>
+            </View>
           </View>
         </View>
       </ScrollView>
@@ -149,90 +183,59 @@ const styles = StyleSheet.create({
     width: '100%',
     height: '100%',
   },
-  navButtonsContainer: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    marginBottom: 20,
-  },
-  navButton: {
-    borderColor: '#5046E5',
-    borderWidth: 1,
-    paddingVertical: 3,
-    paddingHorizontal: 20,
-    marginHorizontal: 10,
-    borderRadius: 20,
-    width: 80,
-    height: 35,
-    justifyContent: 'center',
-  },
-  navButtonText: {
-    color: '#FFFFFF',
-    fontSize: 9.4,
-    textAlign: 'center',
-    fontFamily: 'Lexend-Regular',
-  },
   sectionTitle: {
     color: '#FFFFFF',
     fontFamily: 'Lexend-Medium',
     marginLeft: 24,
     marginVertical: 10,
     fontSize: 20,
-  },
-  popularContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginBottom: 20,
-    padding: 16,
-  },
-  popularCard: {
-    width: '30%',
-    borderWidth: 0.3,
-    borderColor: '#1B2539',
-    borderRadius: 4,
-    paddingTop: 6,
-    paddingBottom: 30,
-    alignItems: 'center',
-  },
-  popularImage: {
-    width: 100,
-    height: 100,
-    borderRadius: 4,
-  },
-  popularText: {
-    color: '#FFFFFF',
-    fontFamily: 'Lexend-Regular',
     textAlign: 'center',
-    fontSize: 10,
-    marginTop: 5,
   },
-  recommendedContainer: {
+  reviewContainer: {
+    paddingHorizontal: 13,
+  },
+  reviewCard: {
     flexDirection: 'row',
-    borderColor: '#222C41',
+    backgroundColor: '#121927',
     borderWidth: 0.3,
-    borderRadius: 5,
-    padding: 10,
-    margin: 15,
+    borderColor: '#222C41',
+    borderRadius: 8,
+    padding: 8,
+    marginBottom: 15,
     alignItems: 'center',
   },
-  recommendedImage: {
-    width: 150,
-    height: 100,
-    borderRadius: 5,
-    marginRight: 10,
+  reviewImage: {
+    width: 120,
+    height: 85,
+    borderRadius: 8,
+    marginRight: 15,
   },
-  recommendedTextContainer: {
+  reviewTextContainer: {
     flex: 1,
+    paddingLeft: 10,
   },
-  recommendedTitle: {
-    color: '#FFFFFF',
-    fontFamily: 'Lexend-Medium',
-    marginBottom: 25,
-    fontSize: 12,
-  },
-  recommendedDescription: {
-    color: '#CCCCCC',
-    fontSize: 9,
-    fontFamily: 'Lexend-Regular',
+  reviewTitle: {
+    color: '#6563FF',
+    fontSize: 18,
+    fontFamily: 'Lexend-SemiBold',
     marginBottom: 5,
+  },
+  reviewDescription: {
+    color: '#CCCCCC',
+    fontSize: 10.5,
+    lineHeight: 16,
+    fontFamily: 'Lexend-Regular',
+  },
+  reviewBy: {
+    color: '#CCCCCC',
+    fontSize: 11,
+    marginTop: 8,
+    fontFamily: 'Lexend-Regular',
+  },
+  reviewRating: {
+    color: '#6563FF',
+    fontSize: 14,
+    marginTop: 5,
+    fontFamily: 'Lexend-Bold',
   },
 });
