@@ -14,11 +14,12 @@ import Start from './src/pages/Start';
 import EditInfoScreen from './src/pages/Edit';
 import ChangePasswordScreen from './src/pages/ChangePassword';
 import AboutScreen from './src/pages/About';
-import AppareanceScreen from './src/pages/Appearance';
-import './src/config/firebase';
 import News from './src/pages/BottomTab/Home/News';
 import Reviews from './src/pages/BottomTab/Home/Reviews';
 import Recommended from './src/pages/BottomTab/Home/Recommended';
+import AppareanceScreen from './src/pages/Appearance';
+import Plans from './src/pages/BottomTab/Simulation/Page2';
+import './src/config/firebase';
 
 const stack = createNativeStackNavigator();
 
@@ -104,6 +105,11 @@ const App = () => {
         <stack.Screen
           name="Appareance"
           component={AppareanceScreen}
+          options={{headerShown: false, animation: 'none'}}
+        />
+        <stack.Screen
+          name="Plans"
+          component={Plans}
           options={{headerShown: false, animation: 'none'}}
         />
       </stack.Navigator>
