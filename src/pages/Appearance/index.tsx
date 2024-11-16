@@ -37,7 +37,9 @@ const AppearanceScreen: React.FC = () => {
           color={isDarkMode ? 'white' : 'black'}
           style={styles.icon}
         />
-        <Text style={styles.aboutTitle}>Dark mode</Text>
+        <Text style={styles.aboutTitle}>
+          {isDarkMode ? 'Dark mode' : 'Light mode'}
+        </Text>
         <Switch
           style={styles.switch}
           trackColor={{false: '#767577', true: '#81b0ff'}}

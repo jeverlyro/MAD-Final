@@ -10,6 +10,8 @@ import {
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {useNavigation} from '@react-navigation/native';
 import {launchImageLibrary} from 'react-native-image-picker';
+import {showMessage} from 'react-native-flash-message';
+import FlashMessage from 'react-native-flash-message';
 
 const ProfileScreen: React.FC = () => {
   const [profileImage, setProfileImage] = useState(
@@ -25,13 +27,32 @@ const ProfileScreen: React.FC = () => {
 
     launchImageLibrary(options, response => {
       if (response.didCancel) {
-        console.log('User cancelled image picker');
+        showMessage({
+          message: 'User cancelled the process',
+          description: 'No photo selected.',
+          type: 'warning',
+          icon: 'warning',
+          duration: 2000,
+        });
       } else if (response.errorCode) {
         Alert.alert('Error', response.errorMessage || 'Something went wrong');
       } else if (response.assets && response.assets.length > 0) {
         setProfileImage(response.assets[0].uri);
       }
     });
+  };
+
+  const handleSignOut = () => {
+    Alert.alert('Sign Out', 'Are you sure you want to sign out?', [
+      {text: 'Cancel', style: 'cancel'},
+      {
+        text: 'Sign Out',
+        style: 'destructive',
+        onPress: () => {
+          navigation.navigate('Start');
+        },
+      },
+    ]);
   };
 
   return (
@@ -42,7 +63,7 @@ const ProfileScreen: React.FC = () => {
         <Image source={{uri: profileImage}} style={styles.profileImage} />
       </TouchableOpacity>
 
-      <Text style={styles.usernameText}>I Kadek Tresna Jeverly</Text>
+      <Text style={styles.usernameText}>Vichers Rory</Text>
 
       <TouchableOpacity
         style={styles.button}
@@ -63,6 +84,11 @@ const ProfileScreen: React.FC = () => {
         onPress={() => navigation.navigate('About')}>
         <Ionicons name="shield" size={20} color="#fff" style={styles.icon} />
         <Text style={styles.buttonText}>About</Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity style={styles.signOutButton} onPress={handleSignOut}>
+        <Ionicons name="log-out-outline" size={20} color="#fff" />
+        <Text style={styles.signOutButtonText}>Sign Out</Text>
       </TouchableOpacity>
 
       <View style={styles.tabBar}>
@@ -98,6 +124,8 @@ const ProfileScreen: React.FC = () => {
           <Text style={styles.tabText} />
         </View>
       </View>
+
+      <FlashMessage position="top" />
     </View>
   );
 };
@@ -113,6 +141,7 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 24,
+    fontFamily: 'Lexend-Medium',
     color: 'white',
     paddingBottom: 31,
   },
@@ -126,7 +155,7 @@ const styles = StyleSheet.create({
   usernameText: {
     color: 'white',
     fontSize: 16,
-    fontFamily: 'Lexend-Bold',
+    fontFamily: 'Lexend-Medium',
     paddingTop: 20,
     paddingBottom: 53,
   },
@@ -148,6 +177,22 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontSize: 16,
     marginLeft: 15,
+  },
+  signOutButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: 'red',
+    paddingVertical: 15,
+    paddingHorizontal: 20,
+    borderRadius: 10,
+    width: '80%',
+    marginVertical: 10,
+    justifyContent: 'center',
+  },
+  signOutButtonText: {
+    color: '#fff',
+    fontSize: 16,
+    marginLeft: 10,
   },
   tabBar: {
     position: 'absolute',
