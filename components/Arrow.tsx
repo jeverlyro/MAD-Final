@@ -1,5 +1,12 @@
-import {StyleSheet, View, TouchableOpacity, Animated} from 'react-native';
+import {
+  StyleSheet,
+  View,
+  TouchableOpacity,
+  Animated,
+  useAnimatedValue,
+} from 'react-native';
 import React, {useEffect, useRef} from 'react';
+import withTiming from 'react-native-reanimated';
 import Svg, {G, Circle} from 'react-native-svg';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
@@ -41,7 +48,7 @@ export default function Arrow({percentage, isOnboardingComplete, onPress}) {
 
   useEffect(() => {
     Animated.timing(opacity, {
-      toValue: isOnboardingComplete ? 1 : 0.5, // Set opacity to 0.5 when not complete
+      toValue: isOnboardingComplete ? 1 : 0.7, // Set opacity to 0.5 when not complete
       duration: 300,
       useNativeDriver: true,
     }).start();
@@ -71,7 +78,7 @@ export default function Arrow({percentage, isOnboardingComplete, onPress}) {
         </G>
       </Svg>
       <Animated.View
-        style={[styles.button, {opacity: isOnboardingComplete ? 1 : 0.2}]}>
+        style={[styles.button, {opacity: isOnboardingComplete ? 1 : 0.7}]}>
         <TouchableOpacity
           activeOpacity={0.6}
           disabled={!isOnboardingComplete}

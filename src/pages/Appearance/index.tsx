@@ -33,16 +33,16 @@ const AppearanceScreen: React.FC = () => {
       <View style={styles.switchContainer}>
         <Ionicons
           name={isDarkMode ? 'moon' : 'sunny'}
-          size={24}
+          size={30}
           color={isDarkMode ? 'white' : 'black'}
           style={styles.icon}
         />
         <Text style={styles.aboutTitle}>Dark mode</Text>
         <Switch
           style={styles.switch}
-          trackColor={{false: '#767577', true: '#81b0ff'}}
-          thumbColor={isDarkMode ? '#f5dd4b' : '#f4f3f4'}
-          ios_backgroundColor="#3e3e3e"
+          trackColor={{false: '#767577', true: '#ffffff'}}
+          thumbColor={isDarkMode ? '#fff' : '#121927'}
+          ios_backgroundColor="#fff"
           onValueChange={toggleSwitch}
           value={isDarkMode}
         />
@@ -92,12 +92,11 @@ const createStyles = (isDarkMode: boolean) =>
     },
     switchContainer: {
       flexDirection: 'row',
-      alignItems: 'center',
       justifyContent: 'space-between',
-      marginTop: 10,
     },
     icon: {
-      marginRight: 10,
+      marginRight: 15,
+      marginTop: 7,
     },
     aboutTitle: {
       color: isDarkMode ? 'white' : 'black',
@@ -106,21 +105,21 @@ const createStyles = (isDarkMode: boolean) =>
       flex: 1,
     },
     switch: {
-      transform: [{scaleX: 1.2}, {scaleY: 1.2}],
+      transform: [{scaleX: 0.7}, {scaleY: 0.7}],
     },
     separator: {
-      height: 1,
+      height: 0.8,
       backgroundColor: isDarkMode ? '#222C41' : '#c0c0c0',
       width: '100%',
-      marginVertical: 10,
     },
     aboutText: {
       color: isDarkMode ? 'white' : 'black',
       fontSize: 12,
       fontFamily: 'Lexend-Regular',
       textAlign: 'left',
-      marginTop: 10,
-      lineHeight: 18,
+      marginLeft: 45,
+      marginBottom: 10,
+      marginTop: -15,
     },
   });
 

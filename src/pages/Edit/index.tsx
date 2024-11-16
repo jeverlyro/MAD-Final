@@ -1,25 +1,37 @@
 import React, {useState} from 'react';
-import {
-  View,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  StyleSheet,
-  Alert,
-} from 'react-native';
+import {View, Text, TouchableOpacity, StyleSheet} from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {useNavigation} from '@react-navigation/native';
 import {Input} from '../../molecules';
+import {showMessage} from 'react-native-flash-message';
+import {Gap} from '../../atoms';
+import DateTimePicker from '@react-native-community/datetimepicker';
 
 const EditInfoScreen: React.FC = () => {
   const [email, setEmail] = useState('');
   const [name, setName] = useState('');
+  const [showDatePicker, setShowDatePicker] = useState(false);
+  const [date, setDate] = useState(new Date());
   const [dateOfBirth, setDateOfBirth] = useState('');
   const [gender, setGender] = useState(null);
   const navigation = useNavigation();
 
   const handleSave = () => {
-    Alert.alert('Profile Saved', 'Your profile information has been updated.');
+    showMessage({
+      message: 'Profile Saved',
+      description: 'Your profile information has been updated.',
+      type: 'success',
+      icon: 'success',
+      duration: 2000,
+    });
+  };
+
+  const handleDateChange = (event, selectedDate) => {
+    setShowDatePicker(false);
+    if (selectedDate) {
+      setDate(selectedDate);
+      setDateOfBirth(selectedDate.toLocaleDateString());
+    }
   };
 
   const toggleGender = selectedGender => {
@@ -47,19 +59,35 @@ const EditInfoScreen: React.FC = () => {
         </Text>
       </View>
       <View style={styles.container}>
-        <Input label="Email" placeholder="Fill your e-mail here" />
-
-        <Input label="Name" placeholder="Fill your name here" />
-
+        <Input
+          label="Email"
+          placeholder="Fill your e-mail here"
+          value={email}
+          onChangeText={setEmail}
+        />
+        <Gap height={20} />
+        <Input
+          label="Name"
+          placeholder="Fill your name here"
+          value={name}
+          onChangeText={setName}
+        />
+        <Gap height={20} />
         <View style={styles.rowContainer}>
-          <TextInput
-            style={styles.dateInput}
-            placeholder="--/--/----"
-            placeholderTextColor="#7A7A7A"
-            value={dateOfBirth}
-            onChangeText={setDateOfBirth}
-          />
-
+          <TouchableOpacity
+            activeOpacity={0.8}
+            onPress={() => setShowDatePicker(true)}
+            style={styles.dateInput}>
+            <Text style={styles.dateText}>{dateOfBirth || 'Select'}</Text>
+          </TouchableOpacity>
+          {showDatePicker && (
+            <DateTimePicker
+              value={date}
+              mode="date"
+              display="default"
+              onChange={handleDateChange}
+            />
+          )}
           <TouchableOpacity
             onPress={() => toggleGender('Male')}
             style={[
@@ -109,6 +137,19 @@ const styles = StyleSheet.create({
     backgroundColor: '#121927',
     paddingTop: 20,
   },
+  dateContainer: {
+    marginBottom: 20,
+  },
+  label: {
+    fontSize: 14,
+    color: 'white',
+    marginBottom: 8,
+  },
+  dateText: {
+    color: '#FFFFFF',
+    fontFamily: 'Outfit-Regular',
+    fontSize: 14,
+  },
   container: {
     flex: 1,
     backgroundColor: '#121927',
@@ -155,7 +196,7 @@ const styles = StyleSheet.create({
   infoText: {
     color: 'white',
     fontFamily: 'Lexend-Regular',
-    fontSize: 7,
+    fontSize: 10,
   },
   input: {
     backgroundColor: '#2C2F3E',
@@ -170,23 +211,19 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    marginTop: 12,
     marginBottom: 40,
-    marginHorizontal: 20,
   },
   dateInput: {
-    backgroundColor: '#2C2F3E',
-    color: 'white',
+    backgroundColor: '#3A4052',
     borderRadius: 8,
-    padding: 15,
-    fontSize: 16,
-    flex: 1,
+    padding: 16,
+    width: '34%',
     marginRight: 5,
   },
   genderOption: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#2C2F3E',
+    backgroundColor: '#3A4052',
     paddingVertical: 15,
     paddingHorizontal: 15,
     borderRadius: 8,
@@ -209,11 +246,10 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     alignItems: 'center',
     marginTop: 20,
-    marginHorizontal: 20,
   },
   changePasswordText: {
     color: 'white',
     fontSize: 16,
-    fontWeight: 'bold',
+    fontFamily: 'Outfit-SemiBold',
   },
 });
