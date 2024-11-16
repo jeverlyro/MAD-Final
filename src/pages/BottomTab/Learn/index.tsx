@@ -12,7 +12,7 @@ import {
   Mechanical,
   Switch,
   Tape,
-} from '../../../assets';
+} from '../../../assets/images/Learn';
 
 const LearnScreen: React.FC = () => {
   return (
