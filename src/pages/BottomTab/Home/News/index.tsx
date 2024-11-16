@@ -6,6 +6,14 @@ import {auth, db} from '../../../../config/firebase';
 import {doc, getDoc} from 'firebase/firestore';
 import {BottomNavbar} from '../../../../molecules';
 import {Gap} from '../../../../atoms';
+import {
+  Banner,
+  BestSelling,
+  MostBrands,
+  RetroKeyboard,
+  TheLuminkey,
+  TypingStorm,
+} from '../../../../assets/images/Home';
 
 const News = () => {
   const [name, setName] = useState('');
@@ -32,7 +40,7 @@ const News = () => {
       <ScrollView style={styles.container} bounces={false}>
         <View style={styles.welcomeSection}>
           <View style={styles.textContainer}>
-            <Text style={styles.greetingText}>News,</Text>
+            <Text style={styles.greetingText}>Hello,</Text>
             <Text style={styles.userName}>{name}</Text>
           </View>
           <Image
@@ -50,49 +58,120 @@ const News = () => {
             autoplayTimeout={5}>
             <Image
               style={styles.sliderImage}
-              source={{uri: 'https://via.placeholder.com/300x150'}} // Slide image 1
+              source={Banner} // Slide image 1
             />
             <Image
               style={styles.sliderImage}
-              source={{uri: 'https://via.placeholder.com/300x150'}} // Slide image 2
+              source={Banner} // Slide image 2
             />
             <Image
               style={styles.sliderImage}
-              source={{uri: 'https://via.placeholder.com/300x150'}} // Slide image 3
+              source={Banner} // Slide image 3
             />
           </Swiper>
         </View>
         <Gap height={15} />
         <NavButton />
         <Gap height={30} />
-        {/* Popular Section */}
-        <Text style={styles.sectionTitle}>Popular</Text>
-        <View style={styles.popularContainer}>
-          {[1, 2, 3].map((_, index) => (
-            <View key={index} style={styles.popularCard}>
-              <Image
-                style={styles.popularImage}
-                source={{uri: 'https://via.placeholder.com/100x100'}} // Popular item image
-              />
-              <Text style={styles.popularText}>Popular Item {index + 1}</Text>
-            </View>
-          ))}
-        </View>
-        <Gap height={25} />
+
         {/* Recommended News Section */}
-        <Text style={styles.sectionTitle}>Recommended news</Text>
         <View style={styles.recommendedContainer}>
           <Image
             style={styles.recommendedImage}
-            source={{uri: 'https://via.placeholder.com/150x80'}} // Recommended news image
+            source={RetroKeyboard} // Recommended news image
+          />
+          <View style={styles.recommendedTextContainer}>
+            <Text style={styles.recommendedTitleLong}>
+              8BitDo now sells its retro mechanical keyboards with integrated
+              number pads
+            </Text>
+            <Text style={styles.recommendedDescriptionLong}>
+              8BitDo has introduced a new version of the Retro Mechanical
+              Keyboard it debuted last July with its original tenkeyless layout
+              now expanded to include an integrated number pad. The new 8BitDo
+              Retro 108 Mechanical Keyboard is available for preorder now
+              through Amazon for $119.99 — $20 more expensive than the original
+              — with the same NES or Famicom theming. Availability is expected
+              to start on December 12th, 2024.
+            </Text>
+          </View>
+        </View>
+        <View style={styles.recommendedContainer}>
+          <Image
+            style={styles.recommendedImage}
+            source={BestSelling} // Recommended news image
           />
           <View style={styles.recommendedTextContainer}>
             <Text style={styles.recommendedTitle}>
               Best-selling keyboard switches of October, 2024
             </Text>
             <Text style={styles.recommendedDescription}>
-              Discover the latest trending keyboard switches and find the best
-              options for your setup.
+              In the 11 top lists from 11 vendors, 94 different switch models
+              are mentioned, with 34 of them being listed for the first time
+              (added to the database as new entries). Sales data, coming from
+              about half of the shops, is about approximately half a million
+              switches sold.
+            </Text>
+          </View>
+        </View>
+        <View style={styles.recommendedContainer}>
+          <Image
+            style={styles.recommendedImage}
+            source={MostBrands} // Recommended news image
+          />
+          <View style={styles.recommendedTextContainer}>
+            <Text style={styles.recommendedTitle}>
+              5 OF THE MOST RELIABLE MECHANICAL KEYBOARD BRANDS
+            </Text>
+            <Text style={styles.recommendedDescriptionLong}>
+              The best mechanical keyboard brands deliver enthusiast features
+              paired with quality builds and affordable prices. We're talking
+              stuff like metal construction, gasket-mounted PCB plates, acoustic
+              case foam, and bespoke, pre-lubricated switches. Those features
+              used to extract a high premium for the privilege, but as the
+              mechanical keyboard market has continued to grow, competition has
+              forced those prices down.
+            </Text>
+          </View>
+        </View>
+        <View style={styles.recommendedContainer}>
+          <Image
+            style={styles.recommendedImage}
+            source={TypingStorm} // Recommended news image
+          />
+          <View style={styles.recommendedTextContainer}>
+            <Text style={styles.recommendedTitleLong}>
+              Typing up a storm: Malaysians are clicking on to custom mechanical
+              keyboards
+            </Text>
+            <Text style={styles.recommendedDescriptionLong}>
+              For the hardcore enthusiasts who gathered during the 2024 edition
+              of the Malaysia Mechanical Keyboard (MYMK) meetup on Oct 28 in
+              Kuala Lumpur, this could range from the low hundreds to the tens
+              of thousands. Community member and co-organiser of the meetup,
+              Joshua Zen (also known as ZenTheGeek online), shared that he has
+              collected a total of 12 keyboards, each averaging between RM1,000
+              to RM1,500 depending on the configuration.
+            </Text>
+          </View>
+        </View>
+        <View style={styles.recommendedContainer}>
+          <Image
+            style={styles.recommendedImage}
+            source={TheLuminkey} // Recommended news image
+          />
+          <View style={styles.recommendedTextContainer}>
+            <Text style={styles.recommendedTitle}>
+              The Luminkey Magger 68 HE is a Fantastic Keyboard Made by
+              Enthusiasts
+            </Text>
+            <Text style={styles.recommendedDescriptionLong}>
+              Gaming keyboards in 2024 will be remembered as the year Hall
+              Effect switches exploded into the mainstream. What began with
+              Wooting has now spread far and wide, into both the budget and
+              enthusiast spaces. The Luminkey Magger 68 HE sits in both
+              categories, coming in at $149 for the "Professional" model and
+              $119 for the standard "Performance" version.
             </Text>
           </View>
         </View>
@@ -227,11 +306,26 @@ const styles = StyleSheet.create({
     color: '#FFFFFF',
     fontFamily: 'Lexend-Medium',
     marginBottom: 25,
-    fontSize: 12,
+    fontSize: 10,
   },
   recommendedDescription: {
     color: '#CCCCCC',
-    fontSize: 9,
+    fontSize: 7,
+    width: 210,
+    fontFamily: 'Lexend-Regular',
+    marginBottom: 5,
+  },
+  recommendedTitleLong: {
+    color: '#FFFFFF',
+    fontFamily: 'Lexend-Medium',
+    width: 220,
+    marginBottom: 25,
+    fontSize: 10,
+  },
+  recommendedDescriptionLong: {
+    color: '#CCCCCC',
+    fontSize: 6,
+    width: 220,
     fontFamily: 'Lexend-Regular',
     marginBottom: 5,
   },

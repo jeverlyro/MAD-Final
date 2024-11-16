@@ -12,7 +12,7 @@ import {
   BestSelling,
   HallEffect,
   RazerSnap,
-} from '../../../assets/images/Home/home';
+} from '../../../assets/images/Home';
 
 const Home = () => {
   const [name, setName] = useState('');
