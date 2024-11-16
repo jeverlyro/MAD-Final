@@ -20,9 +20,6 @@ const LearnScreen: React.FC = () => {
       <View style={styles.container}>
         <ScrollView style={styles.insideContent}>
           <Text style={styles.headerText}>Learn</Text>
-          <Svg height="11" width="100%">
-            <Rect x="10" y="5" width="95%" height="1" fill="#222C41" />
-          </Svg>
           <Gap height={40} />
           <Image style={styles.image} source={Mechanical} />
           <Text style={styles.sectionTitle}>Mechanical Keyboard</Text>
