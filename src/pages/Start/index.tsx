@@ -6,10 +6,8 @@ import LottieView from 'lottie-react-native';
 import React from 'react';
 
 const {width} = Dimensions.get('window');
-
 const Start = () => {
   const navigation = useNavigation();
-
   return (
     <View style={styles.container}>
       <LottieView

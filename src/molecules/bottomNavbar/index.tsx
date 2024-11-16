@@ -1,100 +1,52 @@
 import {StyleSheet, View, TouchableOpacity} from 'react-native';
-import React, {useState} from 'react';
-import {
-  Adjust,
-  Document,
-  HomeIcon,
-  Profile,
-  AdjustHighlight,
-  DocumentHighlight,
-  HomeIconHighlight,
-  ProfileHighlight,
-} from '../../assets/icons';
+import React from 'react';
+import {useNavigation} from '@react-navigation/native';
+import {Adjust, Document, HomeIcon, Profile} from '../../assets/icons';
 
 const BottomNavbar = () => {
-  const [selected, setSelected] = useState<string | null>(null);
+  const navigation = useNavigation();
 
-  const handlePress = (iconName: string) => {
-    setSelected(iconName);
+  const handlePress = (screen: string) => {
+    navigation.navigate(screen);
   };
 
   return (
     <View style={styles.container}>
-      <TouchableOpacity onPress={() => handlePress('home')}>
-        <View
-          style={[
-            styles.iconContainer,
-            selected === 'home' && styles.selected,
-          ]}>
-          {selected === 'home' ? (
-            <HomeIconHighlight height={26} width={26} />
-          ) : (
-            <HomeIcon height={28} width={28} />
-          )}
-        </View>
+      <TouchableOpacity
+        style={styles.button}
+        onPress={() => handlePress('Home')}>
+        <HomeIcon />
       </TouchableOpacity>
-      <TouchableOpacity onPress={() => handlePress('document')}>
-        <View
-          style={[
-            styles.iconContainer,
-            selected === 'document' && styles.selected,
-          ]}>
-          {selected === 'document' ? (
-            <DocumentHighlight height={26} width={26} />
-          ) : (
-            <Document height={28} width={28} />
-          )}
-        </View>
+      <TouchableOpacity
+        style={styles.button}
+        onPress={() => handlePress('Learn')}>
+        <Document />
       </TouchableOpacity>
-      <TouchableOpacity onPress={() => handlePress('adjust')}>
-        <View
-          style={[
-            styles.iconContainer,
-            selected === 'adjust' && styles.selected,
-          ]}>
-          {selected === 'adjust' ? (
-            <AdjustHighlight height={26} width={26} />
-          ) : (
-            <Adjust height={28} width={28} />
-          )}
-        </View>
+      <TouchableOpacity
+        style={styles.button}
+        onPress={() => handlePress('Simulation')}>
+        <Adjust />
       </TouchableOpacity>
-      <TouchableOpacity onPress={() => handlePress('profile')}>
-        <View
-          style={[
-            styles.iconContainer,
-            selected === 'profile' && styles.selected,
-          ]}>
-          {selected === 'profile' ? (
-            <ProfileHighlight height={26} width={26} />
-          ) : (
-            <Profile height={28} width={28} />
-          )}
-        </View>
+      <TouchableOpacity
+        style={styles.button}
+        onPress={() => handlePress('Profile')}>
+        <Profile />
       </TouchableOpacity>
     </View>
   );
 };
 
-export default BottomNavbar;
-
 const styles = StyleSheet.create({
   container: {
-    alignItems: 'center',
-    justifyContent: 'space-around',
     flexDirection: 'row',
+    justifyContent: 'space-around',
     backgroundColor: '#121927',
-    width: '100%',
-    height: 70,
   },
-  iconContainer: {
-    alignItems: 'center',
+  button: {
+    alignContent: 'center',
     justifyContent: 'center',
-    height: '100%',
-  },
-  selected: {
-    color: '#5046e5d9',
-    borderTopWidth: 2.5,
-    borderTopColor: '#5046e5d9',
+    height: 60,
   },
 });
+
+export default BottomNavbar;
