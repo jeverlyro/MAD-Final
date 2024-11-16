@@ -12,6 +12,7 @@ const EditInfoScreen: React.FC = () => {
   const [name, setName] = useState('');
   const [showDatePicker, setShowDatePicker] = useState(false);
   const [date, setDate] = useState(new Date());
+  const [dateOfBirth, setDateOfBirth] = useState('');
   const [gender, setGender] = useState(null);
   const navigation = useNavigation();
 
@@ -58,28 +59,35 @@ const EditInfoScreen: React.FC = () => {
         </Text>
       </View>
       <View style={styles.container}>
-        <Input label="Email" placeholder="Fill your e-mail here" />
+        <Input
+          label="Email"
+          placeholder="Fill your e-mail here"
+          value={email}
+          onChangeText={setEmail}
+        />
         <Gap height={20} />
-        <Input label="Name" placeholder="Fill your name here" />
+        <Input
+          label="Name"
+          placeholder="Fill your name here"
+          value={name}
+          onChangeText={setName}
+        />
         <Gap height={20} />
         <View style={styles.rowContainer}>
-          <View style={styles.dateContainer}>
-            <Text style={styles.label}>Date of Birth</Text>
-            <TouchableOpacity
-              style={styles.dateInput}
-              onPress={() => setShowDatePicker(true)}>
-              <Text style={styles.dateText}>{date || '--/--/----'}</Text>
-            </TouchableOpacity>
-
-            {showDatePicker && (
-              <DateTimePicker
-                value={date}
-                mode="date"
-                display="default"
-                onChange={handleDateChange}
-              />
-            )}
-          </View>
+          <TouchableOpacity
+            activeOpacity={0.8}
+            onPress={() => setShowDatePicker(true)}
+            style={styles.dateInput}>
+            <Text style={styles.dateText}>{dateOfBirth || 'Select'}</Text>
+          </TouchableOpacity>
+          {showDatePicker && (
+            <DateTimePicker
+              value={date}
+              mode="date"
+              display="default"
+              onChange={handleDateChange}
+            />
+          )}
           <TouchableOpacity
             onPress={() => toggleGender('Male')}
             style={[
@@ -137,9 +145,9 @@ const styles = StyleSheet.create({
     color: 'white',
     marginBottom: 8,
   },
-
   dateText: {
     color: '#FFFFFF',
+    fontFamily: 'Outfit-Regular',
     fontSize: 14,
   },
   container: {
@@ -203,15 +211,14 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    marginTop: 12,
     marginBottom: 40,
-    marginHorizontal: 20,
   },
   dateInput: {
-    backgroundColor: '#2D2D2D',
+    backgroundColor: '#3A4052',
     borderRadius: 8,
-    padding: 12,
-    width: '100%',
+    padding: 16,
+    width: '34%',
+    marginRight: 5,
   },
   genderOption: {
     flexDirection: 'row',
@@ -239,11 +246,10 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     alignItems: 'center',
     marginTop: 20,
-    marginHorizontal: 20,
   },
   changePasswordText: {
     color: 'white',
     fontSize: 16,
-    fontWeight: 'bold',
+    fontFamily: 'Outfit-SemiBold',
   },
 });
