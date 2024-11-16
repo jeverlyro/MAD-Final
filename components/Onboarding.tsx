@@ -23,7 +23,7 @@ const Onboarding = () => {
 
   const handlePress = () => {
     if (isOnboardingComplete) {
-      navigation.navigate('Start');
+      navigation.replace('Start');
     }
   };
 
