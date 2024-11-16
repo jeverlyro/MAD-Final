@@ -20,7 +20,8 @@ const LearnScreen: React.FC = () => {
       <View style={styles.container}>
         <ScrollView style={styles.insideContent}>
           <Text style={styles.headerText}>Learn</Text>
-          <Gap height={40} />
+          <View style={styles.divider} />
+          <Gap height={30} />
           <Image style={styles.image} source={Mechanical} />
           <Text style={styles.sectionTitle}>Mechanical Keyboard</Text>
           <Text style={styles.sectionContent}>
@@ -106,7 +107,7 @@ const LearnScreen: React.FC = () => {
           </Text>
           <Text style={styles.Text2}>・Choose your keycaps profile</Text>
           <Text style={styles.miniText2}>
-            There’s so many keycaps profiles out there, for example, XDA profile
+            There's so many keycaps profiles out there, for example, XDA profile
             aim to give more ejoyable typing feeling, while OEM profile aim for
             a better gaming experience.
           </Text>
@@ -130,6 +131,13 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#121927',
+  },
+  divider: {
+    width: '100%',
+    height: 1,
+    backgroundColor: '#222C41',
+    opacity: 0.5,
+    marginVertical: 5,
   },
   headerText: {
     color: 'white',
