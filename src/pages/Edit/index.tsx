@@ -78,6 +78,7 @@ const EditInfoScreen: React.FC = () => {
             activeOpacity={0.8}
             onPress={() => setShowDatePicker(true)}
             style={styles.dateInput}>
+            <Text style={[styles.dateLabel]}>Date of Birth</Text>
             <Text style={styles.dateText}>{dateOfBirth || 'Select'}</Text>
           </TouchableOpacity>
           {showDatePicker && (
@@ -214,11 +215,25 @@ const styles = StyleSheet.create({
     marginBottom: 40,
   },
   dateInput: {
+    flexDirection: 'row',
+    alignItems: 'center',
     backgroundColor: '#3A4052',
-    borderRadius: 8,
-    padding: 16,
-    width: '34%',
+    width: '30%',
+    borderRadius: 10,
+    paddingTop: 23,
+    paddingBottom: 10,
+    paddingLeft: 10,
     marginRight: 5,
+  },
+  dateLabel: {
+    position: 'absolute',
+    top: 8,
+    left: 10,
+    fontFamily: 'Inter-Regular',
+    fontSize: 12,
+    color: 'white',
+    opacity: 0.6,
+    zIndex: 1,
   },
   genderOption: {
     flexDirection: 'row',
