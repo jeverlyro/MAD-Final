@@ -10,6 +10,8 @@ import {
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {useNavigation} from '@react-navigation/native';
 import {launchImageLibrary} from 'react-native-image-picker';
+import {BottomNavbar} from '../../../molecules';
+import {showMessage} from 'react-native-flash-message';
 
 const ProfileScreen: React.FC = () => {
   const [profileImage, setProfileImage] = useState(
@@ -25,9 +27,21 @@ const ProfileScreen: React.FC = () => {
 
     launchImageLibrary(options, response => {
       if (response.didCancel) {
-        console.log('User cancelled image picker');
+        showMessage({
+          message: 'No image selected',
+          type: 'info',
+          icon: 'info',
+          backgroundColor: '#5046E5',
+          duration: 2000,
+        });
       } else if (response.errorCode) {
-        Alert.alert('Error', response.errorMessage || 'Something went wrong');
+        showMessage({
+          message: 'Error',
+          description: response.errorMessage || 'Something went wrong',
+          type: 'danger',
+          icon: 'danger',
+          duration: 2000,
+        });
       } else if (response.assets && response.assets.length > 0) {
         setProfileImage(response.assets[0].uri);
       }
@@ -35,70 +49,39 @@ const ProfileScreen: React.FC = () => {
   };
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>My Profile</Text>
+    <>
+      <View style={styles.container}>
+        <Text style={styles.title}>My Profile</Text>
 
-      <TouchableOpacity onPress={handleSelectImage}>
-        <Image source={{uri: profileImage}} style={styles.profileImage} />
-      </TouchableOpacity>
+        <TouchableOpacity onPress={handleSelectImage}>
+          <Image source={{uri: profileImage}} style={styles.profileImage} />
+        </TouchableOpacity>
 
-      <Text style={styles.usernameText}>I Kadek Tresna Jeverly</Text>
+        <Text style={styles.usernameText}>I Kadek Tresna Jeverly</Text>
 
-      <TouchableOpacity
-        style={styles.button}
-        onPress={() => navigation.navigate('Edit')}>
-        <Ionicons name="person" size={20} color="#fff" style={styles.icon} />
-        <Text style={styles.buttonText}>Personal Info</Text>
-      </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => navigation.navigate('Edit')}>
+          <Ionicons name="person" size={20} color="#fff" />
+          <Text style={styles.buttonText}>Personal Info</Text>
+        </TouchableOpacity>
 
-      <TouchableOpacity
-        style={styles.button}
-        onPress={() => navigation.navigate('Appareance')}>
-        <Ionicons name="body" size={20} color="#fff" style={styles.icon} />
-        <Text style={styles.buttonText}>Appearance</Text>
-      </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => navigation.navigate('Appareance')}>
+          <Ionicons name="body" size={20} color="#fff" />
+          <Text style={styles.buttonText}>Appearance</Text>
+        </TouchableOpacity>
 
-      <TouchableOpacity
-        style={styles.button}
-        onPress={() => navigation.navigate('About')}>
-        <Ionicons name="shield" size={20} color="#fff" style={styles.icon} />
-        <Text style={styles.buttonText}>About</Text>
-      </TouchableOpacity>
-
-      <View style={styles.tabBar}>
-        <View style={styles.tabItem}>
-          <Ionicons
-            name="home-outline"
-            size={28}
-            color="white"
-            onPress={() => navigation.replace('Home')}
-          />
-          <Text style={styles.tabText} />
-        </View>
-        <View style={styles.tabItem}>
-          <Ionicons
-            name="book-outline"
-            size={28}
-            color="white"
-            onPress={() => navigation.replace('Learn')}
-          />
-          <Text style={styles.tabText} />
-        </View>
-        <View style={styles.tabItem}>
-          <Ionicons
-            name="settings-outline"
-            size={28}
-            color="white"
-            onPress={() => navigation.replace('Simulation')}
-          />
-          <Text style={styles.tabText} />
-        </View>
-        <View style={styles.tabItem}>
-          <Ionicons name="person" size={28} color="#5046E5" />
-          <Text style={styles.tabText} />
-        </View>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => navigation.navigate('About')}>
+          <Ionicons name="shield" size={20} color="#fff" />
+          <Text style={styles.buttonText}>About</Text>
+        </TouchableOpacity>
       </View>
-    </View>
+      <BottomNavbar />
+    </>
   );
 };
 
@@ -115,17 +98,18 @@ const styles = StyleSheet.create({
     fontSize: 24,
     color: 'white',
     paddingBottom: 31,
+    fontFamily: 'Lexend-Bold',
   },
   profileImage: {
     width: 160,
     height: 160,
     borderRadius: 80,
-    borderWidth: 4,
+    borderWidth: 5,
     borderColor: '#5046E5',
   },
   usernameText: {
     color: 'white',
-    fontSize: 16,
+    fontSize: 20,
     fontFamily: 'Lexend-Bold',
     paddingTop: 20,
     paddingBottom: 53,
@@ -141,13 +125,11 @@ const styles = StyleSheet.create({
     marginVertical: 10,
     justifyContent: 'flex-start',
   },
-  icon: {
-    marginLeft: 20,
-  },
   buttonText: {
     color: '#fff',
-    fontSize: 16,
+    fontSize: 14,
     marginLeft: 15,
+    fontFamily: 'Poppins-Medium',
   },
   tabBar: {
     position: 'absolute',
@@ -164,7 +146,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   tabText: {
-    fontFamily: 'Inter-Regular',
+    fontFamily: 'Lexend-Regular',
     color: 'white',
     fontSize: 10,
     marginTop: 4,
