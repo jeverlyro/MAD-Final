@@ -61,7 +61,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: 8,
     left: 10,
-    fontFamily: 'Inter-Regular',
+    fontFamily: 'Lexend-Regular',
     fontSize: 12,
     color: 'white',
     opacity: 0.6,

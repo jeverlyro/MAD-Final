@@ -54,7 +54,7 @@ const SignUp = () => {
       <Text style={styles.subHeader}>
         Get started in a few clicks and you are ready to go !
       </Text>
-      <Gap height={40} />
+      <Gap height={20} />
       <View style={styles.wrapper}>
         <Input
           label="Email"
@@ -77,7 +77,7 @@ const SignUp = () => {
           value={password}
           onChangeText={text => setPassword(text)}
         />
-        <Gap height={22} />
+        <Gap height={20} />
         <Input
           label="Confirm password"
           placeholder="Confirm your password"

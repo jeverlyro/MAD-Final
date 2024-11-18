@@ -94,13 +94,13 @@ const SignIn = () => {
           <Text style={styles.subHeader}>
             Welcome back, glad to see you again!
           </Text>
-          <Gap height={80} />
+          <Gap height={65} />
           <Input
             label="Your email"
             placeholder="Enter your email here"
             onChangeText={text => setEmail(text)}
           />
-          <Gap height={16} />
+          <Gap height={19} />
           <Input
             label="Your password"
             placeholder="Enter your password here"
@@ -108,14 +108,14 @@ const SignIn = () => {
             secureTextEntry={true}
           />
         </View>
-        <Gap height={30} />
+        <Gap height={62} />
         <Button
           color="#5046E5"
           text="Sign In"
           textColor="white"
           onPress={handleLogin}
         />
-        <Gap height={30} />
+        <Gap height={27} />
         <View style={styles.dividerContainer}>
           <View style={styles.line} />
           <Text style={styles.dividerText}>Or continue with</Text>
@@ -132,7 +132,7 @@ const SignIn = () => {
             />
           </TouchableOpacity>
         </View>
-        <Gap height={45} />
+        <Gap height={40} />
         <View style={styles.footer}>
           <Text style={styles.loginText}>Don't have an account?</Text>
           <TouchableOpacity onPress={() => navigation.navigate('SignUp')}>
@@ -188,10 +188,10 @@ const styles = StyleSheet.create({
   line: {
     flex: 1,
     height: 1,
-    backgroundColor: 'white',
+    backgroundColor: '#FFFFFF',
   },
   dividerText: {
-    color: 'white',
+    color: '#FFFFFF',
     fontFamily: 'Inter-Regular',
     marginHorizontal: 8,
     fontSize: 11,
