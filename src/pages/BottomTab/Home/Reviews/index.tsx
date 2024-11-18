@@ -164,4 +164,10 @@ const styles = StyleSheet.create({
     width: '100%',
     height: '100%',
   },
+  sectionTitle: {
+    fontFamily: 'Lexend-Bold',
+    alignSelf: 'center',
+    fontSize: 17,
+    color: '#FFFFFF',
+  },
 });
