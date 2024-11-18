@@ -19,102 +19,117 @@ import Reviews from './src/pages/BottomTab/Home/Reviews';
 import Recommended from './src/pages/BottomTab/Home/Recommended';
 import AppareanceScreen from './src/pages/Appearance';
 import Plans from './src/pages/BottomTab/Simulation/Page2';
+import BareboneSelection from './src/pages/BottomTab/Simulation/Page3';
+import {PlansProvider} from './src/context';
+import PlanDetail from './src/pages/PlanDetail';
 import './src/config/firebase';
 
 const stack = createNativeStackNavigator();
 
 const App = () => {
   return (
-    <NavigationContainer>
-      <stack.Navigator>
-        <stack.Screen
-          name="Splashscreen"
-          component={Splash}
-          options={{headerShown: false}}
-        />
-        <stack.Screen
-          name="Onboarding"
-          component={Onboarding}
-          options={{headerShown: false}}
-        />
-        <stack.Screen
-          name="Start"
-          component={Start}
-          options={{headerShown: false}}
-        />
-        <stack.Screen
-          name="SignIn"
-          component={SignIn}
-          options={{headerShown: false}}
-        />
-        <stack.Screen
-          name="SignUp"
-          component={SignUp}
-          options={{headerShown: false}}
-        />
-        <stack.Screen
-          name="Home"
-          component={Home}
-          options={{headerShown: false, animation: 'none'}}
-        />
-        <stack.Screen
-          name="News"
-          component={News}
-          options={{headerShown: false, animation: 'none'}}
-        />
-        <stack.Screen
-          name="Reviews"
-          component={Reviews}
-          options={{headerShown: false, animation: 'none'}}
-        />
-        <stack.Screen
-          name="Recommended"
-          component={Recommended}
-          options={{headerShown: false, animation: 'none'}}
-        />
-        <stack.Screen
-          name="Learn"
-          component={LearnScreen}
-          options={{headerShown: false, animation: 'none'}}
-        />
-        <stack.Screen
-          name="Simulation"
-          component={SimScreen}
-          options={{headerShown: false, animation: 'none'}}
-        />
-        <stack.Screen
-          name="Profile"
-          component={ProfileScreen}
-          options={{headerShown: false, animation: 'none'}}
-        />
-        <stack.Screen
-          name="Edit"
-          component={EditInfoScreen}
-          options={{headerShown: false, animation: 'none'}}
-        />
-        <stack.Screen
-          name="ChangePassword"
-          component={ChangePasswordScreen}
-          options={{headerShown: false, animation: 'none'}}
-        />
-        <stack.Screen
-          name="About"
-          component={AboutScreen}
-          options={{headerShown: false, animation: 'none'}}
-        />
-        <stack.Screen
-          name="Appareance"
-          component={AppareanceScreen}
-          options={{headerShown: false, animation: 'none'}}
-        />
-        <stack.Screen
-          name="Plans"
-          component={Plans}
-          options={{headerShown: false, animation: 'none'}}
-        />
-      </stack.Navigator>
-      <FlashMessage position="top" />
-    </NavigationContainer>
+    <PlansProvider>
+      <NavigationContainer>
+        <stack.Navigator>
+          <stack.Screen
+            name="Splashscreen"
+            component={Splash}
+            options={{headerShown: false}}
+          />
+          <stack.Screen
+            name="Onboarding"
+            component={Onboarding}
+            options={{headerShown: false}}
+          />
+          <stack.Screen
+            name="Start"
+            component={Start}
+            options={{headerShown: false}}
+          />
+          <stack.Screen
+            name="SignIn"
+            component={SignIn}
+            options={{headerShown: false}}
+          />
+          <stack.Screen
+            name="SignUp"
+            component={SignUp}
+            options={{headerShown: false}}
+          />
+          <stack.Screen
+            name="Home"
+            component={Home}
+            options={{headerShown: false, animation: 'none'}}
+          />
+          <stack.Screen
+            name="News"
+            component={News}
+            options={{headerShown: false, animation: 'none'}}
+          />
+          <stack.Screen
+            name="Reviews"
+            component={Reviews}
+            options={{headerShown: false, animation: 'none'}}
+          />
+          <stack.Screen
+            name="Recommended"
+            component={Recommended}
+            options={{headerShown: false, animation: 'none'}}
+          />
+          <stack.Screen
+            name="Learn"
+            component={LearnScreen}
+            options={{headerShown: false, animation: 'none'}}
+          />
+          <stack.Screen
+            name="Simulation"
+            component={SimScreen}
+            options={{headerShown: false, animation: 'none'}}
+          />
+          <stack.Screen
+            name="Profile"
+            component={ProfileScreen}
+            options={{headerShown: false, animation: 'none'}}
+          />
+          <stack.Screen
+            name="Edit"
+            component={EditInfoScreen}
+            options={{headerShown: false, animation: 'none'}}
+          />
+          <stack.Screen
+            name="ChangePassword"
+            component={ChangePasswordScreen}
+            options={{headerShown: false, animation: 'none'}}
+          />
+          <stack.Screen
+            name="About"
+            component={AboutScreen}
+            options={{headerShown: false, animation: 'none'}}
+          />
+          <stack.Screen
+            name="Appareance"
+            component={AppareanceScreen}
+            options={{headerShown: false, animation: 'none'}}
+          />
+          <stack.Screen
+            name="Plans"
+            component={Plans}
+            options={{headerShown: false, animation: 'none'}}
+          />
+          <stack.Screen
+            name="Page3"
+            component={BareboneSelection}
+            options={{headerShown: false, animation: 'none'}}
+          />
+          <stack.Screen
+            name="PlanDetails"
+            component={PlanDetail}
+            options={{headerShown: false}}
+          />
+        </stack.Navigator>
+        <FlashMessage position="top" />
+      </NavigationContainer>
+    </PlansProvider>
   );
 };
 

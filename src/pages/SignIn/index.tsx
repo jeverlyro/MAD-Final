@@ -23,7 +23,7 @@ const SignIn = () => {
   useEffect(() => {
     GoogleSignin.configure({
       webClientId:
-        '532261638908-rknn6j7rjllol1tlc9cgj3ethf2ojdgh.apps.googleusercontent.com', // Replace with your web client ID
+        '532261638908-rknn6j7rjllol1tlc9cgj3ethf2ojdgh.apps.googleusercontent.com',
     });
   }, []);
 
@@ -124,18 +124,12 @@ const SignIn = () => {
         <Gap height={45} />
         <View style={styles.socialContainer}>
           <TouchableOpacity style={styles.icon}>
-            <Ionicons name="logo-facebook" size={24} color="#282A37" />
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.icon}>
             <Ionicons
               name="logo-google"
               size={24}
               color="#282A37"
               onPress={handleGoogleLogin}
             />
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.icon}>
-            <Ionicons name="logo-twitter" size={24} color="#282A37" />
           </TouchableOpacity>
         </View>
         <Gap height={45} />
