@@ -6,47 +6,42 @@ import {
   ScrollView,
   TouchableOpacity,
 } from 'react-native';
-import Ionicons from 'react-native-vector-icons/Ionicons';
 import {useNavigation} from '@react-navigation/native';
 import {akkokey, akkomakey, gmkkey} from '../../../../assets/images';
 import CardB from '../../../../molecules/CardB';
 import {BottomNavbar} from '../../../../molecules';
+import {usePlans} from '../../../../context';
 
 const SelectionKey = () => {
   const navigation = useNavigation();
+  const {updateSelected} = usePlans();
+
+  const handleSelect = (title: string, image: any) => {
+    updateSelected('keycaps', {title, image});
+    navigation.goBack();
+  };
 
   return (
     <View style={styles.container}>
-      <Text style={styles.headerTitle}>Select Your Switches</Text>
-      <View style={styles.divider} />
-
+      <Text style={styles.headerTitle}>Select Your Keycaps</Text>
       <ScrollView contentContainerStyle={styles.scrollContainer}>
-        <TouchableOpacity>
-          <CardB
-            title="Akko Warm Gray
-Keycaps Set"
-            imageSource={akkokey}
-          />
+        <View style={styles.divider} />
+        <TouchableOpacity
+          onPress={() => handleSelect('Akko Warm Gray Keycaps Set', akkokey)}>
+          <CardB title="Akko Warm Gray Keycaps Set" imageSource={akkokey} />
         </TouchableOpacity>
-        <TouchableOpacity>
-          <CardB
-            title="GMK Red Samurai
-Keycaps set"
-            imageSource={gmkkey}
-          />
+        <TouchableOpacity
+          onPress={() => handleSelect('GMK Red Samurai Keycaps set', gmkkey)}>
+          <CardB title="GMK Red Samurai Keycaps set" imageSource={gmkkey} />
         </TouchableOpacity>
-        <TouchableOpacity>
-          <CardB
-            title="Akko Matcha Bear
-Keycaps Set"
-            imageSource={akkomakey}
-          />
+        <TouchableOpacity
+          onPress={() =>
+            handleSelect('Akko Matcha Bear Keycaps Set', akkomakey)
+          }>
+          <CardB title="Akko Matcha Bear Keycaps Set" imageSource={akkomakey} />
         </TouchableOpacity>
       </ScrollView>
-
-      <View style={styles.tabBar}>
-        <BottomNavbar />
-      </View>
+      <BottomNavbar />
     </View>
   );
 };
@@ -55,23 +50,21 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#121927',
-    paddingTop: 20,
   },
   headerTitle: {
     fontSize: 26,
-    fontFamily: 'DM-Sans',
+    fontFamily: 'Lexend-Bold',
     color: 'white',
-    fontWeight: 'bold',
     textAlign: 'center',
+    marginTop: 10,
     marginBottom: 10,
   },
   divider: {
-    width: '90%',
+    width: '100%',
     height: 1,
-    backgroundColor: '#5046E5',
+    backgroundColor: '#222C41',
     opacity: 0.5,
-    marginBottom: 10,
-    alignSelf: 'center',
+    marginVertical: 5,
   },
   scrollContainer: {
     paddingHorizontal: 20,

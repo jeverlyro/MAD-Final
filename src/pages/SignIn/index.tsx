@@ -37,6 +37,8 @@ const SignIn = () => {
         showMessage({
           message: 'Login Succesfully',
           type: 'success',
+          icon: 'success',
+          style: {backgroundColor: '#5046E5'},
         });
       })
       .catch(error => {

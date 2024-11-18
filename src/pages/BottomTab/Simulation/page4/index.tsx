@@ -10,28 +10,35 @@ import {useNavigation} from '@react-navigation/native';
 import {akkoswc, geteswc, hmxswc} from '../../../../assets/images';
 import CardB from '../../../../molecules/CardB';
 import {BottomNavbar} from '../../../../molecules';
+import {usePlans} from '../../../../context';
 
 const SelectionSwitch = () => {
   const navigation = useNavigation();
+  const {updateSelected} = usePlans();
+
+  const handleSelect = (title: string, image: any) => {
+    updateSelected('switches', {title, image});
+    navigation.goBack();
+  };
 
   return (
     <View style={styles.container}>
       <Text style={styles.headerTitle}>Select Your Switches</Text>
-      <View style={styles.divider} />
       <ScrollView contentContainerStyle={styles.scrollContainer}>
-        <TouchableOpacity>
+        <View style={styles.divider} />
+        <TouchableOpacity
+          onPress={() => handleSelect('Akko Creamy Yellow V3 Pro', akkoswc)}>
           <CardB title="Akko Creamy Yellow V3 Pro" imageSource={akkoswc} />
         </TouchableOpacity>
-        <TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => handleSelect('Gateron Oil King', geteswc)}>
           <CardB title="Gateron Oil King" imageSource={geteswc} />
         </TouchableOpacity>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={() => handleSelect('HMX Xinhai', hmxswc)}>
           <CardB title="HMX Xinhai" imageSource={hmxswc} />
         </TouchableOpacity>
       </ScrollView>
-      <View style={styles.tabBar}>
-        <BottomNavbar />
-      </View>
+      <BottomNavbar />
     </View>
   );
 };
@@ -43,23 +50,21 @@ const styles = StyleSheet.create({
   },
   headerTitle: {
     fontSize: 26,
-    fontFamily: 'DM-Sans',
+    fontFamily: 'Lexend-Bold',
     color: 'white',
-    fontWeight: 'bold',
     textAlign: 'center',
-    marginTop: 20,
+    marginTop: 10,
+    marginBottom: 10,
   },
   divider: {
-    width: '90%',
+    width: '100%',
     height: 1,
-    backgroundColor: '#5046E5',
+    backgroundColor: '#222C41',
     opacity: 0.5,
-    marginVertical: 10,
-    alignSelf: 'center',
+    marginVertical: 5,
   },
   scrollContainer: {
-    paddingHorizontal: 20,
-    paddingBottom: 80,
+    marginHorizontal: 20,
   },
   tabBar: {
     position: 'absolute',

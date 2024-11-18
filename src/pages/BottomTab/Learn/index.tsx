@@ -3,7 +3,6 @@ import {View, Text, StyleSheet, ScrollView} from 'react-native';
 import {BottomNavbar} from '../../../molecules';
 import {Gap} from '../../../atoms';
 import {Image} from 'react-native';
-import Svg, {Rect} from 'react-native-svg';
 import {
   Barebone,
   Foam,

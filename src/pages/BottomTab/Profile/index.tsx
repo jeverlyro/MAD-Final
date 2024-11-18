@@ -8,16 +8,32 @@ import {
   Alert,
 } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import {useNavigation} from '@react-navigation/native';
+import {useNavigation, CommonActions} from '@react-navigation/native';
 import {launchImageLibrary} from 'react-native-image-picker';
 import {BottomNavbar} from '../../../molecules';
 import {showMessage} from 'react-native-flash-message';
+import {auth} from '../../../config/firebase';
 
-const ProfileScreen: React.FC = () => {
+const ProfileScreen = () => {
   const [profileImage, setProfileImage] = useState(
     'https://via.placeholder.com/120',
   );
+
   const navigation = useNavigation();
+
+  const handleSignOut = async () => {
+    try {
+      await auth.signOut();
+      // Reset navigation stack to prevent going back
+      navigation.reset({
+        index: 0,
+        routes: [{name: 'Start'}],
+      });
+    } catch (error) {
+      console.error('Sign out error:', error);
+      Alert.alert('Error', 'Failed to sign out. Please try again.');
+    }
+  };
 
   const handleSelectImage = () => {
     const options = {
@@ -79,6 +95,11 @@ const ProfileScreen: React.FC = () => {
           <Ionicons name="shield" size={20} color="#fff" />
           <Text style={styles.buttonText}>About</Text>
         </TouchableOpacity>
+
+        <TouchableOpacity style={styles.exitButton} onPress={handleSignOut}>
+          <Ionicons name="exit" size={20} color="#fff" />
+          <Text style={styles.buttonText}>Sign Out</Text>
+        </TouchableOpacity>
       </View>
       <BottomNavbar />
     </>
@@ -124,6 +145,16 @@ const styles = StyleSheet.create({
     width: '80%',
     marginVertical: 10,
     justifyContent: 'flex-start',
+  },
+  exitButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#FF3D71',
+    paddingVertical: 15,
+    paddingHorizontal: 20,
+    borderRadius: 10,
+    marginVertical: 10,
+    width: '80%',
   },
   buttonText: {
     color: '#fff',

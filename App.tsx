@@ -1,5 +1,6 @@
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {NavigationContainer} from '@react-navigation/native';
+import {PlansProvider} from './src/context';
 import Splash from './src/pages/Splashscreen';
 import Onboarding from './components/Onboarding';
 import SignUp from './src/pages/SignUp';
@@ -20,7 +21,9 @@ import Recommended from './src/pages/BottomTab/Home/Recommended';
 import AppareanceScreen from './src/pages/Appearance';
 import Plans from './src/pages/BottomTab/Simulation/Page2';
 import BareboneSelection from './src/pages/BottomTab/Simulation/Page3';
-import {PlansProvider} from './src/context';
+import SelectionSwitch from './src/pages/BottomTab/Simulation/page4';
+import SelectionKey from './src/pages/BottomTab/Simulation/page5';
+import SelectionAdditional from './src/pages/BottomTab/Simulation/page6';
 import PlanDetail from './src/pages/PlanDetail';
 import './src/config/firebase';
 
@@ -120,6 +123,21 @@ const App = () => {
             name="Page3"
             component={BareboneSelection}
             options={{headerShown: false, animation: 'none'}}
+          />
+          <stack.Screen
+            name="Page4"
+            component={SelectionSwitch}
+            options={{headerShown: false}}
+          />
+          <stack.Screen
+            name="Page5"
+            component={SelectionKey}
+            options={{headerShown: false}}
+          />
+          <stack.Screen
+            name="Page6"
+            component={SelectionAdditional}
+            options={{headerShown: false}}
           />
           <stack.Screen
             name="PlanDetails"

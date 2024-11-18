@@ -13,7 +13,7 @@ import {
   AulaF75,
   RazerHMV3,
 } from '../../../../assets/images/Home';
-import ReviewContainer from '../../../../molecules/review'; // Import komponen baru
+import ReviewContainer from '../../../../molecules/review';
 
 const Reviews = () => {
   const [name, setName] = useState('');
@@ -106,11 +106,9 @@ const Reviews = () => {
         <Gap height={15} />
         <NavButton />
         <Gap height={15} />
-        {/* Reviewed Popular Keyboards Section */}
         <Text style={styles.sectionTitle}>Reviewed Popular Keyboards</Text>
         <Gap height={25} />
         <ReviewContainer reviews={reviewData} />
-        {/* Panggil komponen dengan data */}
       </ScrollView>
       <BottomNavbar />
     </>
@@ -163,5 +161,11 @@ const styles = StyleSheet.create({
   sliderImage: {
     width: '100%',
     height: '100%',
+  },
+  sectionTitle: {
+    fontSize: 18,
+    color: '#FFFFFF',
+    fontFamily: 'Lexend-SemiBold',
+    marginLeft: 20,
   },
 });
