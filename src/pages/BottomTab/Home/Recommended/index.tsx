@@ -6,9 +6,43 @@ import {auth, db} from '../../../../config/firebase';
 import {doc, getDoc} from 'firebase/firestore';
 import {BottomNavbar} from '../../../../molecules';
 import {Gap} from '../../../../atoms';
+import {
+  Air75,
+  Banner,
+  AulaF75,
+  ZuoyaGM67,
+  Akko5075B,
+  RexusDaivaD87,
+  FantechMaxfit61,
+  RoyalKludfeR75,
+  MXMechanicalMini,
+  RazerHMV3_1,
+  WOBRainy75R1,
+  Wooting60HE,
+} from '../../../../assets/images/Home';
 
-const Recommended = () => {
+const Home = () => {
   const [name, setName] = useState('');
+  const keyboardRecommendations = {
+    middleHigh: [
+      {image: ZuoyaGM67, title: 'Zuoya GMK67-S Barebone kit'},
+      {image: Air75, title: 'NuPhy Air75'},
+      {image: Akko5075B, title: 'Akko Black&Silver 5075B Plus'},
+      {image: AulaF75, title: 'Aula F75'},
+    ],
+    lowMiddle: [
+      {image: RexusDaivaD87, title: 'Rexus Daiva D87'},
+      {image: FantechMaxfit61, title: 'Fantech Maxfit61 Frost'},
+      {image: RoyalKludfeR75, title: 'Royal Kludge R75'},
+      {image: MXMechanicalMini, title: 'MX Mechanical Mini'},
+    ],
+    gaming: [
+      {image: RazerHMV3_1, title: 'Razer Huntsman Mini V3'},
+      {image: WOBRainy75R1, title: 'WOB Rainy75 R1'},
+      {image: Wooting60HE, title: 'Wooting 60HE'},
+      {image: Akko5075B, title: 'Akko Black&Silver 5075B Plus'},
+    ],
+  };
 
   useEffect(() => {
     const fetchUserName = async () => {
@@ -27,12 +61,14 @@ const Recommended = () => {
 
     fetchUserName();
   }, []);
+
   return (
     <>
       <ScrollView style={styles.container} bounces={false}>
+        {/* Welcome Section */}
         <View style={styles.welcomeSection}>
           <View style={styles.textContainer}>
-            <Text style={styles.greetingText}>Recommended,</Text>
+            <Text style={styles.greetingText}>Hello,</Text>
             <Text style={styles.userName}>{name}</Text>
           </View>
           <Image
@@ -40,6 +76,8 @@ const Recommended = () => {
             source={{uri: 'https://via.placeholder.com/50'}}
           />
         </View>
+
+        {/* Slider Section */}
         <View style={styles.sliderContainer}>
           <Swiper
             style={styles.swiper}
@@ -48,61 +86,58 @@ const Recommended = () => {
             activeDotColor="#5046E5"
             autoplay={true}
             autoplayTimeout={5}>
-            <Image
-              style={styles.sliderImage}
-              source={{uri: 'https://via.placeholder.com/300x150'}} // Slide image 1
-            />
-            <Image
-              style={styles.sliderImage}
-              source={{uri: 'https://via.placeholder.com/300x150'}} // Slide image 2
-            />
-            <Image
-              style={styles.sliderImage}
-              source={{uri: 'https://via.placeholder.com/300x150'}} // Slide image 3
-            />
+            <Image style={styles.sliderImage} source={Banner} />
+            <Image style={styles.sliderImage} source={Banner} />
+            <Image style={styles.sliderImage} source={Banner} />
           </Swiper>
         </View>
         <Gap height={15} />
         <NavButton />
-        <Gap height={30} />
-        {/* Popular Section */}
-        <Text style={styles.sectionTitle}>Popular</Text>
-        <View style={styles.popularContainer}>
-          {[1, 2, 3].map((_, index) => (
-            <View key={index} style={styles.popularCard}>
-              <Image
-                style={styles.popularImage}
-                source={{uri: 'https://via.placeholder.com/100x100'}} // Popular item image
-              />
-              <Text style={styles.popularText}>Popular Item {index + 1}</Text>
-            </View>
-          ))}
-        </View>
-        <Gap height={25} />
-        {/* Recommended News Section */}
-        <Text style={styles.sectionTitle}>Recommended news</Text>
-        <View style={styles.recommendedContainer}>
-          <Image
-            style={styles.recommendedImage}
-            source={{uri: 'https://via.placeholder.com/150x80'}} // Recommended news image
-          />
-          <View style={styles.recommendedTextContainer}>
-            <Text style={styles.recommendedTitle}>
-              Best-selling keyboard switches of October, 2024
-            </Text>
-            <Text style={styles.recommendedDescription}>
-              Discover the latest trending keyboard switches and find the best
-              options for your setup.
-            </Text>
-          </View>
+        <Text style={styles.sectionTitle}>Recommended Keyboards</Text>
+
+        {/* Recommended Keyboards Section */}
+        <View style={styles.recommendationContainer}>
+          {/* Middle-to-High Budget */}
+          <Text style={styles.budgetTitle}>For Middle-to-High Budget</Text>
+          <ScrollView style={styles.cardContainer} horizontal bounces={true}>
+            {keyboardRecommendations.middleHigh.map((item, index) => (
+              <View key={index} style={styles.card}>
+                <Image style={styles.cardImage} source={item.image} />
+                <Text style={styles.cardText}>{item.title}</Text>
+              </View>
+            ))}
+          </ScrollView>
+
+          {/* Low-to-Middle Budget */}
+          <Text style={styles.budgetTitle}>For Low-to-Middle Budget</Text>
+          <ScrollView style={styles.cardContainer} horizontal bounces={true}>
+            {keyboardRecommendations.lowMiddle.map((item, index) => (
+              <View key={index} style={styles.card}>
+                <Image style={styles.cardImage} source={item.image} />
+                <Text style={styles.cardText}>{item.title}</Text>
+              </View>
+            ))}
+          </ScrollView>
+
+          {/* Recommended Gaming Keyboards */}
+          <Text style={styles.budgetTitle}>Recommended Gaming Keyboards</Text>
+          <ScrollView style={styles.cardContainer} horizontal bounces={true}>
+            {keyboardRecommendations.gaming.map((item, index) => (
+              <View key={index} style={styles.card}>
+                <Image style={styles.cardImage} source={item.image} />
+                <Text style={styles.cardText}>{item.title}</Text>
+              </View>
+            ))}
+          </ScrollView>
         </View>
       </ScrollView>
+
       <BottomNavbar />
     </>
   );
 };
 
-export default Recommended;
+export default Home;
 
 const styles = StyleSheet.create({
   container: {
@@ -115,8 +150,6 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     paddingHorizontal: 15,
     paddingVertical: 15,
-    backgroundColor: '#121927',
-    borderRadius: 10,
     marginHorizontal: 15,
   },
   textContainer: {
@@ -149,90 +182,45 @@ const styles = StyleSheet.create({
     width: '100%',
     height: '100%',
   },
-  navButtonsContainer: {
-    flexDirection: 'row',
-    justifyContent: 'center',
+  recommendationContainer: {
+    paddingHorizontal: 15,
     marginBottom: 20,
-  },
-  navButton: {
-    borderColor: '#5046E5',
-    borderWidth: 1,
-    paddingVertical: 3,
-    paddingHorizontal: 20,
-    marginHorizontal: 10,
-    borderRadius: 20,
-    width: 80,
-    height: 35,
-    justifyContent: 'center',
-  },
-  navButtonText: {
-    color: '#FFFFFF',
-    fontSize: 9.4,
-    textAlign: 'center',
-    fontFamily: 'Lexend-Regular',
+    backgroundColor: '#1B2539',
   },
   sectionTitle: {
     color: '#FFFFFF',
     fontFamily: 'Lexend-Medium',
-    marginLeft: 24,
-    marginVertical: 10,
     fontSize: 20,
-  },
-  popularContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginBottom: 20,
-    padding: 16,
-  },
-  popularCard: {
-    width: '30%',
-    borderWidth: 0.3,
-    borderColor: '#1B2539',
-    borderRadius: 4,
-    paddingTop: 6,
-    paddingBottom: 30,
-    alignItems: 'center',
-  },
-  popularImage: {
-    width: 100,
-    height: 100,
-    borderRadius: 4,
-  },
-  popularText: {
-    color: '#FFFFFF',
-    fontFamily: 'Lexend-Regular',
     textAlign: 'center',
-    fontSize: 10,
-    marginTop: 5,
+    marginBottom: 15,
   },
-  recommendedContainer: {
-    flexDirection: 'row',
-    borderColor: '#222C41',
-    borderWidth: 0.3,
-    borderRadius: 5,
-    padding: 10,
-    margin: 15,
-    alignItems: 'center',
-  },
-  recommendedImage: {
-    width: 150,
-    height: 100,
-    borderRadius: 5,
-    marginRight: 10,
-  },
-  recommendedTextContainer: {
-    flex: 1,
-  },
-  recommendedTitle: {
+  budgetTitle: {
     color: '#FFFFFF',
     fontFamily: 'Lexend-Medium',
-    marginBottom: 25,
-    fontSize: 12,
+    fontSize: 16,
+    marginVertical: 10,
   },
-  recommendedDescription: {
-    color: '#CCCCCC',
-    fontSize: 9,
+  cardContainer: {
+    flexDirection: 'row',
+  },
+  card: {
+    width: '30%',
+    borderRadius: 10,
+    padding: 8,
+    marginBottom: 15,
+    alignItems: 'center',
+  },
+  cardImage: {
+    width: 80,
+    height: 80,
+    borderRadius: 5,
+  },
+  cardText: {
+    color: '#FFFFFF',
+    fontSize: 10,
+    textAlign: 'center',
+    marginTop: 8,
     fontFamily: 'Lexend-Regular',
-    marginBottom: 5,
+    maxWidth: 100,
   },
 });
