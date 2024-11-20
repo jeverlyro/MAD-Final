@@ -20,9 +20,11 @@ import {
   WOBRainy75R1,
   Wooting60HE,
 } from '../../../../assets/images/Home';
+import {useUser} from '../../../../context/UserContext';
 
 const Home = () => {
   const [name, setName] = useState('');
+  const {profileImage} = useUser();
   const keyboardRecommendations = {
     middleHigh: [
       {image: ZuoyaGM67, title: 'Zuoya GMK67-S Barebone kit'},
@@ -65,16 +67,12 @@ const Home = () => {
   return (
     <>
       <ScrollView style={styles.container} bounces={false}>
-        {/* Welcome Section */}
         <View style={styles.welcomeSection}>
           <View style={styles.textContainer}>
             <Text style={styles.greetingText}>Hello,</Text>
             <Text style={styles.userName}>{name}</Text>
           </View>
-          <Image
-            style={styles.profileImage}
-            source={{uri: 'https://via.placeholder.com/50'}}
-          />
+          <Image style={styles.profileImage} source={{uri: profileImage}} />
         </View>
 
         {/* Slider Section */}
@@ -95,11 +93,13 @@ const Home = () => {
         <NavButton />
         <Text style={styles.sectionTitle}>Recommended Keyboards</Text>
 
-        {/* Recommended Keyboards Section */}
         <View style={styles.recommendationContainer}>
-          {/* Middle-to-High Budget */}
           <Text style={styles.budgetTitle}>For Middle-to-High Budget</Text>
-          <ScrollView style={styles.cardContainer} horizontal bounces={true}>
+          <ScrollView
+            style={styles.cardContainer}
+            horizontal
+            bounces={true}
+            showsHorizontalScrollIndicator={false}>
             {keyboardRecommendations.middleHigh.map((item, index) => (
               <View key={index} style={styles.card}>
                 <Image style={styles.cardImage} source={item.image} />
@@ -108,9 +108,12 @@ const Home = () => {
             ))}
           </ScrollView>
 
-          {/* Low-to-Middle Budget */}
           <Text style={styles.budgetTitle}>For Low-to-Middle Budget</Text>
-          <ScrollView style={styles.cardContainer} horizontal bounces={true}>
+          <ScrollView
+            style={styles.cardContainer}
+            horizontal
+            bounces={true}
+            showsHorizontalScrollIndicator={false}>
             {keyboardRecommendations.lowMiddle.map((item, index) => (
               <View key={index} style={styles.card}>
                 <Image style={styles.cardImage} source={item.image} />
@@ -119,9 +122,12 @@ const Home = () => {
             ))}
           </ScrollView>
 
-          {/* Recommended Gaming Keyboards */}
           <Text style={styles.budgetTitle}>Recommended Gaming Keyboards</Text>
-          <ScrollView style={styles.cardContainer} horizontal bounces={true}>
+          <ScrollView
+            style={styles.cardContainer}
+            horizontal
+            bounces={true}
+            showsHorizontalScrollIndicator={false}>
             {keyboardRecommendations.gaming.map((item, index) => (
               <View key={index} style={styles.card}>
                 <Image style={styles.cardImage} source={item.image} />

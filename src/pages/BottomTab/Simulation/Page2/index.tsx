@@ -11,16 +11,25 @@ import Card from '../../../../molecules/card';
 import {BottomNavbar} from '../../../../molecules';
 import {usePlans} from '../../../../context';
 
-// screens/Plans/index.tsx
 const Plans = () => {
   const navigation = useNavigation();
-  const {savePlan} = usePlans();
+  const {savePlan, selectedItems} = usePlans();
   const [showNotification, setShowNotification] = useState(false);
 
-  const handleSavePlan = () => {
-    savePlan();
-    setShowNotification(true);
-    setTimeout(() => setShowNotification(false), 3000);
+  const handleSavePlan = async () => {
+    try {
+      const plan = {
+        barebone: selectedItems.barebone,
+        switches: selectedItems.switches,
+        keycaps: selectedItems.keycaps,
+        additional: selectedItems.additional,
+      };
+      await savePlan(plan);
+      setShowNotification(true);
+      setTimeout(() => setShowNotification(false), 3000);
+    } catch (error) {
+      console.error('Error saving plan:', error);
+    }
   };
 
   return (

@@ -14,9 +14,11 @@ import {
   RazerHMV3,
 } from '../../../../assets/images/Home';
 import ReviewContainer from '../../../../molecules/review';
+import {useUser} from '../../../../context/UserContext';
 
 const Reviews = () => {
   const [name, setName] = useState('');
+  const {profileImage} = useUser();
 
   const reviewData = [
     {
@@ -76,10 +78,7 @@ const Reviews = () => {
             <Text style={styles.greetingText}>Hello,</Text>
             <Text style={styles.userName}>{name}</Text>
           </View>
-          <Image
-            style={styles.profileImage}
-            source={{uri: 'https://via.placeholder.com/50'}}
-          />
+          <Image style={styles.profileImage} source={{uri: profileImage}} />
         </View>
         <View style={styles.sliderContainer}>
           <Swiper

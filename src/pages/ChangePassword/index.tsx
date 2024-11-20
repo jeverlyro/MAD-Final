@@ -1,30 +1,55 @@
 import React, {useState} from 'react';
-import {
-  View,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  StyleSheet,
-  Alert,
-} from 'react-native';
+import {View, Text, TouchableOpacity, StyleSheet, Alert} from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {useNavigation} from '@react-navigation/native';
 import {Input} from '../../molecules';
+import {Gap} from '../../atoms';
+import {
+  getAuth,
+  updatePassword,
+  reauthenticateWithCredential,
+  EmailAuthProvider,
+} from 'firebase/auth';
+import {showMessage} from 'react-native-flash-message';
 
-const ChangePasswordScreen: React.FC = () => {
-  const [password, setPassword] = useState('');
-  const [newPassword, setNewPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
+const ChangePasswordScreen = () => {
   const navigation = useNavigation();
+  const [currentPassword, setCurrentPassword] = useState('');
+  const [newPassword, setNewPassword] = useState('');
+  const [confirmNewPassword, setConfirmNewPassword] = useState('');
 
-  const handleUpdatePassword = () => {
-    if (newPassword === confirmPassword) {
-      Alert.alert(
-        'Password Updated',
-        'Your password has been successfully updated.',
+  const handleUpdatePassword = async () => {
+    if (newPassword !== confirmNewPassword) {
+      showMessage({
+        message: 'New passwords do not match',
+        type: 'danger',
+      });
+      return;
+    }
+
+    const auth = getAuth();
+    const user = auth.currentUser;
+
+    if (user) {
+      const credential = EmailAuthProvider.credential(
+        user.email,
+        currentPassword,
       );
-    } else {
-      Alert.alert('Error', 'New passwords do not match.');
+
+      try {
+        await reauthenticateWithCredential(user, credential);
+        await updatePassword(user, newPassword);
+        showMessage({
+          message: 'Password updated successfully',
+          type: 'success',
+        });
+        navigation.navigate('Profile');
+      } catch (error) {
+        showMessage({
+          message: 'Incorrect old password',
+          type: 'danger',
+        });
+      }
     }
   };
 
@@ -44,15 +69,29 @@ const ChangePasswordScreen: React.FC = () => {
         <Text style={styles.infoText}>Change your password</Text>
       </View>
 
-      <Input label="Password" placeholder="Enter your previous password" />
-
-      <Input label="New Password" placeholder="Enter your new password" />
-
+      <Input
+        label="Password"
+        placeholder="Enter your previous password"
+        value={currentPassword}
+        onChangeText={setCurrentPassword}
+        secureTextEntry
+      />
+      <Gap height={20} />
+      <Input
+        label="New Password"
+        placeholder="Enter your new password"
+        value={newPassword}
+        onChangeText={setNewPassword}
+        secureTextEntry
+      />
+      <Gap height={20} />
       <Input
         label="Confirm new Password"
         placeholder="Must match the new password"
+        value={confirmNewPassword}
+        onChangeText={setConfirmNewPassword}
+        secureTextEntry
       />
-
       <TouchableOpacity
         style={styles.updateButton}
         onPress={handleUpdatePassword}>
@@ -93,7 +132,7 @@ const styles = StyleSheet.create({
   infoText: {
     color: 'white',
     fontFamily: 'Lexend-Regular',
-    fontSize: 7,
+    fontSize: 10,
   },
   updateButton: {
     backgroundColor: '#5046E5',

@@ -14,9 +14,11 @@ import {
   TheLuminkey,
   TypingStorm,
 } from '../../../../assets/images/Home';
+import {useUser} from '../../../../context/UserContext';
 
 const News = () => {
   const [name, setName] = useState('');
+  const {profileImage} = useUser();
 
   useEffect(() => {
     const fetchUserName = async () => {
@@ -43,10 +45,7 @@ const News = () => {
             <Text style={styles.greetingText}>Hello,</Text>
             <Text style={styles.userName}>{name}</Text>
           </View>
-          <Image
-            style={styles.profileImage}
-            source={{uri: 'https://via.placeholder.com/50'}}
-          />
+          <Image style={styles.profileImage} source={{uri: profileImage}} />
         </View>
         <View style={styles.sliderContainer}>
           <Swiper

@@ -13,9 +13,12 @@ import {
   HallEffect,
   RazerSnap,
 } from '../../../assets/images/Home';
+import {useUser} from '../../../context/UserContext';
+import {onSnapshot} from 'firebase/firestore';
 
 const Home = () => {
   const [name, setName] = useState('');
+  const {profileImage} = useUser();
   const popularImages = [
     {image: RazerSnap, title: 'RAZER SNAP TAP: What is it?'},
     {image: HallEffect, title: 'Hall Effect Switches: What are they?'},
@@ -23,21 +26,21 @@ const Home = () => {
   ];
 
   useEffect(() => {
-    const fetchUserName = async () => {
-      try {
-        const user = auth.currentUser;
-        if (user) {
-          const userDoc = await getDoc(doc(db, 'users', user.uid));
-          if (userDoc.exists()) {
-            setName(userDoc.data().name);
+    const unsubscribe = auth.onAuthStateChanged(user => {
+      if (user) {
+        // Set up real-time listener for user document
+        const userRef = doc(db, 'users', user.uid);
+        const unsubscribeDoc = onSnapshot(userRef, doc => {
+          if (doc.exists()) {
+            setName(doc.data().name);
           }
-        }
-      } catch (error) {
-        console.error('Error fetching user data: ', error);
-      }
-    };
+        });
 
-    fetchUserName();
+        return () => unsubscribeDoc();
+      }
+    });
+
+    return () => unsubscribe();
   }, []);
   return (
     <>
@@ -47,10 +50,7 @@ const Home = () => {
             <Text style={styles.greetingText}>Hello,</Text>
             <Text style={styles.userName}>{name}</Text>
           </View>
-          <Image
-            style={styles.profileImage}
-            source={{uri: 'https://via.placeholder.com/50'}}
-          />
+          <Image style={styles.profileImage} source={{uri: profileImage}} />
         </View>
         <View style={styles.sliderContainer}>
           <Swiper

@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {View, Text, TouchableOpacity, StyleSheet} from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {useNavigation} from '@react-navigation/native';
@@ -6,24 +6,106 @@ import {Input} from '../../molecules';
 import {showMessage} from 'react-native-flash-message';
 import {Gap} from '../../atoms';
 import DateTimePicker from '@react-native-community/datetimepicker';
+import {doc, updateDoc, getDoc} from 'firebase/firestore';
+import {auth, db} from '../../config/firebase';
 
 const EditInfoScreen: React.FC = () => {
+  const [displayName, setDisplayName] = useState('');
+  const [displayEmail, setDisplayEmail] = useState('');
+  const [displayDOB, setDisplayDOB] = useState('');
+  const [displayGender, setDisplayGender] = useState('');
+
   const [email, setEmail] = useState('');
   const [name, setName] = useState('');
   const [showDatePicker, setShowDatePicker] = useState(false);
   const [date, setDate] = useState(new Date());
   const [dateOfBirth, setDateOfBirth] = useState('');
   const [gender, setGender] = useState(null);
+  const [loading, setLoading] = useState(true);
+
   const navigation = useNavigation();
 
-  const handleSave = () => {
-    showMessage({
-      message: 'Profile Saved',
-      description: 'Your profile information has been updated.',
-      type: 'success',
-      icon: 'success',
-      duration: 2000,
-    });
+  useEffect(() => {
+    const fetchUserData = async () => {
+      const user = auth.currentUser;
+      if (user) {
+        try {
+          const userRef = doc(db, 'users', user.uid);
+          const userDoc = await getDoc(userRef);
+
+          if (userDoc.exists()) {
+            const userData = userDoc.data();
+            // Set display values
+            setDisplayName(userData.name || '');
+            setDisplayEmail(userData.email || '');
+            setDisplayDOB(userData.dateOfBirth || '');
+            setDisplayGender(userData.gender || '');
+            // Set only basic form values
+            setName(userData.name || '');
+            setEmail(userData.email || '');
+            // Don't set dateOfBirth and gender for the form
+          }
+        } catch (error) {
+          showMessage({
+            message: 'Error',
+            description: 'Failed to fetch user data',
+            type: 'danger',
+            icon: 'danger',
+          });
+        } finally {
+          setLoading(false);
+        }
+      }
+    };
+
+    fetchUserData();
+  }, []);
+
+  const handleSave = async () => {
+    const user = auth.currentUser;
+
+    if (!user) {
+      showMessage({
+        message: 'Error',
+        description: 'You must be logged in to update profile',
+        type: 'danger',
+        icon: 'danger',
+      });
+      return;
+    }
+
+    try {
+      const userRef = doc(db, 'users', user.uid);
+
+      await updateDoc(userRef, {
+        email: email,
+        name: name,
+        dateOfBirth: dateOfBirth,
+        gender: gender,
+        updatedAt: new Date().toISOString(),
+      });
+
+      setDisplayName(name);
+      setDisplayEmail(email);
+      setDisplayDOB(dateOfBirth);
+      setDisplayGender(gender);
+
+      showMessage({
+        message: 'Profile Saved',
+        description: 'Your profile information has been updated.',
+        type: 'success',
+        icon: 'success',
+        duration: 2000,
+      });
+    } catch (error) {
+      showMessage({
+        message: 'Error',
+        description: 'Failed to update profile. Please try again.',
+        type: 'danger',
+        icon: 'danger',
+      });
+      console.error('Update error:', error);
+    }
   };
 
   const handleDateChange = (event, selectedDate) => {
@@ -52,23 +134,48 @@ const EditInfoScreen: React.FC = () => {
           <Text style={styles.saveButtonText}>Save</Text>
         </TouchableOpacity>
       </View>
-
       <View style={styles.infoBox}>
         <Text style={styles.infoText}>
           You can change your personal information here.
         </Text>
       </View>
+      <View style={styles.infoContainer}>
+        <View style={styles.infoCard}>
+          <Text style={styles.infoTitle}>Profile Information</Text>
+
+          <View style={styles.infoRow}>
+            <Text style={styles.infoLabel}>Name:</Text>
+            <Text style={styles.infoValue}>{displayName}</Text>
+          </View>
+
+          <View style={styles.infoRow}>
+            <Text style={styles.infoLabel}>Email:</Text>
+            <Text style={styles.infoValue}>{displayEmail}</Text>
+          </View>
+
+          <View style={styles.infoRow}>
+            <Text style={styles.infoLabel}>Date of Birth:</Text>
+            <Text style={styles.infoValue}>{displayDOB}</Text>
+          </View>
+
+          <View style={styles.infoRow}>
+            <Text style={styles.infoLabel}>Gender:</Text>
+            <Text style={styles.infoValue}>{displayGender}</Text>
+          </View>
+        </View>
+      </View>
+      <Gap height={40} />
       <View style={styles.container}>
         <Input
           label="Email"
-          placeholder="Fill your e-mail here"
+          placeholder="Enter your new e-mail here"
           value={email}
           onChangeText={setEmail}
         />
         <Gap height={20} />
         <Input
           label="Name"
-          placeholder="Fill your name here"
+          placeholder="Update your name here"
           value={name}
           onChangeText={setName}
         />
@@ -95,12 +202,13 @@ const EditInfoScreen: React.FC = () => {
               styles.genderOption,
               gender === 'Male' && styles.selectedGenderOption,
             ]}>
-            <Ionicons
-              name={gender === 'Male' ? 'radio-button-on' : 'radio-button-off'}
-              size={20}
-              color="white"
-            />
-            <Text style={styles.genderText}>Male</Text>
+            <Text
+              style={[
+                styles.genderText,
+                gender === 'Male' && styles.selectedGenderText,
+              ]}>
+              Male
+            </Text>
           </TouchableOpacity>
 
           <TouchableOpacity
@@ -109,17 +217,15 @@ const EditInfoScreen: React.FC = () => {
               styles.genderOption,
               gender === 'Female' && styles.selectedGenderOption,
             ]}>
-            <Ionicons
-              name={
-                gender === 'Female' ? 'radio-button-on' : 'radio-button-off'
-              }
-              size={20}
-              color="white"
-            />
-            <Text style={styles.genderText}>Female</Text>
+            <Text
+              style={[
+                styles.genderText,
+                gender === 'Female' && styles.selectedGenderText,
+              ]}>
+              Female
+            </Text>
           </TouchableOpacity>
         </View>
-
         <TouchableOpacity
           style={styles.changePasswordButton}
           onPress={() => navigation.navigate('ChangePassword')}>
@@ -208,11 +314,44 @@ const styles = StyleSheet.create({
     marginVertical: 12,
     marginHorizontal: 20,
   },
+  infoContainer: {
+    paddingHorizontal: 20,
+  },
+  infoCard: {
+    backgroundColor: '#3A4052',
+    borderRadius: 8,
+    padding: 16,
+  },
+  infoTitle: {
+    fontSize: 18,
+    fontFamily: 'Lexend-Regular',
+    color: 'white',
+    marginBottom: 16,
+  },
+  infoRow: {
+    flexDirection: 'row',
+    marginBottom: 12,
+    alignItems: 'center',
+    paddingHorizontal: 10,
+  },
+  infoLabel: {
+    fontFamily: 'Lexend-Regular',
+    color: 'white',
+    opacity: 0.6,
+    width: 100,
+    fontSize: 14,
+  },
+  infoValue: {
+    flex: 1,
+    color: 'white',
+    fontFamily: 'Lexend-Regular',
+    fontSize: 12,
+  },
   rowContainer: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    marginBottom: 40,
+    marginBottom: 30,
   },
   dateInput: {
     flexDirection: 'row',
@@ -235,11 +374,17 @@ const styles = StyleSheet.create({
     opacity: 0.6,
     zIndex: 1,
   },
+  genderContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    marginVertical: 10,
+    paddingHorizontal: 20,
+  },
   genderOption: {
     flexDirection: 'row',
     alignItems: 'center',
     backgroundColor: '#3A4052',
-    paddingVertical: 15,
+    paddingVertical: 17.5,
     paddingHorizontal: 15,
     borderRadius: 8,
     flex: 1,

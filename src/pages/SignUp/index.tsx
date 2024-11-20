@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import {StyleSheet, Text, View, TouchableOpacity} from 'react-native';
-import {Input} from '../../molecules';
+import {Input, Loading} from '../../molecules';
 import {Gap} from '../../atoms';
 import {Button} from '../../atoms';
 import {useNavigation} from '@react-navigation/native';
@@ -16,9 +16,30 @@ const SignUp = () => {
   const [name, setName] = useState('');
   const [password, setPassword] = useState('');
   const [confirm, confirmPassword] = useState('');
+  const [loading, setLoading] = useState(false);
   const fbAuth = auth;
 
   const createUser = async () => {
+    if (!email || !name || !password || !confirm) {
+      showMessage({
+        message: 'Error',
+        description: 'Please fill in all fields',
+        type: 'danger',
+      });
+      return;
+    }
+
+    if (password !== confirm) {
+      showMessage({
+        message: 'Error',
+        description: 'Passwords do not match',
+        type: 'danger',
+      });
+      return;
+    }
+
+    setLoading(true);
+
     try {
       const userCredential = await createUserWithEmailAndPassword(
         fbAuth,
@@ -35,8 +56,10 @@ const SignUp = () => {
       });
 
       showMessage({
-        message: 'Create account succesfully, now you can Log In',
+        message: 'Create account successfully, now you can Log In',
         type: 'success',
+        icon: 'success',
+        backgroundColor: '#5046E5',
       });
       navigation.replace('SignIn');
     } catch (error) {
@@ -44,7 +67,10 @@ const SignUp = () => {
       showMessage({
         message: errorMessage,
         type: 'danger',
+        icon: 'danger',
       });
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -100,6 +126,7 @@ const SignUp = () => {
           <Text style={styles.touchableLogin}> Log in</Text>
         </TouchableOpacity>
       </View>
+      {loading && <Loading />}
     </View>
   );
 };
