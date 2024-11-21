@@ -86,7 +86,7 @@ const SignIn = () => {
     } catch (error) {
       showMessage({
         message: 'Login Failed',
-        description: error.message,
+        description: 'Invalid email or password',
         type: 'danger',
       });
     } finally {
@@ -115,6 +115,7 @@ const SignIn = () => {
             onChangeText={text => setPassword(text)}
             secureTextEntry={true}
           />
+          <Gap height={5} />
           <View style={styles.rememberMeContainer}>
             <TouchableOpacity
               style={styles.checkbox}
@@ -126,6 +127,10 @@ const SignIn = () => {
               />
             </TouchableOpacity>
             <Text style={styles.rememberMeText}>Remember Me</Text>
+            <TouchableOpacity
+              onPress={() => navigation.navigate('ChangePassword')}>
+              <Text style={styles.forgotPasswordText}>Forgot Password?</Text>
+            </TouchableOpacity>
           </View>
         </View>
         <Gap height={42} />
@@ -166,6 +171,12 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     zIndex: 999,
+  },
+  forgotPasswordText: {
+    color: '#fff',
+    marginLeft: 150,
+    fontSize: 12,
+    fontFamily: 'Lexend-Regular',
   },
   header: {
     fontSize: 32,

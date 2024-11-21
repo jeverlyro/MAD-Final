@@ -74,6 +74,9 @@ const styles = StyleSheet.create({
     color: 'white',
     paddingTop: 10,
     paddingBottom: 5,
+    paddingLeft: 6,
+    fontFamily: 'Lexend-Regular',
+    fontSize: 12,
   },
   iconContainer: {
     marginRight: 15,

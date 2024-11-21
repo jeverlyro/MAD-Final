@@ -27,6 +27,7 @@ import './src/config/firebase';
 import {UserProvider} from './src/context/UserContext';
 import React, {useEffect, useState} from 'react';
 import {getAuth, onAuthStateChanged} from 'firebase/auth';
+import {VerifyEmail} from './src/context/VerifyEmail';
 
 const stack = createNativeStackNavigator();
 
@@ -150,6 +151,11 @@ const App = () => {
             <stack.Screen
               name="PlanDetails"
               component={PlanDetail}
+              options={{headerShown: false}}
+            />
+            <stack.Screen
+              name="VerifyEmail"
+              component={VerifyEmail}
               options={{headerShown: false}}
             />
           </stack.Navigator>

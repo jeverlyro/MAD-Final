@@ -1,14 +1,7 @@
 import React, {useState, useEffect} from 'react';
-import {
-  View,
-  Text,
-  Image,
-  TouchableOpacity,
-  StyleSheet,
-  Alert,
-} from 'react-native';
+import {View, Text, Image, TouchableOpacity, StyleSheet} from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import {useNavigation, CommonActions} from '@react-navigation/native';
+import {useNavigation} from '@react-navigation/native';
 import {launchImageLibrary} from 'react-native-image-picker';
 import {BottomNavbar} from '../../../molecules';
 import {showMessage} from 'react-native-flash-message';
@@ -17,6 +10,9 @@ import {useUser} from '../../../context/UserContext';
 import {doc, updateDoc, getDoc} from 'firebase/firestore';
 import {onSnapshot} from 'firebase/firestore';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+
+const PLACEHOLDER_IMAGE =
+  'https://st3.depositphotos.com/9998432/13335/v/450/depositphotos_133351928-stock-illustration-default-placeholder-man-and-woman.jpg';
 
 const ProfileScreen = () => {
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
@@ -45,6 +41,8 @@ const ProfileScreen = () => {
 
     fetchUserData();
   }, []);
+
+  const displayImage = selectedImage || profileImage || PLACEHOLDER_IMAGE;
 
   const handleLogout = async () => {
     try {
@@ -85,14 +83,6 @@ const ProfileScreen = () => {
         type: 'danger',
       });
     }
-  };
-
-  const handleSaveImage = async () => {
-    if (!tempImage) {
-      return;
-    }
-    await updateProfileImageInDB(tempImage);
-    setTempImage(null);
   };
 
   useEffect(() => {
@@ -167,6 +157,12 @@ const ProfileScreen = () => {
     }
   };
 
+  useEffect(() => {
+    if (!displayImage) {
+      setSelectedImage(PLACEHOLDER_IMAGE);
+    }
+  }, [displayImage]);
+
   return (
     <>
       <View style={styles.container}>
@@ -175,11 +171,14 @@ const ProfileScreen = () => {
         <TouchableOpacity onPress={handleSelectImage}>
           <Image
             source={{
-              uri: selectedImage
-                ? `data:image/jpeg;base64,${selectedImage}`
-                : profileImage,
+              uri: displayImage ? displayImage : PLACEHOLDER_IMAGE,
             }}
             style={styles.profileImage}
+            defaultSource={require('../../../assets/placeholder.jpg')}
+            onError={() => {
+              // Handle load errors by falling back to placeholder
+              setSelectedImage(PLACEHOLDER_IMAGE);
+            }}
           />
         </TouchableOpacity>
         <View style={styles.iconContainer}>
@@ -274,7 +273,7 @@ const styles = StyleSheet.create({
     paddingVertical: 15,
     paddingHorizontal: 20,
     borderRadius: 10,
-    width: '80%',
+    width: '90%',
     marginVertical: 10,
     justifyContent: 'flex-start',
   },
@@ -286,7 +285,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     borderRadius: 10,
     marginVertical: 10,
-    width: '80%',
+    width: '90%',
   },
   buttonText: {
     color: '#fff',

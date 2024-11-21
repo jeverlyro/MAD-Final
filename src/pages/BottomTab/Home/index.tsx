@@ -3,7 +3,7 @@ import {StyleSheet, Text, View, Image, ScrollView} from 'react-native';
 import Swiper from 'react-native-swiper';
 import {NavButton} from '../../../molecules';
 import {auth, db} from '../../../config/firebase';
-import {doc, getDoc} from 'firebase/firestore';
+import {doc} from 'firebase/firestore';
 import {BottomNavbar} from '../../../molecules';
 import {Gap} from '../../../atoms';
 import {
@@ -16,9 +16,13 @@ import {
 import {useUser} from '../../../context/UserContext';
 import {onSnapshot} from 'firebase/firestore';
 
+const PLACEHOLDER_IMAGE =
+  'https://st3.depositphotos.com/9998432/13335/v/450/depositphotos_133351928-stock-illustration-default-placeholder-man-and-woman.jpg';
+
 const Home = () => {
   const [name, setName] = useState('');
-  const {profileImage} = useUser();
+  const {profileImage, setProfileImage} = useUser();
+  const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const popularImages = [
     {image: RazerSnap, title: 'RAZER SNAP TAP: What is it?'},
     {image: HallEffect, title: 'Hall Effect Switches: What are they?'},
@@ -28,20 +32,34 @@ const Home = () => {
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged(user => {
       if (user) {
-        // Set up real-time listener for user document
         const userRef = doc(db, 'users', user.uid);
         const unsubscribeDoc = onSnapshot(userRef, doc => {
           if (doc.exists()) {
-            setName(doc.data().name);
+            const userData = doc.data();
+            setName(userData.name || '');
+            if (userData.profileImage) {
+              setSelectedImage(userData.profileImage);
+              setProfileImage(userData.profileImage);
+            } else {
+              setSelectedImage(PLACEHOLDER_IMAGE);
+              setProfileImage(PLACEHOLDER_IMAGE);
+            }
           }
         });
 
         return () => unsubscribeDoc();
+      } else {
+        setName('');
+        setSelectedImage(PLACEHOLDER_IMAGE);
+        setProfileImage(PLACEHOLDER_IMAGE);
       }
     });
 
     return () => unsubscribe();
-  }, []);
+  }, [setProfileImage]);
+
+  const displayImage = selectedImage || profileImage || PLACEHOLDER_IMAGE;
+
   return (
     <>
       <ScrollView style={styles.container} bounces={false}>
@@ -50,7 +68,7 @@ const Home = () => {
             <Text style={styles.greetingText}>Hello,</Text>
             <Text style={styles.userName}>{name}</Text>
           </View>
-          <Image style={styles.profileImage} source={{uri: profileImage}} />
+          <Image style={styles.profileImage} source={{uri: displayImage}} />
         </View>
         <View style={styles.sliderContainer}>
           <Swiper
