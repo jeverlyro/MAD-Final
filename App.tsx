@@ -61,19 +61,16 @@ const App = () => {
               component={Start}
               options={{headerShown: false}}
             />
-            {user ? (
-              <stack.Screen
-                name="Plans"
-                component={Plans}
-                options={{headerShown: false, animation: 'none'}}
-              />
-            ) : (
-              <stack.Screen
-                name="SignIn"
-                component={SignIn}
-                options={{headerShown: false}}
-              />
-            )}
+            <stack.Screen
+              name="Plans"
+              component={Plans}
+              options={{headerShown: false, animation: 'none'}}
+            />
+            <stack.Screen
+              name="SignIn"
+              component={SignIn}
+              options={{headerShown: false}}
+            />
             <stack.Screen
               name="SignUp"
               component={SignUp}
