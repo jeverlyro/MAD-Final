@@ -61,7 +61,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: 8,
     left: 10,
-    fontFamily: 'Inter-Regular',
+    fontFamily: 'Lexend-Regular',
     fontSize: 12,
     color: 'white',
     opacity: 0.6,
@@ -74,6 +74,9 @@ const styles = StyleSheet.create({
     color: 'white',
     paddingTop: 10,
     paddingBottom: 5,
+    paddingLeft: 6,
+    fontFamily: 'Lexend-Regular',
+    fontSize: 12,
   },
   iconContainer: {
     marginRight: 15,

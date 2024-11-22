@@ -1,21 +1,34 @@
 import {initializeApp} from 'firebase/app';
-import {getAuth} from 'firebase/auth';
 import {getFirestore} from 'firebase/firestore';
+import {
+  initializeAuth,
+  getReactNativePersistence,
+  getAuth,
+} from 'firebase/auth';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import {GoogleAuthProvider} from 'firebase/auth';
-// TODO: Replace the following with your app's Firebase project configuration
-// See: https://support.google.com/firebase/answer/7015592
+
 const firebaseConfig = {
-  apiKey: 'AIzaSyBxaAmHx2fOAG5dZfJXQQTbEjsaBnwZzhQ',
-  authDomain: 'modurkeebs.firebaseapp.com',
-  databaseURL:
-    'https://modurkeebs-default-rtdb.asia-southeast1.firebasedatabase.app',
-  projectId: 'modurkeebs',
-  storageBucket: 'modurkeebs.firebasestorage.app',
-  messagingSenderId: '532261638908',
-  appId: '1:532261638908:web:01b3cf8f226eac58c3bd79',
+  apiKey: 'AIzaSyD0eApcXUpv_GerVIvWGh-c1WkUFYh-CB8',
+  authDomain: 'modurkeebs-udl.firebaseapp.com',
+  projectId: 'modurkeebs-udl',
+  storageBucket: 'modurkeebs-udl.firebasestorage.app',
+  messagingSenderId: '262444136325',
+  appId: '1:262444136325:web:26295a8d7aab42a2ab76ec',
 };
 
-export const app = initializeApp(firebaseConfig);
-export const auth = getAuth(app);
-export const db = getFirestore(app);
-export const provider = new GoogleAuthProvider();
+const app = initializeApp(firebaseConfig);
+
+let auth;
+try {
+  auth = initializeAuth(app, {
+    persistence: getReactNativePersistence(AsyncStorage),
+  });
+} catch (error) {
+  auth = getAuth(app);
+}
+
+const db = getFirestore(app);
+const provider = new GoogleAuthProvider();
+
+export {auth, app, db, provider};

@@ -14,27 +14,48 @@ import {
   TheLuminkey,
   TypingStorm,
 } from '../../../../assets/images/Home';
+import {useUser} from '../../../../context/UserContext';
+import {onSnapshot} from 'firebase/firestore';
+
+const PLACEHOLDER_IMAGE =
+  'https://st3.depositphotos.com/9998432/13335/v/450/depositphotos_133351928-stock-illustration-default-placeholder-man-and-woman.jpg';
 
 const News = () => {
   const [name, setName] = useState('');
+  const {profileImage, setProfileImage} = useUser();
+  const [selectedImage, setSelectedImage] = useState<string | null>(null);
 
   useEffect(() => {
-    const fetchUserName = async () => {
-      try {
-        const user = auth.currentUser;
-        if (user) {
-          const userDoc = await getDoc(doc(db, 'users', user.uid));
-          if (userDoc.exists()) {
-            setName(userDoc.data().name);
+    const unsubscribe = auth.onAuthStateChanged(user => {
+      if (user) {
+        const userRef = doc(db, 'users', user.uid);
+        const unsubscribeDoc = onSnapshot(userRef, doc => {
+          if (doc.exists()) {
+            const userData = doc.data();
+            setName(userData.name || '');
+            if (userData.profileImage) {
+              setSelectedImage(userData.profileImage);
+              setProfileImage(userData.profileImage);
+            } else {
+              setSelectedImage(PLACEHOLDER_IMAGE);
+              setProfileImage(PLACEHOLDER_IMAGE);
+            }
           }
-        }
-      } catch (error) {
-        console.error('Error fetching user data: ', error);
-      }
-    };
+        });
 
-    fetchUserName();
-  }, []);
+        return () => unsubscribeDoc();
+      } else {
+        setName('');
+        setSelectedImage(PLACEHOLDER_IMAGE);
+        setProfileImage(PLACEHOLDER_IMAGE);
+      }
+    });
+
+    return () => unsubscribe();
+  }, [setProfileImage]);
+
+  const displayImage = selectedImage || profileImage || PLACEHOLDER_IMAGE;
+
   return (
     <>
       <ScrollView style={styles.container} bounces={false}>
@@ -43,10 +64,7 @@ const News = () => {
             <Text style={styles.greetingText}>Hello,</Text>
             <Text style={styles.userName}>{name}</Text>
           </View>
-          <Image
-            style={styles.profileImage}
-            source={{uri: 'https://via.placeholder.com/50'}}
-          />
+          <Image style={styles.profileImage} source={{uri: displayImage}} />
         </View>
         <View style={styles.sliderContainer}>
           <Swiper

@@ -1,52 +1,167 @@
-import React, {useState} from 'react';
-import {
-  View,
-  Text,
-  Image,
-  TouchableOpacity,
-  StyleSheet,
-  Alert,
-} from 'react-native';
+import React, {useState, useEffect} from 'react';
+import {View, Text, Image, TouchableOpacity, StyleSheet} from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {useNavigation} from '@react-navigation/native';
 import {launchImageLibrary} from 'react-native-image-picker';
 import {BottomNavbar} from '../../../molecules';
 import {showMessage} from 'react-native-flash-message';
+import {auth, db} from '../../../config/firebase';
+import {useUser} from '../../../context/UserContext';
+import {doc, updateDoc, getDoc} from 'firebase/firestore';
+import {onSnapshot} from 'firebase/firestore';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const ProfileScreen: React.FC = () => {
-  const [profileImage, setProfileImage] = useState(
-    'https://via.placeholder.com/120',
-  );
+const PLACEHOLDER_IMAGE =
+  'https://st3.depositphotos.com/9998432/13335/v/450/depositphotos_133351928-stock-illustration-default-placeholder-man-and-woman.jpg';
+
+const ProfileScreen = () => {
+  const [selectedImage, setSelectedImage] = useState<string | null>(null);
+  const [tempImage, setTempImage] = useState<string | null>(null);
+  const {profileImage, setProfileImage} = useUser();
+  const [userName, setUserName] = useState('');
   const navigation = useNavigation();
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+      const user = auth.currentUser;
+      if (user) {
+        try {
+          const userRef = doc(db, 'users', user.uid);
+          const userDoc = await getDoc(userRef);
+
+          if (userDoc.exists()) {
+            const userData = userDoc.data();
+            setUserName(userData.name || '');
+          }
+        } catch (error) {
+          console.error('Error fetching user data:', error);
+        }
+      }
+    };
+
+    fetchUserData();
+  }, []);
+
+  const displayImage = selectedImage || profileImage || PLACEHOLDER_IMAGE;
+
+  const handleLogout = async () => {
+    try {
+      await auth.signOut();
+      await AsyncStorage.multiRemove([
+        'savedEmail',
+        'savedPassword',
+        'isAuthenticated',
+      ]);
+      navigation.replace('Onboarding');
+    } catch (error) {
+      console.error('Logout error:', error);
+    }
+  };
+
+  const updateProfileImageInDB = async base64Image => {
+    try {
+      const userId = auth.currentUser?.uid;
+      if (!userId) {
+        throw new Error('User not authenticated');
+      }
+
+      const userRef = doc(db, 'users', userId);
+      await updateDoc(userRef, {
+        profileImage: `data:image/jpeg;base64,${base64Image}`,
+      });
+
+      setProfileImage(`data:image/jpeg;base64,${base64Image}`);
+      showMessage({
+        message: 'Profile image updated successfully',
+        type: 'success',
+        icon: 'success',
+      });
+    } catch (error) {
+      console.error('Error updating profile image:', error);
+      showMessage({
+        message: 'Failed to update profile image',
+        type: 'danger',
+      });
+    }
+  };
+
+  useEffect(() => {
+    const user = auth.currentUser;
+    if (!user) {
+      return;
+    }
+
+    const userRef = doc(db, 'users', user.uid);
+    const unsubscribe = onSnapshot(userRef, doc => {
+      if (doc.exists()) {
+        setProfileImage(doc.data().profileImage);
+      }
+    });
+
+    return () => unsubscribe();
+  }, []);
 
   const handleSelectImage = () => {
     const options = {
       mediaType: 'photo',
-      quality: 1,
+      quality: 0.5,
+      includeBase64: true,
     };
 
-    launchImageLibrary(options, response => {
+    launchImageLibrary(options, async response => {
       if (response.didCancel) {
         showMessage({
           message: 'No image selected',
           type: 'info',
           icon: 'info',
-          backgroundColor: '#5046E5',
-          duration: 2000,
         });
-      } else if (response.errorCode) {
+        return;
+      }
+
+      if (response.errorCode) {
         showMessage({
-          message: 'Error',
-          description: response.errorMessage || 'Something went wrong',
+          message: 'Image picker error: ' + response.errorMessage,
           type: 'danger',
-          icon: 'danger',
-          duration: 2000,
         });
-      } else if (response.assets && response.assets.length > 0) {
-        setProfileImage(response.assets[0].uri);
+        return;
+      }
+
+      if (response.assets && response.assets[0].base64) {
+        await updateProfileImageInDB(response.assets[0].base64);
       }
     });
   };
+
+  const handleDeleteImage = async () => {
+    try {
+      const userId = auth.currentUser?.uid;
+      if (!userId) {
+        throw new Error('User not authenticated');
+      }
+
+      const userRef = doc(db, 'users', userId);
+      await updateDoc(userRef, {
+        profileImage: 'https://via.placeholder.com/120',
+      });
+      showMessage({
+        message: 'Profile image deleted successfully',
+        type: 'success',
+        icon: 'info',
+      });
+    } catch (error) {
+      console.error('Error deleting profile image:', error);
+      showMessage({
+        message: 'Failed to delete profile image',
+        type: 'danger',
+      });
+    }
+  };
+
+  useEffect(() => {
+    if (!displayImage) {
+      setSelectedImage(PLACEHOLDER_IMAGE);
+    }
+  }, [displayImage]);
 
   return (
     <>
@@ -54,10 +169,34 @@ const ProfileScreen: React.FC = () => {
         <Text style={styles.title}>My Profile</Text>
 
         <TouchableOpacity onPress={handleSelectImage}>
-          <Image source={{uri: profileImage}} style={styles.profileImage} />
+          <Image
+            source={{
+              uri: displayImage ? displayImage : PLACEHOLDER_IMAGE,
+            }}
+            style={styles.profileImage}
+            defaultSource={require('../../../assets/placeholder.jpg')}
+            onError={() => {
+              // Handle load errors by falling back to placeholder
+              setSelectedImage(PLACEHOLDER_IMAGE);
+            }}
+          />
         </TouchableOpacity>
+        <View style={styles.iconContainer}>
+          {tempImage && (
+            <TouchableOpacity
+              style={[styles.iconButton, {backgroundColor: '#5046E5'}]}
+              onPress={handleSaveImage}>
+              <Ionicons name="save-outline" size={24} color="#fff" />
+            </TouchableOpacity>
+          )}
 
-        <Text style={styles.usernameText}>I Kadek Tresna Jeverly</Text>
+          <TouchableOpacity
+            style={[styles.iconButton, styles.deleteButton]}
+            onPress={handleDeleteImage}>
+            <Ionicons name="trash" size={24} color="#fff" />
+          </TouchableOpacity>
+        </View>
+        <Text style={styles.usernameText}>{userName}</Text>
 
         <TouchableOpacity
           style={styles.button}
@@ -68,16 +207,14 @@ const ProfileScreen: React.FC = () => {
 
         <TouchableOpacity
           style={styles.button}
-          onPress={() => navigation.navigate('Appareance')}>
-          <Ionicons name="body" size={20} color="#fff" />
-          <Text style={styles.buttonText}>Appearance</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity
-          style={styles.button}
           onPress={() => navigation.navigate('About')}>
           <Ionicons name="shield" size={20} color="#fff" />
           <Text style={styles.buttonText}>About</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity style={styles.exitButton} onPress={handleLogout}>
+          <Ionicons name="exit" size={20} color="#fff" />
+          <Text style={styles.buttonText}>Sign Out</Text>
         </TouchableOpacity>
       </View>
       <BottomNavbar />
@@ -94,11 +231,26 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingTop: 50,
   },
+  iconContainer: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    gap: 20,
+  },
   title: {
     fontSize: 24,
     color: 'white',
     paddingBottom: 31,
     fontFamily: 'Lexend-Bold',
+  },
+  iconButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    padding: 5,
+    borderRadius: 5,
+    marginTop: 20,
+    backgroundColor: '#2C3545',
+    width: '10%',
+    justifyContent: 'center',
   },
   profileImage: {
     width: 160,
@@ -121,9 +273,19 @@ const styles = StyleSheet.create({
     paddingVertical: 15,
     paddingHorizontal: 20,
     borderRadius: 10,
-    width: '80%',
+    width: '90%',
     marginVertical: 10,
     justifyContent: 'flex-start',
+  },
+  exitButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#FF3B30',
+    paddingVertical: 15,
+    paddingHorizontal: 20,
+    borderRadius: 10,
+    marginVertical: 10,
+    width: '90%',
   },
   buttonText: {
     color: '#fff',
@@ -150,5 +312,8 @@ const styles = StyleSheet.create({
     color: 'white',
     fontSize: 10,
     marginTop: 4,
+  },
+  deleteButton: {
+    backgroundColor: '#FF3B30',
   },
 });
