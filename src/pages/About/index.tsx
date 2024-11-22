@@ -1,10 +1,39 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {View, Text, StyleSheet} from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {useNavigation} from '@react-navigation/native';
+import {getFirestore, doc, getDoc} from 'firebase/firestore';
 
 const AboutScreen: React.FC = () => {
   const navigation = useNavigation();
+  const [aboutData, setAboutData] = useState(null);
+
+  useEffect(() => {
+    const fetchAboutData = async () => {
+      const db = getFirestore();
+      const docRef = doc(db, 'About', 'Details');
+      try {
+        const docSnap = await getDoc(docRef);
+        if (docSnap.exists()) {
+          setAboutData(docSnap.data());
+        } else {
+          console.log('No such document!');
+        }
+      } catch (error) {
+        console.error('Error fetching document: ', error);
+      }
+    };
+
+    fetchAboutData();
+  }, []);
+
+  if (!aboutData) {
+    return (
+      <View style={styles.container}>
+        <Text style={{color: 'white'}}>Loading...</Text>
+      </View>
+    );
+  }
 
   return (
     <View style={styles.container}>
@@ -15,25 +44,19 @@ const AboutScreen: React.FC = () => {
           color="white"
           onPress={() => navigation.goBack()}
         />
-        <Text style={styles.headerTitle}>About</Text>
+        <Text style={styles.headerTitle}>{aboutData.headerTitle}</Text>
       </View>
 
       <View style={styles.infoBox} />
-      <Text style={styles.aboutTitle}>About the app</Text>
+      <Text style={styles.aboutTitle}>{aboutData.aboutTitle}</Text>
 
       <View style={styles.separator} />
 
-      <Text style={styles.aboutText}>
-        Welcome to our app, developed by UDL Corp as part of our Mobile App
-        Development class. This application was created to explore and simulate
-        the mechanical keyboard modification.
-      </Text>
-      <Text style={styles.aboutText}>
-        Our team is committed to delivering a unique experience through this
-        project, combining creativity, technical expertise, and collaboration.
-        We hope you enjoy exploring our app and appreciate the effort we've put
-        into making this project.
-      </Text>
+      {aboutData.description.map((paragraph, index) => (
+        <Text key={index} style={styles.aboutText}>
+          {paragraph}
+        </Text>
+      ))}
     </View>
   );
 };
