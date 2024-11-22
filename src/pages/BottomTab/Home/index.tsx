@@ -3,30 +3,63 @@ import {StyleSheet, Text, View, Image, ScrollView} from 'react-native';
 import Swiper from 'react-native-swiper';
 import {NavButton} from '../../../molecules';
 import {auth, db} from '../../../config/firebase';
-import {doc, getDoc} from 'firebase/firestore';
+import {doc} from 'firebase/firestore';
 import {BottomNavbar} from '../../../molecules';
 import {Gap} from '../../../atoms';
+import {
+  Air75,
+  Banner,
+  BestSelling,
+  HallEffect,
+  RazerSnap,
+} from '../../../assets/images/Home';
+import {useUser} from '../../../context/UserContext';
+import {onSnapshot} from 'firebase/firestore';
+
+const PLACEHOLDER_IMAGE =
+  'https://st3.depositphotos.com/9998432/13335/v/450/depositphotos_133351928-stock-illustration-default-placeholder-man-and-woman.jpg';
 
 const Home = () => {
   const [name, setName] = useState('');
+  const {profileImage, setProfileImage} = useUser();
+  const [selectedImage, setSelectedImage] = useState<string | null>(null);
+  const popularImages = [
+    {image: RazerSnap, title: 'RAZER SNAP TAP: What is it?'},
+    {image: HallEffect, title: 'Hall Effect Switches: What are they?'},
+    {image: Air75, title: 'NuPhy Air75: The best 75% keyboard?'},
+  ];
 
   useEffect(() => {
-    const fetchUserName = async () => {
-      try {
-        const user = auth.currentUser;
-        if (user) {
-          const userDoc = await getDoc(doc(db, 'users', user.uid));
-          if (userDoc.exists()) {
-            setName(userDoc.data().name);
+    const unsubscribe = auth.onAuthStateChanged(user => {
+      if (user) {
+        const userRef = doc(db, 'users', user.uid);
+        const unsubscribeDoc = onSnapshot(userRef, doc => {
+          if (doc.exists()) {
+            const userData = doc.data();
+            setName(userData.name || '');
+            if (userData.profileImage) {
+              setSelectedImage(userData.profileImage);
+              setProfileImage(userData.profileImage);
+            } else {
+              setSelectedImage(PLACEHOLDER_IMAGE);
+              setProfileImage(PLACEHOLDER_IMAGE);
+            }
           }
-        }
-      } catch (error) {
-        console.error('Error fetching user data: ', error);
-      }
-    };
+        });
 
-    fetchUserName();
-  }, []);
+        return () => unsubscribeDoc();
+      } else {
+        setName('');
+        setSelectedImage(PLACEHOLDER_IMAGE);
+        setProfileImage(PLACEHOLDER_IMAGE);
+      }
+    });
+
+    return () => unsubscribe();
+  }, [setProfileImage]);
+
+  const displayImage = selectedImage || profileImage || PLACEHOLDER_IMAGE;
+
   return (
     <>
       <ScrollView style={styles.container} bounces={false}>
@@ -35,10 +68,7 @@ const Home = () => {
             <Text style={styles.greetingText}>Hello,</Text>
             <Text style={styles.userName}>{name}</Text>
           </View>
-          <Image
-            style={styles.profileImage}
-            source={{uri: 'https://via.placeholder.com/50'}}
-          />
+          <Image style={styles.profileImage} source={{uri: displayImage}} />
         </View>
         <View style={styles.sliderContainer}>
           <Swiper
@@ -48,18 +78,9 @@ const Home = () => {
             activeDotColor="#5046E5"
             autoplay={true}
             autoplayTimeout={5}>
-            <Image
-              style={styles.sliderImage}
-              source={{uri: 'https://via.placeholder.com/300x150'}} // Slide image 1
-            />
-            <Image
-              style={styles.sliderImage}
-              source={{uri: 'https://via.placeholder.com/300x150'}} // Slide image 2
-            />
-            <Image
-              style={styles.sliderImage}
-              source={{uri: 'https://via.placeholder.com/300x150'}} // Slide image 3
-            />
+            <Image style={styles.sliderImage} source={Banner} />
+            <Image style={styles.sliderImage} source={Banner} />
+            <Image style={styles.sliderImage} source={Banner} />
           </Swiper>
         </View>
         <Gap height={15} />
@@ -68,24 +89,16 @@ const Home = () => {
         {/* Popular Section */}
         <Text style={styles.sectionTitle}>Popular</Text>
         <View style={styles.popularContainer}>
-          {[1, 2, 3].map((_, index) => (
+          {popularImages.map((item, index) => (
             <View key={index} style={styles.popularCard}>
-              <Image
-                style={styles.popularImage}
-                source={{uri: 'https://via.placeholder.com/100x100'}} // Popular item image
-              />
-              <Text style={styles.popularText}>Popular Item {index + 1}</Text>
+              <Image style={styles.popularImage} source={item.image} />
+              <Text style={styles.popularText}>{item.title}</Text>
             </View>
           ))}
         </View>
-        <Gap height={25} />
-        {/* Recommended News Section */}
         <Text style={styles.sectionTitle}>Recommended news</Text>
         <View style={styles.recommendedContainer}>
-          <Image
-            style={styles.recommendedImage}
-            source={{uri: 'https://via.placeholder.com/150x80'}} // Recommended news image
-          />
+          <Image style={styles.recommendedImage} source={BestSelling} />
           <View style={styles.recommendedTextContainer}>
             <Text style={styles.recommendedTitle}>
               Best-selling keyboard switches of October, 2024
@@ -181,7 +194,7 @@ const styles = StyleSheet.create({
   popularContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginBottom: 20,
+    marginBottom: 15,
     padding: 16,
   },
   popularCard: {

@@ -48,8 +48,7 @@ const styles = StyleSheet.create({
   cardText: {
     color: 'white',
     fontSize: 14,
-    fontFamily: 'DM-Sans',
-    fontWeight: '600',
+    fontFamily: 'Lexend-Regular',
     bottom: 30,
   },
 });

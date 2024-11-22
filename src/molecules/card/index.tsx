@@ -2,14 +2,24 @@ import React from 'react';
 import {View, Text, StyleSheet, TouchableOpacity, Image} from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {useNavigation} from '@react-navigation/native';
+import {usePlans} from '../../context';
 
-const Card = ({title, imageSource, targetPage}) => {
+const Card = ({title, imageSource, targetPage, type}) => {
   const navigation = useNavigation();
+  const {selectedItems} = usePlans();
+
+  const selectedItem = selectedItems[type];
 
   return (
     <View style={styles.card}>
       <View style={styles.imageContainer}>
-        {imageSource ? (
+        {selectedItem?.image ? (
+          <Image
+            source={selectedItem.image}
+            style={styles.image}
+            resizeMode="contain"
+          />
+        ) : imageSource ? (
           <Image
             source={imageSource}
             style={styles.image}
@@ -20,7 +30,7 @@ const Card = ({title, imageSource, targetPage}) => {
         )}
       </View>
       <View style={styles.cardDetails}>
-        <Text style={styles.cardText}>{title}</Text>
+        <Text style={styles.cardText}>{selectedItem?.title || title}</Text>
         <TouchableOpacity
           style={styles.changeButton}
           onPress={() => navigation.navigate(targetPage)}>
@@ -39,11 +49,6 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     flexDirection: 'row',
     alignItems: 'center',
-    shadowColor: '#000',
-    shadowOffset: {width: 0, height: 2},
-    shadowOpacity: 0.1,
-    shadowRadius: 8,
-    elevation: 5,
     minHeight: 120,
     marginHorizontal: 5,
   },
@@ -67,10 +72,9 @@ const styles = StyleSheet.create({
   },
   cardText: {
     color: 'white',
-    fontSize: 16,
-    fontFamily: 'DM-Sans',
+    fontSize: 14,
+    fontFamily: 'Lexend-Regular',
     marginBottom: 5,
-    fontWeight: '600',
     bottom: 34,
   },
   changeButton: {
@@ -81,12 +85,11 @@ const styles = StyleSheet.create({
     alignSelf: 'flex-start',
     position: 'absolute',
     bottom: -30,
-    left: 0,
   },
   changeButtonText: {
     color: 'white',
-    fontSize: 10,
-    fontWeight: 'bold',
+    fontSize: 12,
+    fontFamily: 'Lexend-Regular',
   },
 });
 

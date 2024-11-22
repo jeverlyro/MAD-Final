@@ -1,33 +1,88 @@
 import React from 'react';
-import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  ScrollView,
+  Alert,
+} from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {useNavigation} from '@react-navigation/native';
 import {BottomNavbar} from '../../../../molecules';
+import {usePlans} from '../../../../context';
 
 const SimScreen: React.FC = () => {
   const navigation = useNavigation();
+  const {savedPlans, deletePlan} = usePlans();
+
+  const handleDelete = (id: string) => {
+    Alert.alert('Delete Plan', 'Are you sure you want to delete this plan?', [
+      {
+        text: 'Cancel',
+        style: 'cancel',
+      },
+      {
+        text: 'Delete',
+        onPress: () => deletePlan(id),
+        style: 'destructive',
+      },
+    ]);
+  };
 
   return (
-    <View style={styles.container}>
-      <View style={styles.content}>
-        <View style={styles.header}>
-          <Text style={styles.headerTitle}>Mod Plan</Text>
+    <>
+      <View style={styles.container}>
+        <View style={styles.content}>
+          <View style={styles.header}>
+            <Text style={styles.headerTitle}>Mod Plan</Text>
+          </View>
+          <View style={styles.divider} />
+
+          {savedPlans.length === 0 ? (
+            <Text style={styles.noPlansText}>
+              You do not have any plans yet.
+            </Text>
+          ) : (
+            <ScrollView style={styles.plansList}>
+              {savedPlans.map(plan => (
+                <View key={plan.id} style={styles.planCard}>
+                  <TouchableOpacity
+                    onPress={() => navigation.navigate('PlanDetails', {plan})}
+                    style={styles.planContent}>
+                    <View>
+                      <Text style={styles.planTitle}>
+                        {plan.barebone?.title || 'Custom Keyboard'}
+                      </Text>
+                      <Text style={styles.planSubtitle}>
+                        {plan.switches?.title || 'No switches selected'}
+                      </Text>
+                    </View>
+                    <TouchableOpacity
+                      onPress={() => handleDelete(plan.id)}
+                      style={styles.deleteButton}>
+                      <Ionicons
+                        name="trash-outline"
+                        size={24}
+                        color="#FF4444"
+                      />
+                    </TouchableOpacity>
+                  </TouchableOpacity>
+                </View>
+              ))}
+            </ScrollView>
+          )}
+
+          <TouchableOpacity
+            style={styles.addButton}
+            onPress={() => navigation.navigate('Plans')}
+            accessibilityLabel="Add new plan">
+            <Ionicons name="add" size={28} color="white" />
+          </TouchableOpacity>
         </View>
-
-        <View style={styles.divider} />
-
-        <Text style={styles.noPlansText}>You do not have any plans yet.</Text>
-
-        <TouchableOpacity
-          style={styles.addButton}
-          onPress={() => navigation.navigate('Page2')}
-          accessibilityLabel="Add new plan">
-          <Ionicons name="add" size={28} color="white" />
-        </TouchableOpacity>
       </View>
-
-      <BottomNavbar style={styles.bottomNavbar} />
-    </View>
+      <BottomNavbar />
+    </>
   );
 };
 
@@ -39,57 +94,72 @@ const styles = StyleSheet.create({
   content: {
     flex: 1,
     paddingHorizontal: 20,
-    paddingTop: 20,
   },
   header: {
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    marginBottom: 10,
     marginTop: 10,
+    marginBottom: 10,
   },
   headerTitle: {
     fontSize: 26,
-    fontFamily: 'DM-Sans, sans-serif',
+    fontFamily: 'Lexend-Bold',
     color: 'white',
-    fontWeight: 'bold',
   },
   divider: {
     width: '100%',
     height: 1,
-    backgroundColor: '#5046E5',
+    backgroundColor: '#222C41',
     opacity: 0.5,
     marginVertical: 5,
   },
   noPlansText: {
-    color: 'white',
-    fontSize: 14,
-    fontFamily: 'DM-Sans, sans-serif',
-    marginTop: 15,
+    color: '#8F92A1',
+    fontSize: 16,
+    textAlign: 'center',
+    marginTop: 20,
+    fontFamily: 'Lexend-Regular',
   },
   addButton: {
     position: 'absolute',
-    bottom: 100,
+    bottom: 20,
     right: 20,
     backgroundColor: '#5046E5',
-    width: 60,
-    height: 60,
-    borderRadius: 30,
+    width: 56,
+    height: 56,
+    borderRadius: 28,
     justifyContent: 'center',
     alignItems: 'center',
-    shadowColor: '#5046E5',
-    shadowRadius: 15,
-    elevation: 15,
+    elevation: 5,
   },
-  bottomNavbar: {
-    position: 'absolute',
-    bottom: 0,
-    left: 0,
-    right: 0,
-    height: 60,
-    backgroundColor: '#121927',
-    borderTopWidth: 1,
-    borderTopColor: '#5046E5',
+  plansList: {
+    marginTop: 10,
+  },
+  planCard: {
+    backgroundColor: '#1A1F2E',
+    borderRadius: 10,
+    marginBottom: 12,
+    padding: 15,
+  },
+  planContent: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  planTitle: {
+    color: 'white',
+    fontSize: 16,
+    fontFamily: 'Lexend-Medium',
+    marginBottom: 4,
+  },
+  planSubtitle: {
+    color: '#8F92A1',
+    fontSize: 14,
+    fontFamily: 'Lexend-Regular',
+  },
+  deleteButton: {
+    padding: 8,
   },
 });
 
