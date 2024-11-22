@@ -38,7 +38,7 @@ const LearnScreen: React.FC = () => {
   return (
     <>
       <View style={styles.container}>
-        <ScrollView style={styles.insideContent}>
+        <ScrollView>
           <Text style={styles.headerText}>{aboutData.headerText}</Text>
           <View style={styles.divider} />
           <Gap height={30} />
@@ -110,18 +110,19 @@ const styles = StyleSheet.create({
     backgroundColor: '#121927',
   },
   divider: {
-    width: '100%',
-    height: 1,
+    width: '90%',
+    height: 0.5,
     backgroundColor: '#222C41',
+    marginLeft: 20,
     opacity: 0.5,
-    marginVertical: 5,
+    marginBottom: 15,
   },
   headerText: {
     color: 'white',
     fontSize: 28,
     marginTop: 10,
     fontFamily: 'Lexend-Bold',
-    marginBottom: 15,
+    marginBottom: 13,
     textAlign: 'center',
   },
   sectionTitle: {
