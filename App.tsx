@@ -22,6 +22,7 @@ import BareboneSelection from './src/pages/BottomTab/Simulation/Page3';
 import SelectionSwitch from './src/pages/BottomTab/Simulation/page4';
 import SelectionKey from './src/pages/BottomTab/Simulation/page5';
 import SelectionAdditional from './src/pages/BottomTab/Simulation/page6';
+import PersonalInfo from './src/pages/Personal_Info';
 import PlanDetail from './src/pages/PlanDetail';
 import './src/config/firebase';
 import {UserProvider} from './src/context/UserContext';
@@ -156,6 +157,11 @@ const App = () => {
             <stack.Screen
               name="VerifyEmail"
               component={VerifyEmail}
+              options={{headerShown: false}}
+            />
+            <stack.Screen
+              name="PersonalInfo"
+              component={PersonalInfo}
               options={{headerShown: false}}
             />
           </stack.Navigator>

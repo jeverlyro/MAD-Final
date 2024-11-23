@@ -176,45 +176,74 @@ const ProfileScreen = () => {
             style={styles.profileImage}
             defaultSource={require('../../../assets/placeholder.jpg')}
             onError={() => {
-              // Handle load errors by falling back to placeholder
               setSelectedImage(PLACEHOLDER_IMAGE);
             }}
           />
         </TouchableOpacity>
-        <View style={styles.iconContainer}>
-          {tempImage && (
-            <TouchableOpacity
-              style={[styles.iconButton, {backgroundColor: '#5046E5'}]}
-              onPress={handleSaveImage}>
-              <Ionicons name="save-outline" size={24} color="#fff" />
-            </TouchableOpacity>
-          )}
-
-          <TouchableOpacity
-            style={[styles.iconButton, styles.deleteButton]}
-            onPress={handleDeleteImage}>
-            <Ionicons name="trash" size={24} color="#fff" />
-          </TouchableOpacity>
-        </View>
         <Text style={styles.usernameText}>{userName}</Text>
+
+        <View style={styles.divider} />
+
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => navigation.navigate('PersonalInfo')}>
+          <Ionicons name="person" size={15} color="#fff" style={styles.icon} />
+          <Text style={styles.buttonText}>Personal Info</Text>
+          <Ionicons
+            name="chevron-forward"
+            size={17}
+            color="#fff"
+            style={styles.arrowIcon}
+          />
+        </TouchableOpacity>
 
         <TouchableOpacity
           style={styles.button}
           onPress={() => navigation.navigate('Edit')}>
-          <Ionicons name="person" size={20} color="#fff" />
-          <Text style={styles.buttonText}>Personal Info</Text>
+          <Ionicons
+            name="settings"
+            size={15}
+            color="#fff"
+            style={styles.icon}
+          />
+          <Text style={styles.buttonText}>Edit Profile</Text>
+          <Ionicons
+            name="chevron-forward"
+            size={17}
+            color="#fff"
+            style={styles.arrowIcon}
+          />
         </TouchableOpacity>
+
+        <View style={styles.divider} />
 
         <TouchableOpacity
           style={styles.button}
           onPress={() => navigation.navigate('About')}>
-          <Ionicons name="shield" size={20} color="#fff" />
+          <Ionicons name="shield" size={15} color="#fff" style={styles.icon} />
           <Text style={styles.buttonText}>About</Text>
+          <Ionicons
+            name="chevron-forward"
+            size={17}
+            color="#fff"
+            style={styles.arrowIcon}
+          />
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.exitButton} onPress={handleLogout}>
-          <Ionicons name="exit" size={20} color="#fff" />
+        <TouchableOpacity style={styles.button} onPress={handleLogout}>
+          <Ionicons
+            name="exit"
+            size={15}
+            color="#fff"
+            style={styles.exitButton}
+          />
           <Text style={styles.buttonText}>Sign Out</Text>
+          <Ionicons
+            name="chevron-forward"
+            size={17}
+            color="#fff"
+            style={styles.arrowIcon}
+          />
         </TouchableOpacity>
       </View>
       <BottomNavbar />
@@ -231,32 +260,33 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingTop: 50,
   },
-  iconContainer: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    gap: 20,
-  },
   title: {
     fontSize: 24,
     color: 'white',
-    paddingBottom: 31,
+    paddingBottom: 50,
     fontFamily: 'Lexend-Bold',
   },
-  iconButton: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    padding: 5,
-    borderRadius: 5,
-    marginTop: 20,
-    backgroundColor: '#2C3545',
-    width: '10%',
-    justifyContent: 'center',
+  icon: {
+    backgroundColor: '#5046E5',
+    padding: 10,
+    borderRadius: 10,
+  },
+  arrowIcon: {
+    alignItems: 'flex-end',
+    marginLeft: 'auto',
+  },
+  divider: {
+    width: '80%',
+    height: 0.5,
+    backgroundColor: '#222C41',
+    opacity: 0.5,
+    marginVertical: 5,
   },
   profileImage: {
     width: 160,
     height: 160,
     borderRadius: 80,
-    borderWidth: 5,
+    borderWidth: 10,
     borderColor: '#5046E5',
   },
   usernameText: {
@@ -269,51 +299,20 @@ const styles = StyleSheet.create({
   button: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#5046E5',
-    paddingVertical: 15,
-    paddingHorizontal: 20,
-    borderRadius: 10,
-    width: '90%',
+    width: '80%',
     marginVertical: 10,
     justifyContent: 'flex-start',
   },
   exitButton: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: '#FF3B30',
-    paddingVertical: 15,
-    paddingHorizontal: 20,
+    backgroundColor: 'red',
+    padding: 10,
     borderRadius: 10,
-    marginVertical: 10,
-    width: '90%',
   },
   buttonText: {
     color: '#fff',
-    fontSize: 14,
+    fontSize: 15,
     marginLeft: 15,
-    fontFamily: 'Poppins-Medium',
-  },
-  tabBar: {
-    position: 'absolute',
-    bottom: 0,
-    height: 80,
-    width: '100%',
-    backgroundColor: 'transparent',
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    alignItems: 'center',
-  },
-  tabItem: {
-    alignItems: 'center',
-    flex: 1,
-  },
-  tabText: {
-    fontFamily: 'Lexend-Regular',
-    color: 'white',
-    fontSize: 10,
-    marginTop: 4,
-  },
-  deleteButton: {
-    backgroundColor: '#FF3B30',
+    marginBottom: 5,
+    fontFamily: 'Lexend-Medium',
   },
 });

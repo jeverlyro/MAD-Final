@@ -47,7 +47,9 @@ const AboutScreen: React.FC = () => {
         <Text style={styles.headerTitle}>{aboutData.headerTitle}</Text>
       </View>
 
-      <View style={styles.infoBox} />
+      <View style={styles.infoBox}>
+        <Text style={styles.infoText}>{aboutData.info}</Text>
+      </View>
       <Text style={styles.aboutTitle}>{aboutData.aboutTitle}</Text>
 
       <View style={styles.separator} />
@@ -82,10 +84,15 @@ const styles = StyleSheet.create({
   },
   infoBox: {
     backgroundColor: '#0F1522',
-    width: '110%',
+    width: '120%',
     marginLeft: -20,
-    paddingVertical: 12,
-    borderRadius: 8,
+    paddingVertical: 5,
+  },
+  infoText: {
+    fontSize: 11,
+    color: 'white',
+    fontFamily: 'Lexend-Regular',
+    marginLeft: 20,
   },
   aboutTitle: {
     color: 'white',
