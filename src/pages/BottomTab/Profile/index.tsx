@@ -16,7 +16,6 @@ const PLACEHOLDER_IMAGE =
 
 const ProfileScreen = () => {
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
-  const [tempImage, setTempImage] = useState<string | null>(null);
   const {profileImage, setProfileImage} = useUser();
   const [userName, setUserName] = useState('');
   const navigation = useNavigation();
@@ -132,31 +131,6 @@ const ProfileScreen = () => {
     });
   };
 
-  const handleDeleteImage = async () => {
-    try {
-      const userId = auth.currentUser?.uid;
-      if (!userId) {
-        throw new Error('User not authenticated');
-      }
-
-      const userRef = doc(db, 'users', userId);
-      await updateDoc(userRef, {
-        profileImage: 'https://via.placeholder.com/120',
-      });
-      showMessage({
-        message: 'Profile image deleted successfully',
-        type: 'success',
-        icon: 'info',
-      });
-    } catch (error) {
-      console.error('Error deleting profile image:', error);
-      showMessage({
-        message: 'Failed to delete profile image',
-        type: 'danger',
-      });
-    }
-  };
-
   useEffect(() => {
     if (!displayImage) {
       setSelectedImage(PLACEHOLDER_IMAGE);
@@ -168,18 +142,15 @@ const ProfileScreen = () => {
       <View style={styles.container}>
         <Text style={styles.title}>My Profile</Text>
 
-        <TouchableOpacity onPress={handleSelectImage}>
-          <Image
-            source={{
-              uri: displayImage ? displayImage : PLACEHOLDER_IMAGE,
-            }}
-            style={styles.profileImage}
-            defaultSource={require('../../../assets/placeholder.jpg')}
-            onError={() => {
-              setSelectedImage(PLACEHOLDER_IMAGE);
-            }}
-          />
-        </TouchableOpacity>
+        <Image
+          source={{
+            uri: displayImage ? displayImage : PLACEHOLDER_IMAGE,
+          }}
+          style={styles.profileImage}
+          onError={() => {
+            setSelectedImage(PLACEHOLDER_IMAGE);
+          }}
+        />
         <Text style={styles.usernameText}>{userName}</Text>
 
         <View style={styles.divider} />

@@ -8,13 +8,19 @@ import {
   ScrollView,
   Alert,
   ActivityIndicator,
+  Image,
 } from 'react-native';
 import {doc, updateDoc, getDoc} from 'firebase/firestore';
 import {auth, db} from '../../config/firebase';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import {Gap} from '../../atoms';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import {showMessage} from 'react-native-flash-message';
+import {useUser} from '../../context/UserContext';
+import {launchImageLibrary} from 'react-native-image-picker';
+
+const PLACEHOLDER_IMAGE =
+  'https://st3.depositphotos.com/9998432/13335/v/450/depositphotos_133351928-stock-illustration-default-placeholder-man-and-woman.jpg';
 
 const Edit = ({navigation}) => {
   const [name, setName] = useState('');
@@ -24,6 +30,8 @@ const Edit = ({navigation}) => {
   const [loading, setLoading] = useState(false);
   const [date, setDate] = useState(new Date());
   const [showDatePicker, setShowDatePicker] = useState(false);
+  const [selectedImage, setSelectedImage] = useState<string | null>(null);
+  const {profileImage, setProfileImage} = useUser();
 
   useEffect(() => {
     fetchUserData();
@@ -43,6 +51,8 @@ const Edit = ({navigation}) => {
       }
     }
   };
+
+  const displayImage = selectedImage || profileImage || PLACEHOLDER_IMAGE;
 
   const handleUpdate = async () => {
     if (!name || !email || !dateOfBirth || !gender) {
@@ -71,6 +81,64 @@ const Edit = ({navigation}) => {
     setLoading(false);
   };
 
+  const updateProfileImageInDB = async base64Image => {
+    try {
+      const userId = auth.currentUser?.uid;
+      if (!userId) {
+        throw new Error('User not authenticated');
+      }
+
+      const userRef = doc(db, 'users', userId);
+      await updateDoc(userRef, {
+        profileImage: `data:image/jpeg;base64,${base64Image}`,
+      });
+
+      setProfileImage(`data:image/jpeg;base64,${base64Image}`);
+      showMessage({
+        message: 'Profile image updated successfully',
+        type: 'success',
+        icon: 'success',
+      });
+    } catch (error) {
+      console.error('Error updating profile image:', error);
+      showMessage({
+        message: 'Failed to update profile image',
+        type: 'danger',
+      });
+    }
+  };
+
+  const handleSelectImage = () => {
+    const options = {
+      mediaType: 'photo',
+      quality: 0.5,
+      includeBase64: true,
+    };
+
+    launchImageLibrary(options, async response => {
+      if (response.didCancel) {
+        showMessage({
+          message: 'No image selected',
+          type: 'info',
+          icon: 'info',
+        });
+        return;
+      }
+
+      if (response.errorCode) {
+        showMessage({
+          message: 'Image picker error: ' + response.errorMessage,
+          type: 'danger',
+        });
+        return;
+      }
+
+      if (response.assets && response.assets[0].base64) {
+        await updateProfileImageInDB(response.assets[0].base64);
+      }
+    });
+  };
+
   const handleDateChange = (event, selectedDate) => {
     setShowDatePicker(false);
     if (selectedDate) {
@@ -78,6 +146,12 @@ const Edit = ({navigation}) => {
       setDateOfBirth(selectedDate.toISOString().split('T')[0]);
     }
   };
+
+  useEffect(() => {
+    if (!displayImage) {
+      setSelectedImage(PLACEHOLDER_IMAGE);
+    }
+  }, [displayImage]);
 
   return (
     <ScrollView style={styles.container}>
@@ -94,7 +168,20 @@ const Edit = ({navigation}) => {
         </Text>
       </View>
 
-      <Gap height={20} />
+      <View style={styles.photo}>
+        <Image
+          source={{
+            uri: displayImage ? displayImage : PLACEHOLDER_IMAGE,
+          }}
+          style={styles.profileImage}
+          onError={() => {
+            setSelectedImage(PLACEHOLDER_IMAGE);
+          }}
+        />
+        <TouchableOpacity onPress={handleSelectImage}>
+          <Text style={styles.photoChangeText}>Change Profile Picture</Text>
+        </TouchableOpacity>
+      </View>
 
       <View>
         <View style={styles.inputContainer}>
@@ -143,6 +230,7 @@ const Edit = ({navigation}) => {
           <Text style={styles.label}>Gender</Text>
           <View style={styles.genderContainer}>
             <TouchableOpacity
+              onPress
               style={[
                 styles.genderButton,
                 gender === 'Male' && styles.genderButtonActive,
@@ -277,6 +365,25 @@ const styles = StyleSheet.create({
   },
   genderButtonTextActive: {
     fontFamily: 'Lexend-Medium',
+  },
+  photo: {
+    marginVertical: 30,
+    flexDirection: 'row',
+  },
+  profileImage: {
+    width: 120,
+    height: 120,
+    borderRadius: 10,
+  },
+  photoChangeText: {
+    padding: 10,
+    borderRadius: 5,
+    backgroundColor: '#5046E5',
+    color: '#fff',
+    fontSize: 14,
+    fontFamily: 'Lexend-Medium',
+    margin: 'auto',
+    marginLeft: 50,
   },
   updateButton: {
     backgroundColor: '#5046E5',
