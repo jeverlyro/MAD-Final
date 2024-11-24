@@ -76,7 +76,6 @@ const styles = StyleSheet.create({
     fontFamily: 'Lexend-Bold',
     color: 'white',
     textAlign: 'center',
-    flex: 1,
   },
   divider: {
     width: '100%',

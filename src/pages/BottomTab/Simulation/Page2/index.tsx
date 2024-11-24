@@ -101,25 +101,22 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
   },
   headerContainer: {
-    marginTop: 30,
-    marginBottom: 10,
+    marginTop: 10,
     flexDirection: 'row',
     alignItems: 'center',
+    marginBottom: 10,
   },
   backButton: {
-    position: 'absolute',
-    left: 0,
-    zIndex: 10,
-    padding: 10,
+    padding: 'auto',
   },
   header: {
-    flex: 1,
-    alignItems: 'center',
+    flexDirection: 'row',
   },
   headerTitle: {
     fontSize: 26,
     fontFamily: 'Lexend-Bold',
     color: 'white',
+    paddingHorizontal: 'auto',
     textAlign: 'center',
   },
   divider: {
@@ -133,11 +130,11 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
   saveButton: {
+    marginTop: 20,
     backgroundColor: '#5046E5',
     paddingVertical: 10,
     alignItems: 'center',
-    borderRadius: 20,
-    marginHorizontal: 5,
+    borderRadius: 10,
   },
   saveButtonText: {
     color: 'white',

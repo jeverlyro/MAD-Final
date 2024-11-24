@@ -69,19 +69,23 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
   },
   headerContainer: {
-    marginTop: 30,
+    marginTop: 10,
     flexDirection: 'row',
     alignItems: 'center',
+    marginBottom: 10,
+  },
+  scrollContainer: {
+    marginTop: 10,
   },
   backButton: {
-    marginRight: 10,
+    padding: 'auto',
   },
   headerTitle: {
     fontSize: 26,
     fontFamily: 'Lexend-Bold',
     color: 'white',
+    paddingHorizontal: 10,
     textAlign: 'center',
-    flex: 1,
   },
   divider: {
     width: '100%',

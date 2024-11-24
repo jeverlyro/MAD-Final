@@ -137,17 +137,17 @@ const App = () => {
             <stack.Screen
               name="Page4"
               component={SelectionSwitch}
-              options={{headerShown: false}}
+              options={{headerShown: false, animation: 'none'}}
             />
             <stack.Screen
               name="Page5"
               component={SelectionKey}
-              options={{headerShown: false}}
+              options={{headerShown: false, animation: 'none'}}
             />
             <stack.Screen
               name="Page6"
               component={SelectionAdditional}
-              options={{headerShown: false}}
+              options={{headerShown: false, animation: 'none'}}
             />
             <stack.Screen
               name="PlanDetails"
