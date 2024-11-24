@@ -8,6 +8,7 @@ import {
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {akko, kaychron, gamakay} from '../../../../assets/images';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 import CardB from '../../../../molecules/CardB';
 import {BottomNavbar} from '../../../../molecules';
 import {usePlans} from '../../../../context';
@@ -24,7 +25,16 @@ const BareboneSelection = () => {
   return (
     <>
       <View style={styles.container}>
-        <Text style={styles.headerTitle}>Select Your Barebone</Text>
+        <View style={styles.headerContainer}>
+          <Ionicons
+            name="arrow-back"
+            size={24}
+            color="white"
+            onPress={() => navigation.goBack()}
+            style={styles.backButton}
+          />
+          <Text style={styles.headerTitle}>Select Your Barebone</Text>
+        </View>
         <View style={styles.divider} />
 
         <ScrollView contentContainerStyle={styles.scrollContainer}>
@@ -58,13 +68,20 @@ const styles = StyleSheet.create({
     backgroundColor: '#121927',
     paddingHorizontal: 20,
   },
+  headerContainer: {
+    marginTop: 30,
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  backButton: {
+    marginRight: 10,
+  },
   headerTitle: {
-    marginTop: 10,
     fontSize: 26,
     fontFamily: 'Lexend-Bold',
     color: 'white',
     textAlign: 'center',
-    marginBottom: 10,
+    flex: 1,
   },
   divider: {
     width: '100%',
