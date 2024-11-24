@@ -6,10 +6,12 @@ import {
   TouchableOpacity,
   ScrollView,
 } from 'react-native';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 import {useNavigation} from '@react-navigation/native';
 import Card from '../../../../molecules/card';
 import {BottomNavbar} from '../../../../molecules';
 import {usePlans} from '../../../../context';
+import {auth} from '../../../../config/firebase';
 
 const Plans = () => {
   const navigation = useNavigation();
@@ -23,10 +25,11 @@ const Plans = () => {
         switches: selectedItems.switches,
         keycaps: selectedItems.keycaps,
         additional: selectedItems.additional,
+        userId: auth.currentUser?.uid, // Add user ID
+        createdAt: new Date().toISOString(),
       };
       await savePlan(plan);
-      setShowNotification(true);
-      setTimeout(() => setShowNotification(false), 3000);
+      navigation.navigate('Simulation'); 
     } catch (error) {
       console.error('Error saving plan:', error);
     }
@@ -35,8 +38,17 @@ const Plans = () => {
   return (
     <>
       <View style={styles.container}>
-        <View style={styles.header}>
-          <Text style={styles.headerTitle}>Make Your Plans</Text>
+        <View style={styles.headerContainer}>
+          <Ionicons
+            name="arrow-back"
+            size={24}
+            color="white"
+            onPress={() => navigation.goBack()}
+            style={styles.backButton}
+          />
+          <View style={styles.header}>
+            <Text style={styles.headerTitle}>Make Your Plans</Text>
+          </View>
         </View>
         <View style={styles.divider} />
         <ScrollView contentContainerStyle={styles.scrollContainer}>
@@ -88,29 +100,24 @@ const styles = StyleSheet.create({
     backgroundColor: '#121927',
     paddingHorizontal: 20,
   },
-  notification: {
-    position: 'absolute',
-    top: 20,
-    left: 20,
-    right: 20,
-    backgroundColor: '#5046E5',
-    padding: 10,
-    borderRadius: 8,
-    alignItems: 'center',
-  },
-  notificationText: {
-    color: 'white',
-    fontFamily: 'Lexend-Regular',
-  },
-  header: {
+  headerContainer: {
     marginTop: 10,
+    flexDirection: 'row',
     alignItems: 'center',
     marginBottom: 10,
+  },
+  backButton: {
+    padding: 'auto',
+  },
+  header: {
+    flexDirection: 'row',
   },
   headerTitle: {
     fontSize: 26,
     fontFamily: 'Lexend-Bold',
     color: 'white',
+    paddingHorizontal: 'auto',
+    textAlign: 'center',
   },
   divider: {
     width: '100%',
@@ -123,32 +130,29 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
   saveButton: {
+    marginTop: 20,
     backgroundColor: '#5046E5',
     paddingVertical: 10,
     alignItems: 'center',
-    borderRadius: 20,
-    marginHorizontal: 5,
+    borderRadius: 10,
   },
   saveButtonText: {
     color: 'white',
     fontSize: 14,
     fontFamily: 'Lexend-Regular',
   },
-  tabBar: {
+  notification: {
     position: 'absolute',
-    bottom: 0,
-    height: 80,
-    width: '100%',
-    backgroundColor: 'transparent',
-    flexDirection: 'row',
-    justifyContent: 'space-around',
+    top: 20,
+    left: 20,
+    right: 20,
+    backgroundColor: '#5046E5',
+    padding: 10,
+    borderRadius: 8,
     alignItems: 'center',
   },
-  tabItem: {
-    alignItems: 'center',
-    flex: 1,
-  },
-  cardText: {
+  notificationText: {
+    color: 'white',
     fontFamily: 'Lexend-Regular',
   },
 });

@@ -1,24 +1,15 @@
-// src/context/PlansContext.tsx
-import React, {createContext, useState, useContext, useEffect} from 'react';
-import {
-  collection,
-  addDoc,
-  getDocs,
-  deleteDoc,
-  doc,
-  query,
-  where,
-} from 'firebase/firestore';
-import {db} from '../config/firebase';
+import React, {createContext, useContext, useState, useEffect} from 'react';
+import {collection, query, where, getDocs, addDoc, deleteDoc, doc} from 'firebase/firestore';
 import {getAuth} from 'firebase/auth';
+import {db} from '../config/firebase';
 
 interface Plan {
   id: string;
+  barebone: {title: string; image: any};
+  switches: {title: string; image: any};
+  keycaps: {title: string; image: any};
+  additional: {title: string; image: any};
   userId: string;
-  barebone: {title: string; image: any} | null;
-  switches: {title: string; image: any} | null;
-  keycaps: {title: string; image: any} | null;
-  additional: {title: string; image: any} | null;
 }
 
 interface PlansContextType {
@@ -79,23 +70,22 @@ export const PlansProvider: React.FC = ({children}) => {
   };
 
   const savePlan = async (plan: Omit<Plan, 'id'>) => {
-    const auth = getAuth();
-    const user = auth.currentUser;
-    if (user) {
-      const docRef = await addDoc(collection(db, 'plans'), {
-        ...plan,
-        userId: user.uid,
-      });
-      setSavedPlans([
-        ...savedPlans,
-        {id: docRef.id, ...plan, userId: user.uid},
-      ]);
+    try {
+      const docRef = await addDoc(collection(db, 'plans'), plan);
+      setSavedPlans(prev => [...prev, {...plan, id: docRef.id} as Plan]);
+    } catch (error) {
+      console.error('Error saving plan:', error);
+      throw error;
     }
   };
 
   const deletePlan = async (id: string) => {
-    await deleteDoc(doc(db, 'plans', id));
-    setSavedPlans(savedPlans.filter(plan => plan.id !== id));
+    try {
+      await deleteDoc(doc(db, 'plans', id));
+      setSavedPlans(prev => prev.filter(plan => plan.id !== id));
+    } catch (error) {
+      console.error('Error deleting plan:', error);
+    }
   };
 
   return (

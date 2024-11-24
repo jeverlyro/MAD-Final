@@ -2,6 +2,8 @@ import React, {createContext, useContext, useState, useEffect} from 'react';
 import {auth, db} from '../config/firebase';
 import {doc, onSnapshot} from 'firebase/firestore';
 
+
+
 interface UserContextType {
   profileImage: string;
   setProfileImage: (url: string) => void;

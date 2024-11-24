@@ -10,6 +10,7 @@ import {useNavigation} from '@react-navigation/native';
 import {akkoswc, geteswc, hmxswc} from '../../../../assets/images';
 import CardB from '../../../../molecules/CardB';
 import {BottomNavbar} from '../../../../molecules';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 import {usePlans} from '../../../../context';
 
 const SelectionSwitch = () => {
@@ -23,7 +24,16 @@ const SelectionSwitch = () => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.headerTitle}>Select Your Switches</Text>
+      <View style={styles.headerContainer}>
+        <Ionicons
+          name="arrow-back"
+          size={24}
+          color="white"
+          onPress={() => navigation.goBack()}
+          style={styles.backButton}
+        />
+        <Text style={styles.headerTitle}>Select Your Switches</Text>
+      </View>
       <ScrollView contentContainerStyle={styles.scrollContainer}>
         <View style={styles.divider} />
         <TouchableOpacity
@@ -48,13 +58,21 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#121927',
   },
+  headerContainer: {
+    marginTop: 10,
+    marginBottom: 13,
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingHorizontal: 20,
+  },
+  backButton: {
+    marginRight: 10,
+  },
   headerTitle: {
     fontSize: 26,
     fontFamily: 'Lexend-Bold',
     color: 'white',
     textAlign: 'center',
-    marginTop: 10,
-    marginBottom: 10,
   },
   divider: {
     width: '100%',

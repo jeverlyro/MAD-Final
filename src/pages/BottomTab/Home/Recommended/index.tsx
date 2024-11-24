@@ -208,8 +208,8 @@ const styles = StyleSheet.create({
     height: '100%',
   },
   recommendationContainer: {
-    paddingHorizontal: 15,
-    marginBottom: 20,
+    paddingLeft: 15,
+    paddingBottom: 20,
     backgroundColor: '#1B2539',
   },
   sectionTitle: {
@@ -229,15 +229,12 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   card: {
-    width: '30%',
-    borderRadius: 10,
-    padding: 8,
-    marginBottom: 15,
-    alignItems: 'center',
+    marginHorizontal: 8,
+    width: 100,
   },
   cardImage: {
-    width: 80,
-    height: 80,
+    width: '100%',
+    height: 100,
     borderRadius: 5,
   },
   cardText: {

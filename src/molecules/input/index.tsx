@@ -8,7 +8,13 @@ import {
 import React, {useState} from 'react';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
-const TextInput = ({label, placeholder, onChangeText, secureTextEntry}) => {
+const TextInput = ({
+  label,
+  placeholder,
+  onChangeText,
+  secureTextEntry,
+  value,
+}) => {
   const [isPasswordVisible, setPasswordVisible] = useState(secureTextEntry);
   const [isFocused, setIsFocused] = useState(false);
 
@@ -22,6 +28,7 @@ const TextInput = ({label, placeholder, onChangeText, secureTextEntry}) => {
         {label}
       </Text>
       <Input
+        value={value}
         style={styles.input}
         placeholder={placeholder}
         placeholderTextColor="gray"

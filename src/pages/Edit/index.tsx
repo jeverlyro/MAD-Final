@@ -1,192 +1,220 @@
 import React, {useState, useEffect} from 'react';
-import {View, Text, TouchableOpacity, StyleSheet} from 'react-native';
-import Ionicons from 'react-native-vector-icons/Ionicons';
-import {useNavigation} from '@react-navigation/native';
-import {Input} from '../../molecules';
-import {showMessage} from 'react-native-flash-message';
-import {Gap} from '../../atoms';
-import DateTimePicker from '@react-native-community/datetimepicker';
+import {
+  StyleSheet,
+  Text,
+  View,
+  TextInput,
+  TouchableOpacity,
+  ScrollView,
+  Alert,
+  ActivityIndicator,
+  Image,
+} from 'react-native';
 import {doc, updateDoc, getDoc} from 'firebase/firestore';
 import {auth, db} from '../../config/firebase';
+import DateTimePicker from '@react-native-community/datetimepicker';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import {showMessage} from 'react-native-flash-message';
+import {useUser} from '../../context/UserContext';
+import {launchImageLibrary} from 'react-native-image-picker';
 
-const EditInfoScreen: React.FC = () => {
-  const [displayName, setDisplayName] = useState('');
-  const [displayEmail, setDisplayEmail] = useState('');
-  const [displayDOB, setDisplayDOB] = useState('');
-  const [displayGender, setDisplayGender] = useState('');
+const PLACEHOLDER_IMAGE =
+  'https://st3.depositphotos.com/9998432/13335/v/450/depositphotos_133351928-stock-illustration-default-placeholder-man-and-woman.jpg';
 
-  const [email, setEmail] = useState('');
+const Edit = ({navigation}) => {
   const [name, setName] = useState('');
-  const [showDatePicker, setShowDatePicker] = useState(false);
-  const [date, setDate] = useState(new Date());
+  const [email, setEmail] = useState('');
   const [dateOfBirth, setDateOfBirth] = useState('');
-  const [gender, setGender] = useState(null);
-  const [loading, setLoading] = useState(true);
-
-  const navigation = useNavigation();
+  const [gender, setGender] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [date, setDate] = useState(new Date());
+  const [showDatePicker, setShowDatePicker] = useState(false);
+  const [selectedImage, setSelectedImage] = useState<string | null>(null);
+  const {profileImage, setProfileImage} = useUser();
 
   useEffect(() => {
-    const fetchUserData = async () => {
-      const user = auth.currentUser;
-      if (user) {
-        try {
-          const userRef = doc(db, 'users', user.uid);
-          const userDoc = await getDoc(userRef);
-
-          if (userDoc.exists()) {
-            const userData = userDoc.data();
-            // Set display values
-            setDisplayName(userData.name || '');
-            setDisplayEmail(userData.email || '');
-            setDisplayDOB(userData.dateOfBirth || '');
-            setDisplayGender(userData.gender || '');
-            // Set only basic form values
-            setName(userData.name || '');
-            setEmail(userData.email || '');
-            // Don't set dateOfBirth and gender for the form
-          }
-        } catch (error) {
-          showMessage({
-            message: 'Error',
-            description: 'Failed to fetch user data',
-            type: 'danger',
-            icon: 'danger',
-          });
-        } finally {
-          setLoading(false);
-        }
-      }
-    };
-
     fetchUserData();
   }, []);
 
-  const handleSave = async () => {
+  const fetchUserData = async () => {
     const user = auth.currentUser;
+    if (user) {
+      const docRef = doc(db, 'users', user.uid);
+      const docSnap = await getDoc(docRef);
+      if (docSnap.exists()) {
+        const data = docSnap.data();
+        setName(data.name || '');
+        setEmail(data.email || '');
+        setDateOfBirth(data.dateOfBirth || '');
+        setGender(data.gender || '');
+      }
+    }
+  };
 
-    if (!user) {
-      showMessage({
-        message: 'Error',
-        description: 'You must be logged in to update profile',
-        type: 'danger',
-        icon: 'danger',
-      });
+  const displayImage = selectedImage || profileImage || PLACEHOLDER_IMAGE;
+
+  const handleUpdate = async () => {
+    if (!name || !email || !dateOfBirth || !gender) {
+      Alert.alert('Error', 'Please fill all fields');
       return;
     }
 
+    setLoading(true);
     try {
-      const userRef = doc(db, 'users', user.uid);
+      const user = auth.currentUser;
+      if (user) {
+        const docRef = doc(db, 'users', user.uid);
+        await updateDoc(docRef, {
+          name,
+          email,
+          dateOfBirth,
+          gender,
+          updatedAt: new Date(),
+        });
+        Alert.alert('Success', 'Profile updated successfully');
+        navigation.goBack();
+      }
+    } catch (error) {
+      Alert.alert('Error', error.message);
+    }
+    setLoading(false);
+  };
 
+  const updateProfileImageInDB = async base64Image => {
+    try {
+      const userId = auth.currentUser?.uid;
+      if (!userId) {
+        throw new Error('User not authenticated');
+      }
+
+      const userRef = doc(db, 'users', userId);
       await updateDoc(userRef, {
-        email: email,
-        name: name,
-        dateOfBirth: dateOfBirth,
-        gender: gender,
-        updatedAt: new Date().toISOString(),
+        profileImage: `data:image/jpeg;base64,${base64Image}`,
       });
 
-      setDisplayName(name);
-      setDisplayEmail(email);
-      setDisplayDOB(dateOfBirth);
-      setDisplayGender(gender);
-
+      setProfileImage(`data:image/jpeg;base64,${base64Image}`);
       showMessage({
-        message: 'Profile Saved',
-        description: 'Your profile information has been updated.',
+        message: 'Profile image updated successfully',
         type: 'success',
         icon: 'success',
-        duration: 2000,
       });
     } catch (error) {
+      console.error('Error updating profile image:', error);
       showMessage({
-        message: 'Error',
-        description: 'Failed to update profile. Please try again.',
+        message: 'Failed to update profile image',
         type: 'danger',
-        icon: 'danger',
       });
-      console.error('Update error:', error);
     }
+  };
+
+  const handleSelectImage = () => {
+    const options = {
+      mediaType: 'photo',
+      quality: 0.5,
+      includeBase64: true,
+    };
+
+    launchImageLibrary(options, async response => {
+      if (response.didCancel) {
+        showMessage({
+          message: 'No image selected',
+          type: 'info',
+          icon: 'info',
+        });
+        return;
+      }
+
+      if (response.errorCode) {
+        showMessage({
+          message: 'Image picker error: ' + response.errorMessage,
+          type: 'danger',
+        });
+        return;
+      }
+
+      if (response.assets && response.assets[0].base64) {
+        await updateProfileImageInDB(response.assets[0].base64);
+      }
+    });
   };
 
   const handleDateChange = (event, selectedDate) => {
     setShowDatePicker(false);
     if (selectedDate) {
       setDate(selectedDate);
-      setDateOfBirth(selectedDate.toLocaleDateString());
+      setDateOfBirth(selectedDate.toISOString().split('T')[0]);
     }
   };
 
-  const toggleGender = selectedGender => {
-    setGender(gender === selectedGender ? null : selectedGender);
-  };
+  useEffect(() => {
+    if (!displayImage) {
+      setSelectedImage(PLACEHOLDER_IMAGE);
+    }
+  }, [displayImage]);
 
   return (
-    <View style={styles.Topcontainer}>
+    <ScrollView style={styles.container}>
       <View style={styles.header}>
-        <Ionicons
-          name="arrow-back"
-          size={19}
-          color="white"
-          onPress={() => navigation.goBack()}
-        />
-        <Text style={styles.headerTitle}>Personal info</Text>
-        <TouchableOpacity style={styles.saveButton} onPress={handleSave}>
-          <Text style={styles.saveButtonText}>Save</Text>
+        <TouchableOpacity onPress={() => navigation.goBack()}>
+          <Ionicons name="arrow-back" size={20} color="white" />
         </TouchableOpacity>
+        <Text style={styles.headerTitle}>Edit Information</Text>
       </View>
+
       <View style={styles.infoBox}>
         <Text style={styles.infoText}>
-          You can change your personal information here.
+          You can update your personal information here.
         </Text>
       </View>
-      <View style={styles.infoContainer}>
-        <View style={styles.infoCard}>
-          <Text style={styles.infoTitle}>Profile Information</Text>
 
-          <View style={styles.infoRow}>
-            <Text style={styles.infoLabel}>Name:</Text>
-            <Text style={styles.infoValue}>{displayName}</Text>
-          </View>
-
-          <View style={styles.infoRow}>
-            <Text style={styles.infoLabel}>Email:</Text>
-            <Text style={styles.infoValue}>{displayEmail}</Text>
-          </View>
-
-          <View style={styles.infoRow}>
-            <Text style={styles.infoLabel}>Date of Birth:</Text>
-            <Text style={styles.infoValue}>{displayDOB}</Text>
-          </View>
-
-          <View style={styles.infoRow}>
-            <Text style={styles.infoLabel}>Gender:</Text>
-            <Text style={styles.infoValue}>{displayGender}</Text>
-          </View>
-        </View>
+      <View style={styles.photo}>
+        <Image
+          source={{
+            uri: displayImage ? displayImage : PLACEHOLDER_IMAGE,
+          }}
+          style={styles.profileImage}
+          onError={() => {
+            setSelectedImage(PLACEHOLDER_IMAGE);
+          }}
+        />
+        <TouchableOpacity onPress={handleSelectImage}>
+          <Text style={styles.photoChangeText}>Change Profile Picture</Text>
+        </TouchableOpacity>
       </View>
-      <Gap height={40} />
-      <View style={styles.container}>
-        <Input
-          label="Email"
-          placeholder="Enter your new e-mail here"
-          value={email}
-          onChangeText={setEmail}
-        />
-        <Gap height={20} />
-        <Input
-          label="Name"
-          placeholder="Update your name here"
-          value={name}
-          onChangeText={setName}
-        />
-        <Gap height={20} />
-        <View style={styles.rowContainer}>
+
+      <View>
+        <View style={styles.inputContainer}>
+          <Text style={styles.label}>Full Name</Text>
+          <TextInput
+            style={styles.input}
+            value={name}
+            onChangeText={setName}
+            placeholder="Enter your name"
+            placeholderTextColor="#666"
+          />
+        </View>
+
+        <View style={styles.inputContainer}>
+          <Text style={styles.label}>Email</Text>
+          <TextInput
+            style={styles.input}
+            value={email}
+            onChangeText={setEmail}
+            placeholder="Enter your email"
+            placeholderTextColor="#666"
+            keyboardType="email-address"
+          />
+        </View>
+
+        <View style={styles.inputContainer}>
+          <Text style={styles.label}>Date of Birth</Text>
           <TouchableOpacity
-            activeOpacity={0.8}
-            onPress={() => setShowDatePicker(true)}
-            style={styles.dateInput}>
-            <Text style={[styles.dateLabel]}>Date of Birth</Text>
-            <Text style={styles.dateText}>{dateOfBirth || 'Select'}</Text>
+            style={styles.dateButton}
+            onPress={() => setShowDatePicker(true)}>
+            <Text style={styles.dateButtonText}>
+              {dateOfBirth || 'Select Date'}
+            </Text>
           </TouchableOpacity>
           {showDatePicker && (
             <DateTimePicker
@@ -196,219 +224,182 @@ const EditInfoScreen: React.FC = () => {
               onChange={handleDateChange}
             />
           )}
-          <TouchableOpacity
-            onPress={() => toggleGender('Male')}
-            style={[
-              styles.genderOption,
-              gender === 'Male' && styles.selectedGenderOption,
-            ]}>
-            <Text
-              style={[
-                styles.genderText,
-                gender === 'Male' && styles.selectedGenderText,
-              ]}>
-              Male
-            </Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            onPress={() => toggleGender('Female')}
-            style={[
-              styles.genderOption,
-              gender === 'Female' && styles.selectedGenderOption,
-            ]}>
-            <Text
-              style={[
-                styles.genderText,
-                gender === 'Female' && styles.selectedGenderText,
-              ]}>
-              Female
-            </Text>
-          </TouchableOpacity>
         </View>
+
+        <View style={styles.inputContainer}>
+          <Text style={styles.label}>Gender</Text>
+          <View style={styles.genderContainer}>
+            <TouchableOpacity
+              onPress
+              style={[
+                styles.genderButton,
+                gender === 'Male' && styles.genderButtonActive,
+              ]}
+              onPress={() => setGender('Male')}>
+              <Icon
+                name="gender-male"
+                size={20}
+                color={gender === 'Male' ? '#fff' : '#666'}
+              />
+              <Text
+                style={[
+                  styles.genderButtonText,
+                  gender === 'Male' && styles.genderButtonTextActive,
+                ]}>
+                Male
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={[
+                styles.genderButton,
+                gender === 'Female' && styles.genderButtonActive,
+              ]}
+              onPress={() => setGender('Female')}>
+              <Icon
+                name="gender-female"
+                size={20}
+                color={gender === 'Female' ? '#fff' : '#666'}
+              />
+              <Text
+                style={[
+                  styles.genderButtonText,
+                  gender === 'Female' && styles.genderButtonTextActive,
+                ]}>
+                Female
+              </Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+
         <TouchableOpacity
-          style={styles.changePasswordButton}
-          onPress={() => navigation.navigate('ChangePassword')}>
-          <Text style={styles.changePasswordText}>Change password</Text>
+          style={[styles.updateButton, loading && styles.updateButtonDisabled]}
+          onPress={handleUpdate}
+          disabled={loading}>
+          {loading ? (
+            <ActivityIndicator color="#fff" size="small" />
+          ) : (
+            <Text style={styles.updateButtonText}>Update Profile</Text>
+          )}
         </TouchableOpacity>
       </View>
-    </View>
+    </ScrollView>
   );
 };
 
-export default EditInfoScreen;
-
 const styles = StyleSheet.create({
-  Topcontainer: {
-    flex: 1,
-    backgroundColor: '#121927',
-    paddingTop: 20,
-  },
-  dateContainer: {
-    marginBottom: 20,
-  },
-  label: {
-    fontSize: 14,
-    color: 'white',
-    marginBottom: 8,
-  },
-  dateText: {
-    color: '#FFFFFF',
-    fontFamily: 'Outfit-Regular',
-    fontSize: 14,
-  },
   container: {
     flex: 1,
     backgroundColor: '#121927',
-    marginTop: 8,
-    marginBottom: 50,
-    marginHorizontal: 20,
+    padding: 20,
   },
   header: {
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'space-between',
     marginBottom: 20,
-    paddingHorizontal: 20,
   },
   headerTitle: {
-    fontSize: 15,
+    fontSize: 16,
     color: 'white',
     fontFamily: 'Lexend-Bold',
-    marginLeft: -185,
+    marginLeft: 10,
   },
-  saveButton: {
-    width: 50,
-    height: 25,
-    backgroundColor: '#5046E5',
-    paddingVertical: 6,
-    paddingHorizontal: 12,
-    borderRadius: 15,
-    alignItems: 'center',
+  inputContainer: {
+    marginBottom: 20,
   },
-  saveButtonText: {
-    fontSize: 8,
-    color: 'white',
-    fontFamily: 'Lexend-SemiBold',
+  label: {
+    color: '#8F9BB3',
+    marginBottom: 8,
+    fontSize: 12,
+    fontFamily: 'Lexend-Medium',
+  },
+  input: {
+    backgroundColor: '#1E2433',
+    borderRadius: 8,
+    padding: 10,
+    color: '#fff',
+    fontSize: 14,
+    fontFamily: 'Lexend-Regular',
   },
   infoBox: {
     backgroundColor: '#0F1522',
-    padding: 5,
-    paddingHorizontal: 20,
-    borderRadius: 0,
-    width: '100%',
-    alignSelf: 'stretch',
-    marginBottom: 40,
+    width: '120%',
+    marginLeft: -20,
+    paddingVertical: 5,
   },
   infoText: {
+    fontSize: 11,
     color: 'white',
     fontFamily: 'Lexend-Regular',
-    fontSize: 10,
+    marginLeft: 20,
   },
-  input: {
-    backgroundColor: '#2C2F3E',
-    color: 'white',
+  dateButton: {
+    backgroundColor: '#1E2433',
     borderRadius: 8,
-    padding: 15,
-    fontSize: 16,
-    marginVertical: 12,
-    marginHorizontal: 20,
+    padding: 12,
   },
-  infoContainer: {
-    paddingHorizontal: 20,
-  },
-  infoCard: {
-    backgroundColor: '#3A4052',
-    borderRadius: 8,
-    padding: 16,
-  },
-  infoTitle: {
-    fontSize: 18,
-    fontFamily: 'Lexend-Regular',
-    color: 'white',
-    marginBottom: 16,
-  },
-  infoRow: {
-    flexDirection: 'row',
-    marginBottom: 12,
-    alignItems: 'center',
-    paddingHorizontal: 10,
-  },
-  infoLabel: {
-    fontFamily: 'Lexend-Regular',
-    color: 'white',
-    opacity: 0.6,
-    width: 100,
+  dateButtonText: {
+    color: '#fff',
     fontSize: 14,
-  },
-  infoValue: {
-    flex: 1,
-    color: 'white',
     fontFamily: 'Lexend-Regular',
-    fontSize: 12,
-  },
-  rowContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    marginBottom: 30,
-  },
-  dateInput: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: '#3A4052',
-    width: '30%',
-    borderRadius: 10,
-    paddingTop: 23,
-    paddingBottom: 10,
-    paddingLeft: 10,
-    marginRight: 5,
-  },
-  dateLabel: {
-    position: 'absolute',
-    top: 8,
-    left: 10,
-    fontFamily: 'Inter-Regular',
-    fontSize: 12,
-    color: 'white',
-    opacity: 0.6,
-    zIndex: 1,
   },
   genderContainer: {
     flexDirection: 'row',
-    justifyContent: 'space-around',
-    marginVertical: 10,
-    paddingHorizontal: 20,
+    gap: 12,
   },
-  genderOption: {
+  genderButton: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#3A4052',
-    paddingVertical: 17.5,
-    paddingHorizontal: 15,
-    borderRadius: 8,
+    padding: 12,
+    gap: 8,
     flex: 1,
-    justifyContent: 'center',
-    marginHorizontal: 5,
+    backgroundColor: '#1E2433',
+    borderRadius: 8,
   },
-  selectedGenderOption: {
+  genderButtonActive: {
     backgroundColor: '#5046E5',
   },
-  genderText: {
-    color: 'white',
-    fontFamily: 'Lexend-Regular',
-    fontSize: 12,
-    marginLeft: 5,
-  },
-  changePasswordButton: {
-    backgroundColor: '#E93E3E',
-    paddingVertical: 15,
-    borderRadius: 10,
-    alignItems: 'center',
-  },
-  changePasswordText: {
-    color: 'white',
+  genderButtonText: {
+    color: '#fff',
     fontSize: 16,
-    fontFamily: 'Outfit-SemiBold',
+    fontFamily: 'Lexend-Regular',
+  },
+  genderButtonTextActive: {
+    fontFamily: 'Lexend-Medium',
+  },
+  photo: {
+    marginVertical: 30,
+    flexDirection: 'row',
+  },
+  profileImage: {
+    width: 120,
+    height: 120,
+    borderRadius: 10,
+  },
+  photoChangeText: {
+    padding: 10,
+    borderRadius: 5,
+    backgroundColor: '#5046E5',
+    color: '#fff',
+    fontSize: 14,
+    fontFamily: 'Lexend-Medium',
+    margin: 'auto',
+    marginLeft: 50,
+  },
+  updateButton: {
+    backgroundColor: '#5046E5',
+    borderRadius: 8,
+    padding: 16,
+    alignItems: 'center',
+    marginTop: 20,
+  },
+  updateButtonDisabled: {
+    opacity: 0.7,
+  },
+  updateButtonText: {
+    fontFamily: 'Lexend-Medium',
+    color: '#fff',
+    fontSize: 16,
   },
 });
+
+export default Edit;

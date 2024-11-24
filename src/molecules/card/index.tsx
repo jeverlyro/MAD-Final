@@ -44,22 +44,20 @@ const Card = ({title, imageSource, targetPage, type}) => {
 const styles = StyleSheet.create({
   card: {
     backgroundColor: '#1A1F2E',
-    borderRadius: 10,
-    padding: 20,
-    marginBottom: 20,
+    borderRadius: 15,
+    padding: 15,
+    marginVertical: 10,
     flexDirection: 'row',
     alignItems: 'center',
-    minHeight: 120,
-    marginHorizontal: 5,
   },
   imageContainer: {
-    backgroundColor: '#3A3F4B',
+    backgroundColor: 'white',
     width: 120,
     height: 90,
-    borderRadius: 8,
+    borderRadius: 3,
     justifyContent: 'center',
     alignItems: 'center',
-    overflow: 'hidden',
+    marginRight: 15,
   },
   image: {
     width: '100%',
