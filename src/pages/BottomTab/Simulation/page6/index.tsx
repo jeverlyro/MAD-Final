@@ -10,6 +10,7 @@ import {useNavigation} from '@react-navigation/native';
 import {foam, krytox, tape} from '../../../../assets/images';
 import CardB from '../../../../molecules/CardB';
 import {BottomNavbar} from '../../../../molecules';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 import {usePlans} from '../../../../context';
 
 const SelectionAdditional = () => {
@@ -23,7 +24,16 @@ const SelectionAdditional = () => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.headerTitle}>Select Additional Items</Text>
+      <View style={styles.headerContainer}>
+        <Ionicons
+          name="arrow-back"
+          size={24}
+          color="white"
+          onPress={() => navigation.goBack()}
+          style={styles.backButton}
+        />
+        <Text style={styles.headerTitle}>Select Additional Items</Text>
+      </View>
       <ScrollView contentContainerStyle={styles.scrollContainer}>
         <View style={styles.divider} />
         <TouchableOpacity onPress={() => handleSelect('Masking tape', tape)}>
@@ -48,13 +58,22 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#121927',
   },
+  headerContainer: {
+    marginTop: 10,
+    marginBottom: 10,
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingHorizontal: 20,
+  },
+  backButton: {
+    marginRight: 10,
+  },
   headerTitle: {
     fontSize: 26,
     fontFamily: 'Lexend-Bold',
     color: 'white',
     textAlign: 'center',
-    marginTop: 10,
-    marginBottom: 10,
+    flex: 1,
   },
   divider: {
     width: '100%',
