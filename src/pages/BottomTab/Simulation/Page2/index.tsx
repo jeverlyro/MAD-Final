@@ -10,6 +10,7 @@ import {useNavigation} from '@react-navigation/native';
 import Card from '../../../../molecules/card';
 import {BottomNavbar} from '../../../../molecules';
 import {usePlans} from '../../../../context';
+import {auth} from '../../../../config/firebase';
 
 const Plans = () => {
   const navigation = useNavigation();
@@ -23,10 +24,11 @@ const Plans = () => {
         switches: selectedItems.switches,
         keycaps: selectedItems.keycaps,
         additional: selectedItems.additional,
+        userId: auth.currentUser?.uid, // Add user ID
+        createdAt: new Date().toISOString(),
       };
       await savePlan(plan);
-      setShowNotification(true);
-      setTimeout(() => setShowNotification(false), 3000);
+      navigation.navigate('Simulation'); 
     } catch (error) {
       console.error('Error saving plan:', error);
     }

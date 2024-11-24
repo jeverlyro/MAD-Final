@@ -11,10 +11,12 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import {useNavigation} from '@react-navigation/native';
 import {BottomNavbar} from '../../../../molecules';
 import {usePlans} from '../../../../context';
+import {auth} from '../../../../config/firebase';
 
 const SimScreen: React.FC = () => {
   const navigation = useNavigation();
   const {savedPlans, deletePlan} = usePlans();
+  const currentUserId = auth.currentUser?.uid;
 
   const handleDelete = (id: string) => {
     Alert.alert('Delete Plan', 'Are you sure you want to delete this plan?', [
@@ -30,6 +32,8 @@ const SimScreen: React.FC = () => {
     ]);
   };
 
+  const userPlans = savedPlans.filter(plan => plan.userId === currentUserId);
+
   return (
     <>
       <View style={styles.container}>
@@ -39,13 +43,13 @@ const SimScreen: React.FC = () => {
           </View>
           <View style={styles.divider} />
 
-          {savedPlans.length === 0 ? (
+          {userPlans.length === 0 ? (
             <Text style={styles.noPlansText}>
               You do not have any plans yet.
             </Text>
           ) : (
             <ScrollView style={styles.plansList}>
-              {savedPlans.map(plan => (
+              {userPlans.map(plan => (
                 <View key={plan.id} style={styles.planCard}>
                   <TouchableOpacity
                     onPress={() => navigation.navigate('PlanDetails', {plan})}
