@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   ScrollView,
 } from 'react-native';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 import {useNavigation} from '@react-navigation/native';
 import Card from '../../../../molecules/card';
 import {BottomNavbar} from '../../../../molecules';
@@ -37,8 +38,17 @@ const Plans = () => {
   return (
     <>
       <View style={styles.container}>
-        <View style={styles.header}>
-          <Text style={styles.headerTitle}>Make Your Plans</Text>
+        <View style={styles.headerContainer}>
+          <Ionicons
+            name="arrow-back"
+            size={24}
+            color="white"
+            onPress={() => navigation.goBack()}
+            style={styles.backButton}
+          />
+          <View style={styles.header}>
+            <Text style={styles.headerTitle}>Make Your Plans</Text>
+          </View>
         </View>
         <View style={styles.divider} />
         <ScrollView contentContainerStyle={styles.scrollContainer}>
@@ -90,29 +100,27 @@ const styles = StyleSheet.create({
     backgroundColor: '#121927',
     paddingHorizontal: 20,
   },
-  notification: {
-    position: 'absolute',
-    top: 20,
-    left: 20,
-    right: 20,
-    backgroundColor: '#5046E5',
-    padding: 10,
-    borderRadius: 8,
+  headerContainer: {
+    marginTop: 30,
+    marginBottom: 10,
+    flexDirection: 'row',
     alignItems: 'center',
   },
-  notificationText: {
-    color: 'white',
-    fontFamily: 'Lexend-Regular',
+  backButton: {
+    position: 'absolute',
+    left: 0,
+    zIndex: 10,
+    padding: 10,
   },
   header: {
-    marginTop: 10,
+    flex: 1,
     alignItems: 'center',
-    marginBottom: 10,
   },
   headerTitle: {
     fontSize: 26,
     fontFamily: 'Lexend-Bold',
     color: 'white',
+    textAlign: 'center',
   },
   divider: {
     width: '100%',
@@ -136,21 +144,18 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontFamily: 'Lexend-Regular',
   },
-  tabBar: {
+  notification: {
     position: 'absolute',
-    bottom: 0,
-    height: 80,
-    width: '100%',
-    backgroundColor: 'transparent',
-    flexDirection: 'row',
-    justifyContent: 'space-around',
+    top: 20,
+    left: 20,
+    right: 20,
+    backgroundColor: '#5046E5',
+    padding: 10,
+    borderRadius: 8,
     alignItems: 'center',
   },
-  tabItem: {
-    alignItems: 'center',
-    flex: 1,
-  },
-  cardText: {
+  notificationText: {
+    color: 'white',
     fontFamily: 'Lexend-Regular',
   },
 });
