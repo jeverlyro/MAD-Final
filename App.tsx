@@ -29,6 +29,8 @@ import {UserProvider} from './src/context/UserContext';
 import React, {useEffect, useState} from 'react';
 import {getAuth, onAuthStateChanged} from 'firebase/auth';
 import {VerifyEmail} from './src/context/VerifyEmail';
+import ResetPassword from './src/pages/ResetPassword';
+import Privacy from './src/pages/PrivacySettings';
 
 const stack = createNativeStackNavigator();
 
@@ -152,17 +154,27 @@ const App = () => {
             <stack.Screen
               name="PlanDetails"
               component={PlanDetail}
-              options={{headerShown: false}}
+              options={{headerShown: false, animation: 'none'}}
             />
             <stack.Screen
               name="VerifyEmail"
               component={VerifyEmail}
-              options={{headerShown: false}}
+              options={{headerShown: false, animation: 'none'}}
             />
             <stack.Screen
               name="PersonalInfo"
               component={PersonalInfo}
-              options={{headerShown: false}}
+              options={{headerShown: false, animation: 'none'}}
+            />
+            <stack.Screen
+              name="ResetPassword"
+              component={ResetPassword}
+              options={{headerShown: false, animation: 'none'}}
+            />
+            <stack.Screen
+              name="Privacy"
+              component={Privacy}
+              options={{headerShown: false, animation: 'none'}}
             />
           </stack.Navigator>
           <FlashMessage position="top" />

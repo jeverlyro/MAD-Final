@@ -12,6 +12,9 @@ import {
   MXMechanicalMini,
   AulaF75,
   RazerHMV3,
+  ComicBoom,
+  Akko,
+  VGNKeebs,
 } from '../../../../assets/images/Home';
 import ReviewContainer from '../../../../molecules/review';
 import {useUser} from '../../../../context/UserContext';
@@ -106,18 +109,9 @@ const Reviews = () => {
             activeDotColor="#5046E5"
             autoplay={true}
             autoplayTimeout={5}>
-            <Image
-              style={styles.sliderImage}
-              source={Banner} // Slide image 1
-            />
-            <Image
-              style={styles.sliderImage}
-              source={Banner} // Slide image 2
-            />
-            <Image
-              style={styles.sliderImage}
-              source={Banner} // Slide image 3
-            />
+            <Image style={styles.sliderImage} source={ComicBoom} />
+            <Image style={styles.sliderImage} source={Akko} />
+            <Image style={styles.sliderImage} source={VGNKeebs} />
           </Swiper>
         </View>
         <Gap height={15} />

@@ -20,7 +20,7 @@ interface PlansContextType {
     additional: {title: string; image: any} | null;
   };
   savedPlans: Plan[];
-  updateSelected: (type: string, item: {title: string; image: any}) => void;
+  updateSelected: (type: string, item: {title: string; image: any} | null) => void;
   savePlan: (plan: Omit<Plan, 'id'>) => Promise<void>;
   deletePlan: (id: string) => void;
 }

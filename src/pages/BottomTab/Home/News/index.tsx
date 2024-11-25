@@ -8,6 +8,9 @@ import {BottomNavbar} from '../../../../molecules';
 import {Gap} from '../../../../atoms';
 import {
   Banner,
+  ComicBoom,
+  Akko,
+  VGNKeebs,
   BestSelling,
   MostBrands,
   RetroKeyboard,
@@ -74,9 +77,9 @@ const News = () => {
             activeDotColor="#5046E5"
             autoplay={true}
             autoplayTimeout={5}>
-            <Image style={styles.sliderImage} source={Banner} />
-            <Image style={styles.sliderImage} source={Banner} />
-            <Image style={styles.sliderImage} source={Banner} />
+            <Image style={styles.sliderImage} source={ComicBoom} />
+            <Image style={styles.sliderImage} source={Akko} />
+            <Image style={styles.sliderImage} source={VGNKeebs} />
           </Swiper>
         </View>
         <Gap height={15} />

@@ -9,14 +9,13 @@ import {
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {useNavigation} from '@react-navigation/native';
 import Card from '../../../../molecules/card';
-import {BottomNavbar} from '../../../../molecules';
 import {usePlans} from '../../../../context';
 import {auth} from '../../../../config/firebase';
+import {showMessage} from 'react-native-flash-message';
 
 const Plans = () => {
   const navigation = useNavigation();
-  const {savePlan, selectedItems} = usePlans();
-  const [showNotification, setShowNotification] = useState(false);
+  const {savePlan, selectedItems, updateSelected} = usePlans();
 
   const handleSavePlan = async () => {
     try {
@@ -25,13 +24,34 @@ const Plans = () => {
         switches: selectedItems.switches,
         keycaps: selectedItems.keycaps,
         additional: selectedItems.additional,
-        userId: auth.currentUser?.uid, // Add user ID
+        userId: auth.currentUser?.uid,
         createdAt: new Date().toISOString(),
       };
       await savePlan(plan);
-      navigation.navigate('Simulation'); 
+
+      updateSelected('barebone', null);
+      updateSelected('switches', null);
+      updateSelected('keycaps', null);
+      updateSelected('additional', null);
+
+      showMessage({
+        message: 'Plan saved successfully!',
+        type: 'success',
+        icon: 'success',
+        backgroundColor: '#5046E5',
+        duration: 2000,
+      });
+
+      setTimeout(() => {
+        navigation.navigate('Simulation');
+      }, 300);
     } catch (error) {
       console.error('Error saving plan:', error);
+      showMessage({
+        message: 'Error saving plan',
+        type: 'danger',
+        icon: 'danger',
+      });
     }
   };
 
@@ -81,15 +101,7 @@ const Plans = () => {
             <Text style={styles.saveButtonText}>Save plan</Text>
           </TouchableOpacity>
         </ScrollView>
-        {showNotification && (
-          <View style={styles.notification}>
-            <Text style={styles.notificationText}>
-              Plan saved successfully!
-            </Text>
-          </View>
-        )}
       </View>
-      <BottomNavbar />
     </>
   );
 };
@@ -116,7 +128,7 @@ const styles = StyleSheet.create({
     fontSize: 26,
     fontFamily: 'Lexend-Bold',
     color: 'white',
-    paddingHorizontal: 'auto',
+    paddingHorizontal: 10,
     textAlign: 'center',
   },
   divider: {
@@ -139,20 +151,6 @@ const styles = StyleSheet.create({
   saveButtonText: {
     color: 'white',
     fontSize: 14,
-    fontFamily: 'Lexend-Regular',
-  },
-  notification: {
-    position: 'absolute',
-    top: 20,
-    left: 20,
-    right: 20,
-    backgroundColor: '#5046E5',
-    padding: 10,
-    borderRadius: 8,
-    alignItems: 'center',
-  },
-  notificationText: {
-    color: 'white',
     fontFamily: 'Lexend-Regular',
   },
 });

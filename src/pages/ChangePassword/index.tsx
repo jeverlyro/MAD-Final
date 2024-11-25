@@ -7,15 +7,14 @@ import {Gap} from '../../atoms';
 import {
   getAuth,
   updatePassword,
-  signInWithEmailAndPassword,
+  EmailAuthProvider,
+  reauthenticateWithCredential,
 } from 'firebase/auth';
 import {showMessage} from 'react-native-flash-message';
-import {collection, query, where, getDocs} from 'firebase/firestore';
-import {db} from '../../config/firebase';
+import {Loading} from '../../molecules';
 
 const ChangePasswordScreen = () => {
   const navigation = useNavigation();
-  const [email, setEmail] = useState('');
   const [currentPassword, setCurrentPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
   const [confirmNewPassword, setConfirmNewPassword] = useState('');
@@ -30,8 +29,10 @@ const ChangePasswordScreen = () => {
   const handleUpdatePassword = async () => {
     try {
       setIsLoading(true);
+      const auth = getAuth();
+      const user = auth.currentUser;
 
-      if (!email || !currentPassword || !newPassword || !confirmNewPassword) {
+      if (!currentPassword || !newPassword || !confirmNewPassword) {
         showMessage({
           message: 'All fields are required',
           type: 'danger',
@@ -56,54 +57,24 @@ const ChangePasswordScreen = () => {
         return;
       }
 
-      if (newPassword === currentPassword) {
-        showMessage({
-          message: 'New password cannot be the same as the current password',
-          type: 'danger',
-        });
-        return;
-      }
-
-      const usersRef = collection(db, 'users');
-      const q = query(usersRef, where('email', '==', email));
-      const querySnapshot = await getDocs(q);
-
-      if (querySnapshot.empty) {
-        showMessage({
-          message: 'Email not found in database',
-          type: 'danger',
-        });
-        return;
-      }
-
-      const auth = getAuth();
-      const userCredential = await signInWithEmailAndPassword(
-        auth,
-        email,
+      // Reauthenticate
+      const credential = EmailAuthProvider.credential(
+        user.email,
         currentPassword,
       );
+      await reauthenticateWithCredential(user, credential);
 
-      await updatePassword(userCredential.user, newPassword);
+      // Update password
+      await updatePassword(user, newPassword);
 
       showMessage({
         message: 'Password updated successfully',
         type: 'success',
       });
-
       navigation.goBack();
     } catch (error) {
-      let errorMessage = 'An error occurred';
-
-      if (error.code === 'auth/wrong-password') {
-        errorMessage = 'Current password is incorrect';
-      } else if (error.code === 'auth/invalid-email') {
-        errorMessage = 'Invalid email format';
-      } else if (error.code === 'auth/user-not-found') {
-        errorMessage = 'User not found';
-      }
-
       showMessage({
-        message: errorMessage,
+        message: error.message || 'Failed to update password',
         type: 'danger',
       });
     } finally {
@@ -112,57 +83,52 @@ const ChangePasswordScreen = () => {
   };
 
   return (
-    <View style={styles.container}>
-      <View style={styles.header}>
-        <Ionicons
-          name="arrow-back"
-          size={20}
-          color="white"
-          onPress={() => navigation.goBack()}
+    <>
+      <View style={styles.container}>
+        <View style={styles.header}>
+          <Ionicons
+            name="arrow-back"
+            size={20}
+            color="white"
+            onPress={() => navigation.goBack()}
+          />
+          <Text style={styles.headerTitle}>Change Password</Text>
+        </View>
+
+        <View style={styles.infoBox}>
+          <Text style={styles.infoText}>Change your password here.</Text>
+        </View>
+        <Input
+          label="Password"
+          placeholder="Enter your previous password"
+          value={currentPassword}
+          onChangeText={setCurrentPassword}
+          secureTextEntry
         />
-        <Text style={styles.headerTitle}>Change password</Text>
+        <Gap height={20} />
+        <Input
+          label="New Password"
+          placeholder="Enter your new password"
+          value={newPassword}
+          onChangeText={setNewPassword}
+          secureTextEntry
+        />
+        <Gap height={20} />
+        <Input
+          label="Confirm new Password"
+          placeholder="Must match the new password"
+          value={confirmNewPassword}
+          onChangeText={setConfirmNewPassword}
+          secureTextEntry
+        />
+        <TouchableOpacity
+          style={styles.updateButton}
+          onPress={handleUpdatePassword}>
+          <Text style={styles.updateButtonText}>Update password</Text>
+        </TouchableOpacity>
       </View>
-
-      <View style={styles.infoBox}>
-        <Text style={styles.infoText}>Change your password</Text>
-      </View>
-
-      <Input
-        label="Email"
-        placeholder="Enter your email"
-        value={email}
-        onChangeText={setEmail}
-      />
-      <Gap height={20} />
-      <Input
-        label="Password"
-        placeholder="Enter your previous password"
-        value={currentPassword}
-        onChangeText={setCurrentPassword}
-        secureTextEntry
-      />
-      <Gap height={20} />
-      <Input
-        label="New Password"
-        placeholder="Enter your new password"
-        value={newPassword}
-        onChangeText={setNewPassword}
-        secureTextEntry
-      />
-      <Gap height={20} />
-      <Input
-        label="Confirm new Password"
-        placeholder="Must match the new password"
-        value={confirmNewPassword}
-        onChangeText={setConfirmNewPassword}
-        secureTextEntry
-      />
-      <TouchableOpacity
-        style={styles.updateButton}
-        onPress={handleUpdatePassword}>
-        <Text style={styles.updateButtonText}>Update password</Text>
-      </TouchableOpacity>
-    </View>
+      {isLoading && <Loading />}
+    </>
   );
 };
 
@@ -180,7 +146,7 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   headerTitle: {
-    fontSize: 13,
+    fontSize: 16,
     color: 'white',
     fontFamily: 'Lexend-Bold',
     marginLeft: 10,
@@ -197,7 +163,7 @@ const styles = StyleSheet.create({
   infoText: {
     color: 'white',
     fontFamily: 'Lexend-Regular',
-    fontSize: 10,
+    fontSize: 11,
   },
   updateButton: {
     backgroundColor: '#5046E5',

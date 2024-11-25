@@ -4,7 +4,7 @@ import {useNavigation, useRoute} from '@react-navigation/native';
 
 const NavButton = () => {
   const navigation = useNavigation();
-  const route = useRoute(); // Mendapatkan informasi tentang route saat ini
+  const route = useRoute();
 
   const handlePress = (label: string) => {
     navigation.navigate(label);
@@ -17,7 +17,7 @@ const NavButton = () => {
           key={label}
           style={[
             styles.navButton,
-            route.name === label && styles.navButtonSelected, // Tandai tombol aktif
+            route.name === label && styles.navButtonSelected,
           ]}
           onPress={() => handlePress(label)}>
           <Text style={styles.navButtonText}>{label}</Text>
@@ -48,7 +48,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   navButtonSelected: {
-    backgroundColor: 'rgba(80, 70, 229, 0.3)', // Indikator tombol aktif
+    backgroundColor: 'rgba(80, 70, 229, 0.3)',
   },
   navButtonText: {
     color: '#FFFFFF',
