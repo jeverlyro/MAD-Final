@@ -9,7 +9,6 @@ import {
 import {useNavigation} from '@react-navigation/native';
 import {foam, krytox, tape} from '../../../../assets/images';
 import CardB from '../../../../molecules/CardB';
-import {BottomNavbar} from '../../../../molecules';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {usePlans} from '../../../../context';
 
@@ -48,7 +47,6 @@ const SelectionAdditional = () => {
           <CardB title="YIMAGUJRX Keyboard Eva Foam" imageSource={foam} />
         </TouchableOpacity>
       </ScrollView>
-      <BottomNavbar />
     </View>
   );
 };

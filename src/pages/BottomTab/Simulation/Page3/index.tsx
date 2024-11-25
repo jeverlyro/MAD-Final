@@ -10,7 +10,6 @@ import {useNavigation} from '@react-navigation/native';
 import {akko, kaychron, gamakay} from '../../../../assets/images';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import CardB from '../../../../molecules/CardB';
-import {BottomNavbar} from '../../../../molecules';
 import {usePlans} from '../../../../context';
 
 const BareboneSelection = () => {
@@ -57,7 +56,6 @@ const BareboneSelection = () => {
           </TouchableOpacity>
         </ScrollView>
       </View>
-      <BottomNavbar />
     </>
   );
 };

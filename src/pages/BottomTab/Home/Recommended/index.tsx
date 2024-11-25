@@ -9,6 +9,9 @@ import {Gap} from '../../../../atoms';
 import {
   Air75,
   Banner,
+  ComicBoom,
+  Akko,
+  VGNKeebs,
   AulaF75,
   ZuoyaGM67,
   Akko5075B,
@@ -103,9 +106,9 @@ const Home = () => {
             activeDotColor="#5046E5"
             autoplay={true}
             autoplayTimeout={5}>
-            <Image style={styles.sliderImage} source={Banner} />
-            <Image style={styles.sliderImage} source={Banner} />
-            <Image style={styles.sliderImage} source={Banner} />
+            <Image style={styles.sliderImage} source={ComicBoom} />
+            <Image style={styles.sliderImage} source={Akko} />
+            <Image style={styles.sliderImage} source={VGNKeebs} />
           </Swiper>
         </View>
         <Gap height={15} />

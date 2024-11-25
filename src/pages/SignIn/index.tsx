@@ -125,12 +125,14 @@ const SignIn = () => {
                 size={20}
                 color="#5046E5"
               />
+              <Text style={styles.rememberMeText}>Remember Me</Text>
             </TouchableOpacity>
-            <Text style={styles.rememberMeText}>Remember Me</Text>
-            <TouchableOpacity
-              onPress={() => navigation.navigate('ChangePassword')}>
-              <Text style={styles.forgotPasswordText}>Forgot Password?</Text>
-            </TouchableOpacity>
+            <View style={styles.forgotPasswordContainer}>
+              <TouchableOpacity
+                onPress={() => navigation.navigate('ResetPassword')}>
+                <Text style={styles.forgotPasswordText}>Forgot Password?</Text>
+              </TouchableOpacity>
+            </View>
           </View>
         </View>
         <Gap height={42} />
@@ -173,10 +175,15 @@ const styles = StyleSheet.create({
     zIndex: 999,
   },
   forgotPasswordText: {
+    alignItems: 'flex-end',
     color: '#fff',
-    marginLeft: 150,
     fontSize: 12,
     fontFamily: 'Lexend-Regular',
+    textDecorationLine: 'underline',
+  },
+  forgotPasswordContainer: {
+    alignItems: 'flex-end',
+    flex: 1,
   },
   header: {
     fontSize: 32,
