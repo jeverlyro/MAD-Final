@@ -18,6 +18,9 @@ import RoyalKludfeR75 from './RoyalKludgeR75.png';
 import RazerHMV3_1 from './RazerHuntsmanMiniV3.1.png';
 import WOBRainy75R1 from './WOBRainy75R1.png';
 import Wooting60HE from './Wooting60HE.png';
+import ComicBoom from './GPBTComic.png';
+import Akko from './Akko.png';
+import VGNKeebs from './VGNKeebs.png';
 
 export {
   Banner,
@@ -40,4 +43,7 @@ export {
   RazerHMV3_1,
   WOBRainy75R1,
   Wooting60HE,
+  ComicBoom,
+  Akko,
+  VGNKeebs,
 };

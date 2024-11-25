@@ -186,6 +186,19 @@ const ProfileScreen = () => {
           />
         </TouchableOpacity>
 
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => navigation.navigate('Privacy')}>
+          <Ionicons name="key" size={15} color="#fff" style={styles.icon} />
+          <Text style={styles.buttonText}>Privacy Settings</Text>
+          <Ionicons
+            name="chevron-forward"
+            size={17}
+            color="#fff"
+            style={styles.arrowIcon}
+          />
+        </TouchableOpacity>
+
         <View style={styles.divider} />
 
         <TouchableOpacity
