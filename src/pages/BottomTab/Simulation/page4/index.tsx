@@ -9,7 +9,6 @@ import {
 import {useNavigation} from '@react-navigation/native';
 import {akkoswc, geteswc, hmxswc} from '../../../../assets/images';
 import CardB from '../../../../molecules/CardB';
-import {BottomNavbar} from '../../../../molecules';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {usePlans} from '../../../../context';
 
@@ -48,7 +47,6 @@ const SelectionSwitch = () => {
           <CardB title="HMX Xinhai" imageSource={hmxswc} />
         </TouchableOpacity>
       </ScrollView>
-      <BottomNavbar />
     </View>
   );
 };

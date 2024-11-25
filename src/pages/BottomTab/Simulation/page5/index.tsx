@@ -9,7 +9,6 @@ import {
 import {useNavigation} from '@react-navigation/native';
 import {akkokey, akkomakey, gmkkey} from '../../../../assets/images';
 import CardB from '../../../../molecules/CardB';
-import {BottomNavbar} from '../../../../molecules';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {usePlans} from '../../../../context';
 
@@ -51,7 +50,6 @@ const SelectionKey = () => {
           <CardB title="Akko Matcha Bear Keycaps Set" imageSource={akkomakey} />
         </TouchableOpacity>
       </ScrollView>
-      <BottomNavbar />
     </View>
   );
 };

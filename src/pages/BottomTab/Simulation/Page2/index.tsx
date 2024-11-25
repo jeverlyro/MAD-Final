@@ -9,10 +9,9 @@ import {
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {useNavigation} from '@react-navigation/native';
 import Card from '../../../../molecules/card';
-import {BottomNavbar} from '../../../../molecules';
 import {usePlans} from '../../../../context';
 import {auth} from '../../../../config/firebase';
-import { showMessage } from 'react-native-flash-message';
+import {showMessage} from 'react-native-flash-message';
 
 const Plans = () => {
   const navigation = useNavigation();
@@ -36,10 +35,10 @@ const Plans = () => {
       updateSelected('additional', null);
 
       showMessage({
-        message: "Plan saved successfully!",
-        type: "success",
-        icon: "success",
-        backgroundColor: "#5046E5",
+        message: 'Plan saved successfully!',
+        type: 'success',
+        icon: 'success',
+        backgroundColor: '#5046E5',
         duration: 2000,
       });
 
@@ -49,9 +48,9 @@ const Plans = () => {
     } catch (error) {
       console.error('Error saving plan:', error);
       showMessage({
-        message: "Error saving plan",
-        type: "danger",
-        icon: "danger",
+        message: 'Error saving plan',
+        type: 'danger',
+        icon: 'danger',
       });
     }
   };
@@ -103,7 +102,6 @@ const Plans = () => {
           </TouchableOpacity>
         </ScrollView>
       </View>
-      <BottomNavbar />
     </>
   );
 };
