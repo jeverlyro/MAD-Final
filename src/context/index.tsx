@@ -1,5 +1,13 @@
 import React, {createContext, useContext, useState, useEffect} from 'react';
-import {collection, query, where, getDocs, addDoc, deleteDoc, doc} from 'firebase/firestore';
+import {
+  collection,
+  query,
+  where,
+  onSnapshot,
+  addDoc,
+  deleteDoc,
+  doc,
+} from 'firebase/firestore';
 import {getAuth} from 'firebase/auth';
 import {db} from '../config/firebase';
 
@@ -20,7 +28,10 @@ interface PlansContextType {
     additional: {title: string; image: any} | null;
   };
   savedPlans: Plan[];
-  updateSelected: (type: string, item: {title: string; image: any} | null) => void;
+  updateSelected: (
+    type: string,
+    item: {title: string; image: any} | null,
+  ) => void;
   savePlan: (plan: Omit<Plan, 'id'>) => Promise<void>;
   deletePlan: (id: string) => void;
 }
@@ -45,24 +56,33 @@ export const PlansProvider: React.FC = ({children}) => {
   });
 
   useEffect(() => {
-    const fetchPlans = async () => {
-      const auth = getAuth();
-      const user = auth.currentUser;
-      if (user) {
-        const q = query(
-          collection(db, 'plans'),
-          where('userId', '==', user.uid),
-        );
-        const querySnapshot = await getDocs(q);
-        const plans = querySnapshot.docs.map(doc => ({
+    const auth = getAuth();
+
+    const unsubscribeAuth = auth.onAuthStateChanged(user => {
+      if (!user) {
+        setSavedPlans([]);
+        return;
+      }
+
+      const plansRef = collection(db, 'plans');
+      const q = query(plansRef, where('userId', '==', user.uid));
+
+      const unsubscribePlans = onSnapshot(q, snapshot => {
+        const plans = snapshot.docs.map(doc => ({
           id: doc.id,
           ...doc.data(),
         })) as Plan[];
         setSavedPlans(plans);
-      }
-    };
+      });
 
-    fetchPlans();
+      return () => {
+        unsubscribePlans();
+      };
+    });
+
+    return () => {
+      unsubscribeAuth();
+    };
   }, []);
 
   const updateSelected = (type: string, item: {title: string; image: any}) => {
@@ -72,25 +92,33 @@ export const PlansProvider: React.FC = ({children}) => {
   const savePlan = async (plan: Omit<Plan, 'id'>) => {
     try {
       const docRef = await addDoc(collection(db, 'plans'), plan);
-      setSavedPlans(prev => [...prev, {...plan, id: docRef.id} as Plan]);
+      // No need to update state manually as onSnapshot will handle it
+      return docRef.id;
     } catch (error) {
       console.error('Error saving plan:', error);
       throw error;
     }
   };
 
-  const deletePlan = async (id: string) => {
+  const deletePlan = async (planId: string) => {
     try {
-      await deleteDoc(doc(db, 'plans', id));
-      setSavedPlans(prev => prev.filter(plan => plan.id !== id));
+      await deleteDoc(doc(db, 'plans', planId));
+      // No need to update state manually as onSnapshot will handle it
     } catch (error) {
       console.error('Error deleting plan:', error);
+      throw error;
     }
   };
 
   return (
     <PlansContext.Provider
-      value={{selectedItems, savedPlans, updateSelected, savePlan, deletePlan}}>
+      value={{
+        savedPlans,
+        selectedItems,
+        updateSelected,
+        savePlan,
+        deletePlan,
+      }}>
       {children}
     </PlansContext.Provider>
   );
