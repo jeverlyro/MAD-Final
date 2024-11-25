@@ -25,11 +25,11 @@ const Plans = () => {
         switches: selectedItems.switches,
         keycaps: selectedItems.keycaps,
         additional: selectedItems.additional,
-        userId: auth.currentUser?.uid, // Add user ID
+        userId: auth.currentUser?.uid,
         createdAt: new Date().toISOString(),
       };
       await savePlan(plan);
-      navigation.navigate('Simulation'); 
+      navigation.navigate('Simulation');
     } catch (error) {
       console.error('Error saving plan:', error);
     }
