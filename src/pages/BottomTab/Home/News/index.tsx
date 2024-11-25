@@ -61,7 +61,10 @@ const News = () => {
 
   return (
     <>
-      <ScrollView style={styles.container} bounces={false}>
+      <ScrollView
+        style={styles.container}
+        bounces={false}
+        showsVerticalScrollIndicator={false}>
         <View style={styles.welcomeSection}>
           <View style={styles.textContainer}>
             <Text style={styles.greetingText}>Hello,</Text>

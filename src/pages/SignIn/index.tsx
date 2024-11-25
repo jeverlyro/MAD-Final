@@ -175,7 +175,6 @@ const styles = StyleSheet.create({
     zIndex: 999,
   },
   forgotPasswordText: {
-    alignItems: 'flex-end',
     color: '#fff',
     fontSize: 12,
     fontFamily: 'Lexend-Regular',
@@ -243,13 +242,16 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     marginTop: 10,
+    height: 24,
   },
   checkbox: {
-    marginRight: 5,
+    flexDirection: 'row',
   },
   rememberMeText: {
+    paddingLeft: 10,
     color: '#fff',
     fontSize: 12,
     fontFamily: 'Lexend-Regular',
+    textAlignVertical: 'center',
   },
 });

@@ -38,7 +38,7 @@ const LearnScreen: React.FC = () => {
   return (
     <>
       <View style={styles.container}>
-        <ScrollView>
+        <ScrollView showsVerticalScrollIndicator={false} bounces={false}>
           <Text style={styles.headerText}>{aboutData.headerText}</Text>
           <View style={styles.divider} />
           <Gap height={30} />
