@@ -125,8 +125,8 @@ const SignIn = () => {
                 size={20}
                 color="#5046E5"
               />
+              <Text style={styles.rememberMeText}>Remember Me</Text>
             </TouchableOpacity>
-            <Text style={styles.rememberMeText}>Remember Me</Text>
             <View style={styles.forgotPasswordContainer}>
               <TouchableOpacity
                 onPress={() => navigation.navigate('ResetPassword')}>

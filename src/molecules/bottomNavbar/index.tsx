@@ -16,8 +16,11 @@ const BottomNavbar = () => {
   const navigation = useNavigation();
   const route = useRoute();
 
-  const handlePress = (screen: string) => {
-    navigation.navigate(screen);
+  const homeScreens = ['Home', 'News', 'Reviews', 'Recommended'];
+  const isHomeScreen = homeScreens.includes(route.name);
+
+  const handlePress = (label: string) => {
+    navigation.navigate(label);
   };
 
   return (
@@ -26,8 +29,8 @@ const BottomNavbar = () => {
         style={styles.button}
         activeOpacity={0.7}
         onPress={() => handlePress('Home')}>
-        {route.name === 'Home' ? <HomeIconHighlight /> : <HomeIcon />}
-        <Text style={[styles.text, route.name === 'Home' && styles.activeText]}>
+        {isHomeScreen ? <HomeIconHighlight /> : <HomeIcon />}
+        <Text style={[styles.text, isHomeScreen && styles.activeText]}>
           Home
         </Text>
       </TouchableOpacity>
